@@ -11,13 +11,15 @@ protocol SettingsInteractorProtocol {
 	
 	/// Обновление данных
 	func updateData()
+
+	func statisticsTapped()
 }
 
 /// Интерактор сцены
 final class SettingsInteractor: SettingsInteractorProtocol {
 
-	/// Презентер сцены
 	var presenter: SettingsPresenterProtocol?
+	private let router: SettingsRouterProtocol
 
 	private var service: SettingsServiceProtocol
 
@@ -26,11 +28,18 @@ final class SettingsInteractor: SettingsInteractorProtocol {
 	///   - router: роутер
 	///   - service: сервис
 	///   - analyticsService: сервис отправки аналитики
-	init(service: SettingsServiceProtocol) {
+	init(router: SettingsRouterProtocol,
+		 service: SettingsServiceProtocol) {
 		self.service = service
+		self.router = router
 	}
 
 	func updateData() {
 
+	}
+
+	func statisticsTapped() {
+		let menuViewController = StatisticsAssembler().create()
+		router.openInNavigation(to: menuViewController)
 	}
 }

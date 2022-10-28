@@ -12,20 +12,21 @@ import UIKit
 protocol SettingsAssemblerProtocol {
 
 	/// Создает экран
-	/// - Parameter navigationController: контроллер навигации
-	/// - Returns вью-контроллер для отображения
-	func createSettingsScene(with navigationController: UINavigationController) -> SettingsViewControllerProtocol
+	func create() -> UIViewController
 }
 
 /// Сборщик экрана
 final class SettingsAssembler: SettingsAssemblerProtocol {
 
-	func createSettingsScene(with navigationController: UINavigationController) -> SettingsViewControllerProtocol {
-		let interactor = SettingsInteractor(service: SettingsService())
+	func create() -> UIViewController {
+		let router = SettingsRouter()
+		let interactor = SettingsInteractor(router: router, service: SettingsService())
 		let viewController = SettingsViewController(interactor: interactor)
 		let presenter = SettingsPresenter(viewController: viewController)
 		interactor.presenter = presenter
+		router.viewController = viewController
 
-		return viewController
+		let navigationController = UINavigationController(rootViewController: viewController)
+		return navigationController
 	}
 }

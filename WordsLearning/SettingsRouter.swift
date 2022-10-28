@@ -6,25 +6,20 @@
 //  Copyright © 2022 Roman Kuzin. All rights reserved.
 //
 
-/// Протокол роутера сцены
-//protocol SettingsRouterProtocol {
-//	
-//}
+import UIKit
 
-///// Роутер сцены
-//final class SettingsRouter: NSObject, SettingsRouterProtocol {
-//
-//	private weak var appRouter: SBFTransitionRouterProtocol?
-//	private weak var navigationController: UINavigationController?
-//
-//	/// Инициализатор
-//	///
-//	/// - Parameters:
-//	///   - appRouter: роутер приложения
-//	///   - navigationController: навигейшн контроллер
-//	init(appRouter: SBFTransitionRouterProtocol?,
-//		 navigationController: UINavigationController?) {
-//		self.appRouter = appRouter
-//		self.navigationController = navigationController
-//	}
-//}
+/// Протокол роутера сцены
+protocol SettingsRouterProtocol {
+
+	func openInNavigation(to viewControllerToPresent: UIViewController)
+}
+
+/// Роутер сцены
+final class SettingsRouter: NSObject, SettingsRouterProtocol {
+
+	weak var viewController: UIViewController?
+
+	func openInNavigation(to viewControllerToPresent: UIViewController) {
+		viewController?.navigationController?.pushViewController(viewControllerToPresent, animated: true)
+	}
+}

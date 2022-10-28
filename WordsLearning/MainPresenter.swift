@@ -11,13 +11,27 @@ import UIKit
 /// Протокол презентера сцены
 protocol MainPresenterProtocol {
 
-	func askWord(wordString: String)
+	/// Отобразить вопрос
+	/// - Parameters:
+	///   - wordString: слово
+	///   - studyPercent: процент изучения данного слова
+	func askWord(wordString: String, studyPercent: String)
 
+	/// Отобразить ошибочность ответа
+	/// - Parameters:
+	///   - word: слово-вопрос
+	///   - enteredAnswer: указанный ответ
+	///   - completion: замыкание
 	func showThatMistakeMade(word: Word, enteredAnswer: String, completion: @escaping () -> Void)
 
+	/// Очистить поле ввода ответа
 	func cleanAnswerField()
 
-	func showSuccess(for: Word, completion: @escaping () -> Void)
+	/// Отобразить успешность ответа
+	/// - Parameters:
+	///   - word: слово-вопрос
+	///   - completion: замыкание
+	func showSuccess(for word: Word, completion: @escaping () -> Void)
 }
 
 /// Презентер сцены
@@ -33,8 +47,8 @@ final class MainPresenter: MainPresenterProtocol {
 		self.alertService = alertService
 	}
 
-	func askWord(wordString: String) {
-		viewController?.displayWordQuestion(question: wordString)
+	func askWord(wordString: String, studyPercent: String) {
+		viewController?.displayWordQuestion(question: wordString, studyPercent: studyPercent)
 	}
 
 	func cleanAnswerField() {

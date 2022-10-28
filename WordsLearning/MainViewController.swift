@@ -11,8 +11,13 @@ import UIKit
 /// Протокол вью-контроллера сцены
 protocol MainViewControllerProtocol: UIViewController {
 
-	func displayWordQuestion(question: String)
+	/// Отобразить вопрос слова
+	/// - Parameters:
+	///   - question: слово-ворос
+	///   - studyPercent: процент изучения этого слова
+	func displayWordQuestion(question: String, studyPercent: String)
 
+	/// Очистить поле ответа
 	func cleanAnswerField()
 }
 
@@ -20,6 +25,7 @@ protocol MainViewControllerProtocol: UIViewController {
 final class MainViewController: UIViewController, MainViewControllerProtocol {
 
 	private var interactor: MainInteractorProtocol
+	private let studyPercentLabel = UILabel()
 	private var questionWordLabel: UILabel = {
 		let label = UILabel()
 		label.layer.borderColor = UIColor.white.cgColor
@@ -55,10 +61,32 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		return directionSwitch
 	}()
 
-	private lazy var editImage: UIImageView = {
-		let imageView = UIImageView()
-		imageView.image = SemanticImages.editionPen
-		return imageView
+	private var menuButton: UIButton = {
+		let button = UIButton()
+		button.setImage(SemanticImages.squareGrid, for: .normal)
+		button.layer.borderColor = UIColor.white.cgColor
+		button.layer.borderWidth = 1.5
+		button.layer.cornerRadius = 10
+		return button
+	}()
+
+	private var editButton: UIButton = {
+		let button = UIButton()
+		button.setImage(SemanticImages.sliderHorizontal3, for: .normal)
+		button.layer.borderColor = UIColor.white.cgColor
+		button.layer.borderWidth = 1.5
+		button.layer.cornerRadius = 10
+		return button
+	}()
+
+	private var markStudiedButton: UIButton = {
+		let button = UIButton()
+		button.setImage(SemanticImages.checkmark, for: .normal)
+		button.layer.borderColor = UIColor.white.cgColor
+		button.backgroundColor = .blue
+		button.layer.borderWidth = 1.5
+		button.layer.cornerRadius = 10
+		return button
 	}()
 
 	// MARK: Object lifecycle
@@ -85,8 +113,9 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 
 	// MARK: Display
 
-	func displayWordQuestion(question: String) {
+	func displayWordQuestion(question: String, studyPercent: String) {
 		questionWordLabel.text = question
+		studyPercentLabel.text = studyPercent
 		answerWordField.becomeFirstResponder()
 	}
 
@@ -97,19 +126,23 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 	// MARK: Private
 
 	private func seutpView() {
-		directionSwitch.addTarget(self, action: #selector(directionSwitchTapped(_:)), for: .allTouchEvents)
-		let tapGest = UITapGestureRecognizer(target: self, action: #selector(editWordTapped))
-		editImage.addGestureRecognizer(tapGest)
-		editImage.isUserInteractionEnabled = true
 		view.overrideUserInterfaceStyle = .light
+		answerWordField.backgroundColor = .white
+		answerWordField.delegate = self
+		view.backgroundColor = .orange
+		
+		directionSwitch.addTarget(self, action: #selector(directionSwitchTapped(_:)), for: .allTouchEvents)
+		markStudiedButton.addTarget(self, action: #selector(markStudiedTapped), for: .touchUpInside)
+		menuButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
+		editButton.addTarget(self, action: #selector(editWordTapped), for: .touchUpInside)
 		view.addSubview(questionWordLabel)
+		view.addSubview(studyPercentLabel)
+		view.addSubview(markStudiedButton)
+		view.addSubview(answerWordField)
 		view.addSubview(directionSwitch)
 		view.addSubview(answerWordView)
-		view.addSubview(answerWordField)
-		view.addSubview(editImage)
-		answerWordField.delegate = self
-		answerWordField.backgroundColor = .white
-		view.backgroundColor = .orange
+		view.addSubview(menuButton)
+		view.addSubview(editButton)
 	}
 
 	@objc private func directionSwitchTapped(_ switcher: UISwitch) {
@@ -117,8 +150,16 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		interactor.contrverseTranslationSwitcherChanged(to: switcher.isOn)
 	}
 
+	@objc private func menuButtonTapped() {
+		interactor.menuButtonTapped()
+	}
+
 	@objc private func editWordTapped() {
 		interactor.editWordTapped()
+	}
+
+	@objc private func markStudiedTapped() {
+		interactor.markStudiedTapped()
 	}
 
 	private func setupLayout() {
@@ -127,6 +168,11 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		NSLayoutConstraint.activate([
 			directionSwitch.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
 			directionSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+
+			menuButton.centerYAnchor.constraint(equalTo: directionSwitch.centerYAnchor),
+			menuButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+			menuButton.heightAnchor.constraint(equalToConstant: 40),
+			menuButton.widthAnchor.constraint(equalToConstant: 40),
 
 			questionWordLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
 			questionWordLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
@@ -138,15 +184,23 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 			answerWordView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
 			answerWordView.heightAnchor.constraint(equalToConstant: 50),
 
+			studyPercentLabel.bottomAnchor.constraint(equalTo: answerWordView.topAnchor, constant: -10),
+			studyPercentLabel.centerXAnchor.constraint(equalTo: answerWordView.centerXAnchor),
+
 			answerWordField.topAnchor.constraint(equalTo: answerWordView.topAnchor, constant: 2),
 			answerWordField.bottomAnchor.constraint(equalTo: answerWordView.bottomAnchor, constant: -2),
 			answerWordField.leadingAnchor.constraint(equalTo: answerWordView.leadingAnchor, constant: 15),
 			answerWordField.trailingAnchor.constraint(equalTo: answerWordView.trailingAnchor, constant: -15),
 
-			editImage.topAnchor.constraint(equalTo: answerWordField.bottomAnchor, constant: 30),
-			editImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-			editImage.heightAnchor.constraint(equalToConstant: 30),
-			editImage.widthAnchor.constraint(equalToConstant: 30)
+			editButton.topAnchor.constraint(equalTo: answerWordField.bottomAnchor, constant: 30),
+			editButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -30),
+			editButton.heightAnchor.constraint(equalToConstant: 40),
+			editButton.widthAnchor.constraint(equalToConstant: 40),
+
+			markStudiedButton.centerYAnchor.constraint(equalTo: editButton.centerYAnchor),
+			markStudiedButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 30),
+			markStudiedButton.heightAnchor.constraint(equalTo: editButton.heightAnchor),
+			markStudiedButton.widthAnchor.constraint(equalTo: editButton.heightAnchor),
 		])
 	}
 }

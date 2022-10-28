@@ -12,6 +12,8 @@ import UIKit
 protocol MainRouterProtocol {
 	
 	func routeModallyTo(_ viewController: UIViewController)
+
+	func routeTo(_ viewControllerToPresent: UIViewController)
 }
 
 /// Роутер сцены
@@ -20,6 +22,11 @@ final class MainRouter: MainRouterProtocol {
 	weak var viewController: UIViewController?
 
 	func routeModallyTo(_ viewControllerToPresent: UIViewController) {
+		viewController?.present(viewControllerToPresent, animated: true)
+	}
+
+	func routeTo(_ viewControllerToPresent: UIViewController) {
+		viewControllerToPresent.modalPresentationStyle = .fullScreen
 		viewController?.present(viewControllerToPresent, animated: true)
 	}
 }

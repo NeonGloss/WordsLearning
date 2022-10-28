@@ -9,8 +9,11 @@ import UIKit
 
 protocol QuizServiceProtocol: AnyObject {
 
+	/// Слова в изучении
 	var words: [Word] { get }
 
+	/// задать список слов для изучения
+	/// - Parameter words: массив слов
 	func setWords(_ words: [Word])
 
 	/// Выдать слово из набора по рейтингу. Чем выше рейтинг слова, тем выше шанс его выпадения.
@@ -19,7 +22,16 @@ protocol QuizServiceProtocol: AnyObject {
 	/// Обработать изменение слова
 	func currentWordWasEdited(parts: EditedWordParts)
 
+	/// Проверить ответ
+	/// - Parameters:
+	///   - answer: указанный ответ
+	///   - direction: направление перевода
+	///   - putInStatistics: учитывать ли этот ответ в статистике
 	func assertAnswer(_ answer: String, direction: TranslationDirection, putInStatistics: Bool) -> Bool
+
+	/// Пометить слово как изученное
+	/// - Parameter direction: направление перевода
+	func markCurrentWordAsStudied(forDirection direction: TranslationDirection)
 }
 
 /// Сервис ведения изучения слов
@@ -27,7 +39,6 @@ final class QuizService: QuizServiceProtocol {
 
 	private(set) var words: [Word] = []
 	private var unstudiedWords: [Word] = []
-
 	private var currentQuestionWord: Word?
 
 	func setWords(_ words: [Word]) {
@@ -55,6 +66,12 @@ final class QuizService: QuizServiceProtocol {
 		}
 
 		return isSuccess
+	}
+
+	func markCurrentWordAsStudied(forDirection direction: TranslationDirection) {
+		let specifiedStats = direction == .nativeToForeign ?
+			currentQuestionWord?.nativeToForeignStatistic : currentQuestionWord?.foreingToNativeStatistic
+		specifiedStats?.studyPercent = 100
 	}
 
 	// MARK: Private
