@@ -23,4 +23,39 @@ final class SemanticImages {
 		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
 		return UIImage(systemName: "square.and.pencil")?.applyingSymbolConfiguration(config) ?? UIImage()
 	}
+
+	static var squareGrid: UIImage {
+		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
+		return UIImage(systemName: "square.grid.2x2")?.applyingSymbolConfiguration(config) ?? UIImage()
+	}
+
+	static var rectangleGridFill: UIImage {
+		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
+		return UIImage(systemName: "rectangle.grid.2x2.fill")?.applyingSymbolConfiguration(config) ?? UIImage()
+	}
+
+	static var pencil: UIImage {
+		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
+		return UIImage(systemName: "pencil")?.applyingSymbolConfiguration(config) ?? UIImage()
+	}
+
+	static var sliderHorizontal3: UIImage {
+		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
+		return UIImage(systemName: "slider.horizontal.3")?.applyingSymbolConfiguration(config) ?? UIImage()
+	}
+
+	static var leftChevron: UIImage {
+		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
+		return UIImage(systemName: "chevron.backward")?.applyingSymbolConfiguration(config) ?? UIImage()
+	}
+
+	static var xmark: UIImage {
+		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
+		return UIImage(systemName: "xmark")?.applyingSymbolConfiguration(config) ?? UIImage()
+	}
+
+	static var checkmark: UIImage {
+		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
+		return UIImage(systemName: "checkmark")?.applyingSymbolConfiguration(config) ?? UIImage()
+	}
 }

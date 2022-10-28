@@ -27,6 +27,10 @@ protocol MainInteractorProtocol {
 	func contrverseTranslationSwitcherChanged(to newValue: Bool)
 
 	func editWordTapped()
+
+	func menuButtonTapped()
+
+	func markStudiedTapped()
 }
 
 /// Интерактор сцены
@@ -98,6 +102,16 @@ final class MainInteractor: MainInteractorProtocol {
 		router.routeModallyTo(editionViewController)
 	}
 
+	func menuButtonTapped() {
+		let menuViewController = SettingsAssembler().create()
+		router.routeTo(menuViewController)
+	}
+
+	func markStudiedTapped() {
+		quizService.markCurrentWordAsStudied(forDirection: translationDirection)
+		askQuestion()
+	}
+
 	// MARK: Private
 
 	private func wordsWasLoaded(_ words: [Word]) {
@@ -126,7 +140,9 @@ final class MainInteractor: MainInteractorProtocol {
 	private func fillUIWith(_ word: Word) {
 		presenter?.cleanAnswerField()
 		let secondLanugageIndex = getRandomIndexUpTo(word.native.count - 1)
-		let questionString = translationDirection == .foreignToNative ? word.foreign : word.native[secondLanugageIndex]
-		presenter?.askWord(wordString: questionString)
+		let questionString = translationDirection == .foreignToNative ?
+			word.foreign : word.native[secondLanugageIndex]
+		let studyPercent = translationDirection == .foreignToNative ? word.foreingToNativeStatistic.studyPercent : word.nativeToForeignStatistic.studyPercent
+		presenter?.askWord(wordString: questionString, studyPercent: String(studyPercent))
 	}
 }
