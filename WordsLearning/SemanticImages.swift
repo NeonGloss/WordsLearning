@@ -58,4 +58,9 @@ final class SemanticImages {
 		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
 		return UIImage(systemName: "checkmark")?.applyingSymbolConfiguration(config) ?? UIImage()
 	}
+
+	static var repeatArrows: UIImage {
+		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
+		return UIImage(systemName: "repeat")?.applyingSymbolConfiguration(config) ?? UIImage()
+	}
 }

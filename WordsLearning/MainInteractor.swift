@@ -31,6 +31,8 @@ protocol MainInteractorProtocol {
 	func menuButtonTapped()
 
 	func markStudiedTapped()
+
+	func repeatButtonTapped()
 }
 
 /// Интерактор сцены
@@ -45,6 +47,7 @@ final class MainInteractor: MainInteractorProtocol {
 	private let storageService: StorageServiceProtocol
 	private var translationDirection: TranslationDirection = .foreignToNative
 	private var isFirstAnswerReceived: Bool = false
+	private var isRepeatTurnedOn: Bool = false
 
 	/// Инициализатор
 	/// - Parameters:
@@ -71,7 +74,9 @@ final class MainInteractor: MainInteractorProtocol {
 	func answerReceived(_ answer: String) {
 		guard let currentQuestionWord = currentQuestionWord else { return }
 
-		if quizService.assertAnswer(answer, direction: translationDirection, putInStatistics: !isFirstAnswerReceived) {
+		if isRepeatTurnedOn {
+			assertAndRepeatWord(currentAnswer: answer)
+		} else if quizService.assertAnswer(answer, direction: translationDirection, putInStatistics: !isFirstAnswerReceived) {
 			presenter?.showSuccess(for: currentQuestionWord) { [weak self] in
 				self?.askQuestion()
 			}
@@ -112,6 +117,10 @@ final class MainInteractor: MainInteractorProtocol {
 		askQuestion()
 	}
 
+	func repeatButtonTapped() {
+		isRepeatTurnedOn = !isRepeatTurnedOn
+	}
+
 	// MARK: Private
 
 	private func wordsWasLoaded(_ words: [Word]) {
@@ -144,5 +153,18 @@ final class MainInteractor: MainInteractorProtocol {
 			word.foreign : word.native[secondLanugageIndex]
 		let studyPercent = translationDirection == .foreignToNative ? word.foreingToNativeStatistic.studyPercent : word.nativeToForeignStatistic.studyPercent
 		presenter?.askWord(wordString: questionString, studyPercent: String(studyPercent))
+	}
+
+	private func assertAndRepeatWord(currentAnswer answer: String) {
+		guard let currentQuestionWord = currentQuestionWord else { return }
+		if quizService.assertAnswer(answer, direction: translationDirection, putInStatistics: false) {
+			presenter?.showSuccess(for: currentQuestionWord) { [weak self] in
+				self?.presenter?.cleanAnswerField()
+			}
+		} else {
+			presenter?.showThatMistakeMade(word: currentQuestionWord, enteredAnswer: answer) { [weak self] in
+				self?.presenter?.cleanAnswerField()
+			}
+		}
 	}
 }

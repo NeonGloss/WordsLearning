@@ -23,6 +23,9 @@ final class Word: Codable {
 	private(set) var native: [String]
 	private(set) var transcription: String
 	private(set) var partOfSpeech: PartOfSpeech
+	private(set) var fToNLabel: String?
+	private(set) var nToFLabel: String?
+
 
 	private(set) var foreingToNativeStatistic: WordStatistic = WordStatistic()
 	private(set) var nativeToForeignStatistic: WordStatistic = WordStatistic()
@@ -33,7 +36,12 @@ final class Word: Codable {
 	///   - native: слово на родном языке
 	///   - transcription: транскрипция
 	///   - partOfSpeech: часть речи
-	init(foreign: String, native: [String], transcription: String, partOfSpeech: PartOfSpeech = .verb) {
+	init(foreign: String,
+		 native: [String],
+		 transcription: String,
+		 partOfSpeech: PartOfSpeech = .verb,
+		 fToNLabel: String? = nil,
+		 nToFLabel: String? = nil) {
 		self.transcription = transcription
 		self.partOfSpeech = partOfSpeech
 		self.foreign = foreign
