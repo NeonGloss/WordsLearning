@@ -89,6 +89,16 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		return button
 	}()
 
+	private var repeatButton: UIButton = {
+		let button = UIButton()
+		button.setImage(SemanticImages.repeatArrows, for: .normal)
+		button.backgroundColor = .clear
+		button.layer.borderColor = UIColor.white.cgColor
+		button.layer.borderWidth = 1.5
+		button.layer.cornerRadius = 10
+		return button
+	}()
+
 	// MARK: Object lifecycle
 
 	/// Инициализатор
@@ -133,16 +143,18 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		
 		directionSwitch.addTarget(self, action: #selector(directionSwitchTapped(_:)), for: .allTouchEvents)
 		markStudiedButton.addTarget(self, action: #selector(markStudiedTapped), for: .touchUpInside)
+		repeatButton.addTarget(self, action: #selector(repeatButtonTapped), for: .touchUpInside)
 		menuButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
 		editButton.addTarget(self, action: #selector(editWordTapped), for: .touchUpInside)
 		view.addSubview(questionWordLabel)
 		view.addSubview(studyPercentLabel)
 		view.addSubview(markStudiedButton)
-		view.addSubview(answerWordField)
 		view.addSubview(directionSwitch)
 		view.addSubview(answerWordView)
+		view.addSubview(repeatButton)
 		view.addSubview(menuButton)
 		view.addSubview(editButton)
+		view.addSubview(answerWordField)
 	}
 
 	@objc private func directionSwitchTapped(_ switcher: UISwitch) {
@@ -156,6 +168,11 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 
 	@objc private func editWordTapped() {
 		interactor.editWordTapped()
+	}
+
+	@objc private func repeatButtonTapped() {
+		repeatButton.backgroundColor = repeatButton.backgroundColor == .clear ? .gray : .clear
+		interactor.repeatButtonTapped()
 	}
 
 	@objc private func markStudiedTapped() {
@@ -192,13 +209,18 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 			answerWordField.leadingAnchor.constraint(equalTo: answerWordView.leadingAnchor, constant: 15),
 			answerWordField.trailingAnchor.constraint(equalTo: answerWordView.trailingAnchor, constant: -15),
 
-			editButton.topAnchor.constraint(equalTo: answerWordField.bottomAnchor, constant: 30),
-			editButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -30),
+			repeatButton.topAnchor.constraint(equalTo: answerWordField.bottomAnchor, constant: 30),
+			repeatButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			repeatButton.heightAnchor.constraint(equalToConstant: 40),
+			repeatButton.widthAnchor.constraint(equalToConstant: 40),
+
+			editButton.centerYAnchor.constraint(equalTo: repeatButton.centerYAnchor),
+			editButton.trailingAnchor.constraint(equalTo: repeatButton.leadingAnchor, constant: -15),
 			editButton.heightAnchor.constraint(equalToConstant: 40),
 			editButton.widthAnchor.constraint(equalToConstant: 40),
 
-			markStudiedButton.centerYAnchor.constraint(equalTo: editButton.centerYAnchor),
-			markStudiedButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 30),
+			markStudiedButton.centerYAnchor.constraint(equalTo: repeatButton.centerYAnchor),
+			markStudiedButton.leadingAnchor.constraint(equalTo: repeatButton.trailingAnchor, constant: 15),
 			markStudiedButton.heightAnchor.constraint(equalTo: editButton.heightAnchor),
 			markStudiedButton.widthAnchor.constraint(equalTo: editButton.heightAnchor),
 		])
