@@ -27,7 +27,11 @@ final class WordEditionPresenter: WordEditionPresenterProtocol {
 	func fillUIWith(_ word: Word) {
 		guard let viewController = viewController else { return }
 		let nativeString = word.native.reduce("") { !$0.isEmpty ? [$0, $1].joined(separator: ",") : $1 }
-		viewController.fillWith(foreign: word.foreign, native: nativeString, transctription: word.transcription)
+		viewController.fillWith(foreign: word.foreign,
+								native: nativeString,
+								fToNRemark: word.fToNRemark,
+								nToFRemark: word.nToFRemark,
+								transctription: word.transcription)
 	}
 
 	func dismissScene() {

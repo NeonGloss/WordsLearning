@@ -6,11 +6,15 @@
 //  Copyright © 2022 Roman Kuzin. All rights reserved.
 //
 
-typealias EditedWordParts = (transcription: String, native: [String], foreign: String)
+typealias EditedWordParts = (transcription: String,
+							 native: [String],
+							 fToNRemark: String?,
+							 nToFRemark: String?,
+							 foreign: String)
 
 protocol WordStorageServiceProtocol {
 
-	/// Пересохранить словов с изменениями
+	/// Пересохранить слово с изменениями
 	/// - Parameters:
 	///   - origWord: изначальное слово
 	///   - newWordParts: новые свойства слова
@@ -30,6 +34,10 @@ protocol WordEditionInteractorProtocol {
 	func foreignChanged(to: String)
 
 	func nativeChanged(to: String)
+
+	func fToNRemarkChanged(to: String?)
+
+	func nToFRemarkChanged(to: String?)
 }
 
 /// Интерактор сцены
@@ -41,6 +49,8 @@ final class WordEditionInteractor: WordEditionInteractorProtocol {
 	private var storageService: WordStorageServiceProtocol
 	private let actionOnClose: (EditedWordParts?) -> Void
 	private var editedTranscription: String
+	private var editedFToNRemark: String?
+	private var editedNtoFRemark: String?
 	private var editedForeign: String
 	private var editedNative: [String]
 	private var origWord: Word
@@ -52,13 +62,16 @@ final class WordEditionInteractor: WordEditionInteractorProtocol {
 		self.storageService = storageService
 		self.actionOnClose = actionOnClose
 		self.origWord = word
+
 		editedTranscription = word.transcription
+		editedFToNRemark = word.fToNRemark
+		editedNtoFRemark = word.nToFRemark
 		editedForeign = word.foreign
 		editedNative = word.native
 	}
 
 	func saveButtonTapped() {
-		let parts = (editedTranscription, editedNative, editedForeign)
+		let parts = (editedTranscription, editedNative, editedFToNRemark, editedNtoFRemark, editedForeign)
 		storageService.updateWord(origWord: origWord, newWordParts: parts) { [weak self] isSuccess in
 			self?.actionOnClose(isSuccess ? parts : nil)
 			self?.presenter?.dismissScene()
@@ -79,5 +92,13 @@ final class WordEditionInteractor: WordEditionInteractorProtocol {
 
 	func nativeChanged(to newValue: String) {
 		editedNative = newValue.components(separatedBy: ",")
+	}
+
+	func fToNRemarkChanged(to newValue: String?) {
+		editedFToNRemark = newValue
+	}
+
+	func nToFRemarkChanged(to newValue: String?) {
+		editedNtoFRemark = newValue
 	}
 }

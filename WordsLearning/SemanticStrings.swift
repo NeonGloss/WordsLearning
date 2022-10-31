@@ -12,4 +12,5 @@ final class SemanticStrings {
 	static let transcription: String = "Транскрипция"
 	static let cancel: String = "Отмена"
 	static let save: String = "Сохранить"
+	static let remark: String = "Пометка:"
 }

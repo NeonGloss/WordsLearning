@@ -15,7 +15,7 @@ protocol MainViewControllerProtocol: UIViewController {
 	/// - Parameters:
 	///   - question: слово-ворос
 	///   - studyPercent: процент изучения этого слова
-	func displayWordQuestion(question: String, studyPercent: String)
+	func displayWordQuestion(question: String, remark: String?, studyPercent: String)
 
 	/// Очистить поле ответа
 	func cleanAnswerField()
@@ -33,6 +33,15 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		label.font = UIFont(name: "Thonburi", size: 50)?.bold()
 		label.textAlignment = .center
 		label.adjustsFontSizeToFitWidth = true
+		return label
+	}()
+
+	private let wordRemarkLabel: UILabel = {
+		let label = UILabel()
+		label.layer.borderColor = UIColor.white.cgColor
+		label.layer.cornerRadius = 20
+		label.font = UIFont(name: "Thonburi", size: 30)
+		label.textAlignment = .center
 		return label
 	}()
 
@@ -123,7 +132,12 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 
 	// MARK: Display
 
-	func displayWordQuestion(question: String, studyPercent: String) {
+	func displayWordQuestion(question: String, remark: String?, studyPercent: String) {
+		if let remark = remark {
+			wordRemarkLabel.text = "(" + remark + ")"
+		} else {
+			wordRemarkLabel.text = nil
+		}
 		questionWordLabel.text = question
 		studyPercentLabel.text = studyPercent
 		answerWordField.becomeFirstResponder()
@@ -150,6 +164,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		view.addSubview(studyPercentLabel)
 		view.addSubview(markStudiedButton)
 		view.addSubview(directionSwitch)
+		view.addSubview(wordRemarkLabel)
 		view.addSubview(answerWordView)
 		view.addSubview(repeatButton)
 		view.addSubview(menuButton)
@@ -195,6 +210,9 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 			questionWordLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
 			questionWordLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
 			questionWordLabel.heightAnchor.constraint(equalToConstant: 50),
+
+			wordRemarkLabel.topAnchor.constraint(equalTo: questionWordLabel.bottomAnchor, constant: 5),
+			wordRemarkLabel.centerXAnchor.constraint(equalTo: questionWordLabel.centerXAnchor),
 
 			answerWordView.topAnchor.constraint(equalTo: questionWordLabel.bottomAnchor, constant: 100),
 			answerWordView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
