@@ -15,7 +15,7 @@ protocol MainPresenterProtocol {
 	/// - Parameters:
 	///   - wordString: слово
 	///   - studyPercent: процент изучения данного слова
-	func askWord(wordString: String, studyPercent: String)
+	func askWord(wordString: String, remark: String?, studyPercent: String)
 
 	/// Отобразить ошибочность ответа
 	/// - Parameters:
@@ -47,8 +47,8 @@ final class MainPresenter: MainPresenterProtocol {
 		self.alertService = alertService
 	}
 
-	func askWord(wordString: String, studyPercent: String) {
-		viewController?.displayWordQuestion(question: wordString, studyPercent: studyPercent)
+	func askWord(wordString: String, remark: String?, studyPercent: String) {
+		viewController?.displayWordQuestion(question: wordString, remark: remark, studyPercent: studyPercent)
 	}
 
 	func cleanAnswerField() {
@@ -85,6 +85,9 @@ final class MainPresenter: MainPresenterProtocol {
 		let answerText = enteredAnswer.isEmpty ? "-" : enteredAnswer
 		var text = "[\(word.transcription)]\nВарианты верного ответа: \n\""
 		text.append(contentsOf: word.nativeWordsDescription)
+		if let remark = word.nToFRemark {
+			text.append(contentsOf: "(" + remark + ")")
+		}
 		text.append(contentsOf: "\nВаш ответ:\n\(answerText)")
 		return text
 	}
@@ -93,6 +96,9 @@ final class MainPresenter: MainPresenterProtocol {
 		var text = "[\(word.transcription)]\n"
 		text.append(contentsOf: "\"")
 		text.append(contentsOf: word.nativeWordsDescription)
+		if let remark = word.nToFRemark {
+			text.append(contentsOf: "\n(" + remark + ")")
+		}
 		return text
 	}
 }

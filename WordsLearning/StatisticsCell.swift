@@ -13,16 +13,19 @@ final class StatisticsCell: UITableViewCell, DRTableViewCellProtocol {
 	var shouldReuse = false
 
 	private let wordLabel = UILabel()
+	private let remarkLabel = UILabel()
 	private let raitingLabel = UILabel()
 	private let studyPercentLabel = UILabel()
 
 	private let underlineView = UIView()
 
 	let wordText: String
+	let remarkText: String?
 	let raintinText: String
 	let studyPercentText: String
 
-	init(word: String, studyPercent: Double, raiting: Double) {
+	init(word: String, remark: String?, studyPercent: Double, raiting: Double) {
+		self.remarkText = remark
 		self.wordText = word
 		self.studyPercentText = String(studyPercent)
 		self.raintinText = String(format: "%.4f", raiting)
@@ -39,6 +42,7 @@ final class StatisticsCell: UITableViewCell, DRTableViewCellProtocol {
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		self.wordText = ""
 		self.raintinText = ""
+		self.remarkText = nil
 		self.studyPercentText = ""
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 	}
@@ -54,6 +58,7 @@ final class StatisticsCell: UITableViewCell, DRTableViewCellProtocol {
 
 	private func setupConstraints() {
 		contentView.addSubview(wordLabel)
+		contentView.addSubview(remarkLabel)
 		contentView.addSubview(raitingLabel)
 		contentView.addSubview(studyPercentLabel)
 		contentView.addSubview(underlineView)
@@ -63,6 +68,9 @@ final class StatisticsCell: UITableViewCell, DRTableViewCellProtocol {
 			wordLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
 			wordLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
 			wordLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+
+			remarkLabel.centerYAnchor.constraint(equalTo: wordLabel.centerYAnchor),
+			remarkLabel.leadingAnchor.constraint(equalTo: wordLabel.trailingAnchor, constant: 10),
 
 			studyPercentLabel.centerYAnchor.constraint(equalTo: wordLabel.centerYAnchor),
 			studyPercentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
@@ -75,6 +83,9 @@ final class StatisticsCell: UITableViewCell, DRTableViewCellProtocol {
 	private func setupUI() {
 		backgroundColor = .clear
 		wordLabel.text = wordText
+		if let remarkText = remarkText {
+			remarkLabel.text = "(" + remarkText + ")"
+		}
 		raitingLabel.text = raintinText
 		studyPercentLabel.text = studyPercentText
 	}

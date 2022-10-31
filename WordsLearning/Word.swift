@@ -23,8 +23,8 @@ final class Word: Codable {
 	private(set) var native: [String]
 	private(set) var transcription: String
 	private(set) var partOfSpeech: PartOfSpeech
-	private(set) var fToNLabel: String?
-	private(set) var nToFLabel: String?
+	private(set) var fToNRemark: String?
+	private(set) var nToFRemark: String?
 
 
 	private(set) var foreingToNativeStatistic: WordStatistic = WordStatistic()
@@ -40,8 +40,8 @@ final class Word: Codable {
 		 native: [String],
 		 transcription: String,
 		 partOfSpeech: PartOfSpeech = .verb,
-		 fToNLabel: String? = nil,
-		 nToFLabel: String? = nil) {
+		 fToNRemark: String? = nil,
+		 nToFRemark: String? = nil) {
 		self.transcription = transcription
 		self.partOfSpeech = partOfSpeech
 		self.foreign = foreign
@@ -110,9 +110,11 @@ final class Word: Codable {
 	}
 
 	func change(with parts: EditedWordParts) {
-		self.transcription = parts.transcription
-		self.foreign = parts.foreign
-		self.native = parts.native
+		transcription = parts.transcription
+		fToNRemark = parts.fToNRemark
+		nToFRemark = parts.nToFRemark
+		foreign = parts.foreign
+		native = parts.native
 	}
 }
 

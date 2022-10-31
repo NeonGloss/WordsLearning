@@ -11,7 +11,11 @@ import UIKit
 /// Протокол вью-контроллера сцены
 protocol WordEditionViewControllerProtocol: UIViewController {
 
-	func fillWith(foreign: String, native: String, transctription: String)
+	func fillWith(foreign: String,
+				  native: String,
+				  fToNRemark: String?,
+				  nToFRemark: String?,
+				  transctription: String)
 }
 
 /// Вью-контроллер сцены
@@ -55,6 +59,29 @@ final class WordEditionViewController: UIViewController, WordEditionViewControll
 		return label
 	}()
 
+	private lazy var fToNRemarkLabel: UILabel = {
+		let label = UILabel()
+		label.sizeToFit()
+		label.text = SemanticStrings.remark
+		label.numberOfLines = 0
+		label.layer.cornerRadius = 20
+		label.layer.borderColor = UIColor.white.cgColor
+		label.font = UIFont(name: "Thonburi", size: 15)?.bold()
+		return label
+	}()
+
+	private lazy var nToFRemarkLabel: UILabel = {
+		let label = UILabel()
+		label.sizeToFit()
+		label.text = SemanticStrings.remark
+		label.numberOfLines = 0
+		label.textAlignment = .center
+		label.layer.cornerRadius = 20
+		label.layer.borderColor = UIColor.white.cgColor
+		label.font = UIFont(name: "Thonburi", size: 15)?.bold()
+		return label
+	}()
+
 	private var nativeFormView: UIView = {
 		let view = UIView()
 		view.backgroundColor = .white
@@ -87,6 +114,42 @@ final class WordEditionViewController: UIViewController, WordEditionViewControll
 		textField.autocapitalizationType = .none
 		textField.layer.cornerRadius = 20
 		textField.font = UIFont(name: "Thonburi", size: 25)?.bold()
+		textField.autocorrectionType = .no
+		return textField
+	}()
+
+	private var fToNRemarkUnderFieldView: UIView = {
+		let view = UIView()
+		view.backgroundColor = .white
+		view.layer.borderColor = UIColor.black.cgColor
+		view.layer.borderWidth = 1
+		view.layer.cornerRadius = 20 * 0.75
+		return view
+	}()
+
+	private var nToFRemarkUnderFieldView: UIView = {
+		let view = UIView()
+		view.backgroundColor = .white
+		view.layer.borderColor = UIColor.black.cgColor
+		view.layer.borderWidth = 1
+		view.layer.cornerRadius = 20 * 0.75
+		return view
+	}()
+
+	private var fToNRemarkField: UITextField = {
+		let textField = UITextField()
+		textField.autocapitalizationType = .none
+		textField.layer.cornerRadius = 20
+		textField.font = UIFont(name: "Thonburi", size: 18)
+		textField.autocorrectionType = .no
+		return textField
+	}()
+
+	private var nToFRemarkField: UITextField = {
+		let textField = UITextField()
+		textField.autocapitalizationType = .none
+		textField.layer.cornerRadius = 20
+		textField.font = UIFont(name: "Thonburi", size: 18)
 		textField.autocorrectionType = .no
 		return textField
 	}()
@@ -134,12 +197,15 @@ final class WordEditionViewController: UIViewController, WordEditionViewControll
 	private enum Sizes {
 		static let contentWidthMultiplier: CGFloat = 0.9
 		static let buttonsWidthMulitplier: CGFloat = 0.4
-		static let foreignLabelToTop: CGFloat = 30
+		static let foreignLabelToTop: CGFloat = 15
 		static let labelToField: CGFloat = 10
 		static let leftIndent: CGFloat = 10
 		static let rightIndent: CGFloat = 10
 		static let buttonsToBottom: CGFloat = 30
 		static let verticalIndent: CGFloat = 30
+		static let remarkLabelToField: CGFloat = 10
+		static let smallVerticalIndent: CGFloat = 30
+		static let horizontalIndent: CGFloat = 15
 		static let formHeight: CGFloat = 40
 	}
 
@@ -168,9 +234,15 @@ final class WordEditionViewController: UIViewController, WordEditionViewControll
 
 	// MARK: Display
 
-	func fillWith(foreign: String, native: String, transctription: String) {
+	func fillWith(foreign: String,
+				  native: String,
+				  fToNRemark: String?,
+				  nToFRemark: String?,
+				  transctription: String) {
 		nativeFormField.text = native
 		foreignFormField.text = foreign
+		fToNRemarkField.text = fToNRemark
+		nToFRemarkField.text = nToFRemark
 		transcriptionField.text = transctription
 	}
 
@@ -179,13 +251,20 @@ final class WordEditionViewController: UIViewController, WordEditionViewControll
 	private func seutpViews() {
 		view.overrideUserInterfaceStyle = .light
 		view.backgroundColor = UIColor.darkGray
+		view.addSubview(fToNRemarkUnderFieldView)
+		view.addSubview(nToFRemarkUnderFieldView)
 		view.addSubview(nativeFormView)
 		view.addSubview(foreignFormView)
 		view.addSubview(transcriptionView)
 		view.addSubview(nativeFormLabel)
 		view.addSubview(foreignFormLabel)
 		view.addSubview(transcriptionLabel)
+		view.addSubview(nToFRemarkLabel)
+		view.addSubview(fToNRemarkLabel)
+		view.addSubview(fToNRemarkField)
+		view.addSubview(nToFRemarkField)
 		view.addSubview(nativeFormField)
+
 		view.addSubview(foreignFormField)
 		view.addSubview(transcriptionField)
 		view.addSubview(saveButton)
@@ -195,6 +274,8 @@ final class WordEditionViewController: UIViewController, WordEditionViewControll
 		transcriptionField.delegate = self
 		foreignFormField.delegate = self
 		nativeFormField.delegate = self
+		fToNRemarkField.delegate = self
+		nToFRemarkField.delegate = self
 
 		saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
 		cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
@@ -216,12 +297,26 @@ final class WordEditionViewController: UIViewController, WordEditionViewControll
 
 			foreignFormField.topAnchor.constraint(equalTo: foreignFormView.topAnchor, constant: 2),
 			foreignFormField.bottomAnchor.constraint(equalTo: foreignFormView.bottomAnchor, constant: -2),
-			foreignFormField.leadingAnchor.constraint(equalTo: foreignFormView.leadingAnchor, constant: 15),
-			foreignFormField.trailingAnchor.constraint(equalTo: foreignFormView.trailingAnchor, constant: -15),
+			foreignFormField.leadingAnchor.constraint(equalTo: foreignFormView.leadingAnchor, constant: Sizes.horizontalIndent),
+			foreignFormField.trailingAnchor.constraint(equalTo: foreignFormView.trailingAnchor, constant: -Sizes.horizontalIndent),
+
+			fToNRemarkUnderFieldView.topAnchor.constraint(equalTo: foreignFormField.bottomAnchor, constant: 5),
+			fToNRemarkUnderFieldView.leadingAnchor.constraint(equalTo: fToNRemarkLabel.trailingAnchor, constant: Sizes.remarkLabelToField),
+			fToNRemarkUnderFieldView.trailingAnchor.constraint(equalTo: foreignFormView.trailingAnchor),
+			fToNRemarkUnderFieldView.heightAnchor.constraint(equalToConstant: Sizes.formHeight*0.75),
+
+			fToNRemarkField.topAnchor.constraint(equalTo: fToNRemarkUnderFieldView.topAnchor, constant: 2),
+			fToNRemarkField.bottomAnchor.constraint(equalTo: fToNRemarkUnderFieldView.bottomAnchor, constant: -2),
+			fToNRemarkField.leadingAnchor.constraint(equalTo: fToNRemarkUnderFieldView.leadingAnchor, constant: Sizes.horizontalIndent),
+			fToNRemarkField.trailingAnchor.constraint(equalTo: fToNRemarkUnderFieldView.trailingAnchor, constant: -Sizes.horizontalIndent),
+
+			fToNRemarkLabel.centerYAnchor.constraint(equalTo: fToNRemarkUnderFieldView.centerYAnchor),
+			fToNRemarkLabel.leadingAnchor.constraint(equalTo: foreignFormView.leadingAnchor, constant: Sizes.horizontalIndent),
+			fToNRemarkLabel.widthAnchor.constraint(equalToConstant: 70),
 
 			nativeFormLabel.heightAnchor.constraint(equalToConstant: 30),
 			nativeFormLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-			nativeFormLabel.topAnchor.constraint(equalTo: foreignFormView.bottomAnchor, constant: Sizes.verticalIndent),
+			nativeFormLabel.topAnchor.constraint(equalTo: fToNRemarkUnderFieldView.bottomAnchor, constant: Sizes.verticalIndent/2),
 			nativeFormLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Sizes.contentWidthMultiplier),
 
 			nativeFormView.heightAnchor.constraint(equalToConstant: Sizes.formHeight),
@@ -231,12 +326,26 @@ final class WordEditionViewController: UIViewController, WordEditionViewControll
 
 			nativeFormField.topAnchor.constraint(equalTo: nativeFormView.topAnchor, constant: 2),
 			nativeFormField.bottomAnchor.constraint(equalTo: nativeFormView.bottomAnchor, constant: -2),
-			nativeFormField.leadingAnchor.constraint(equalTo: nativeFormView.leadingAnchor, constant: 15),
-			nativeFormField.trailingAnchor.constraint(equalTo: nativeFormView.trailingAnchor, constant: -15),
+			nativeFormField.leadingAnchor.constraint(equalTo: nativeFormView.leadingAnchor, constant: Sizes.horizontalIndent),
+			nativeFormField.trailingAnchor.constraint(equalTo: nativeFormView.trailingAnchor, constant: -Sizes.horizontalIndent),
+
+			nToFRemarkUnderFieldView.topAnchor.constraint(equalTo: nativeFormField.bottomAnchor, constant: 5),
+			nToFRemarkUnderFieldView.leadingAnchor.constraint(equalTo: nToFRemarkLabel.trailingAnchor, constant: Sizes.remarkLabelToField),
+			nToFRemarkUnderFieldView.trailingAnchor.constraint(equalTo: nativeFormView.trailingAnchor),
+			nToFRemarkUnderFieldView.heightAnchor.constraint(equalToConstant: Sizes.formHeight*0.75),
+
+			nToFRemarkField.topAnchor.constraint(equalTo: nToFRemarkUnderFieldView.topAnchor, constant: 2),
+			nToFRemarkField.bottomAnchor.constraint(equalTo: nToFRemarkUnderFieldView.bottomAnchor, constant: -2),
+			nToFRemarkField.leadingAnchor.constraint(equalTo: nToFRemarkUnderFieldView.leadingAnchor, constant: Sizes.horizontalIndent),
+			nToFRemarkField.trailingAnchor.constraint(equalTo: nToFRemarkUnderFieldView.trailingAnchor, constant: -Sizes.horizontalIndent),
+
+			nToFRemarkLabel.centerYAnchor.constraint(equalTo: nToFRemarkUnderFieldView.centerYAnchor),
+			nToFRemarkLabel.leadingAnchor.constraint(equalTo: nativeFormView.leadingAnchor, constant: Sizes.horizontalIndent),
+			nToFRemarkLabel.widthAnchor.constraint(equalToConstant: 70),
 
 			transcriptionLabel.heightAnchor.constraint(equalToConstant: 30),
 			transcriptionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-			transcriptionLabel.topAnchor.constraint(equalTo: nativeFormField.bottomAnchor, constant: Sizes.verticalIndent),
+			transcriptionLabel.topAnchor.constraint(equalTo: nToFRemarkUnderFieldView.bottomAnchor, constant: Sizes.verticalIndent/2),
 			transcriptionLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: Sizes.contentWidthMultiplier),
 
 			transcriptionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -292,6 +401,10 @@ extension WordEditionViewController: UITextFieldDelegate {
 			interactor.foreignChanged(to: newText)
 		case nativeFormField:
 			interactor.nativeChanged(to: newText)
+		case fToNRemarkField:
+			interactor.fToNRemarkChanged(to: textField.text)
+		case nToFRemarkField:
+			interactor.nToFRemarkChanged(to: textField.text)
 		default: break
 		}
 	}

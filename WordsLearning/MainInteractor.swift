@@ -152,7 +152,10 @@ final class MainInteractor: MainInteractorProtocol {
 		let questionString = translationDirection == .foreignToNative ?
 			word.foreign : word.native[secondLanugageIndex]
 		let studyPercent = translationDirection == .foreignToNative ? word.foreingToNativeStatistic.studyPercent : word.nativeToForeignStatistic.studyPercent
-		presenter?.askWord(wordString: questionString, studyPercent: String(studyPercent))
+		let remark = translationDirection == .foreignToNative ? word.fToNRemark : word.nToFRemark
+		presenter?.askWord(wordString: questionString,
+						   remark: remark,
+						   studyPercent: String(format: "%.0f", studyPercent) + "%")
 	}
 
 	private func assertAndRepeatWord(currentAnswer answer: String) {

@@ -53,8 +53,8 @@ final class StatisticsInteractor: StatisticsInteractorProtocol {
 	private func updateUI(for direction: TranslationDirection) {
 		var items: [DRTableViewCellProtocol] = []
 		let wordsForUI = makeWordsForUI(from: words, forDirection: direction)
-		wordsForUI.forEach { word, studyPercent, raitingForDirection in
-			items.append(StatisticsCell(word: word, studyPercent: studyPercent, raiting: raitingForDirection))
+		wordsForUI.forEach { word, remark, studyPercent, raitingForDirection in
+			items.append(StatisticsCell(word: word, remark: remark, studyPercent: studyPercent, raiting: raitingForDirection))
 		}
 		presenter?.presentItems(items)
 	}
@@ -66,12 +66,13 @@ final class StatisticsInteractor: StatisticsInteractorProtocol {
 	}
 
 	func makeWordsForUI(from words: [Word],
-						forDirection direction: TranslationDirection) -> [(String, Double, Double)] {
+						forDirection direction: TranslationDirection) -> [(String, String?, Double, Double)] {
 		let raitingSortedWords = words.sorted {
 			$0.raiting(direction: direction) > $1.raiting(direction: direction)
 		}
 		let wordsForStatisticsOutput = raitingSortedWords.map {
 			(direction == .foreignToNative ? $0.foreign : $0.native.first ?? "",
+			 direction == .foreignToNative ? $0.fToNRemark : $0.nToFRemark ?? nil,
 			 direction == .foreignToNative ? $0.foreingToNativeStatistic.studyPercent :
 											 $0.nativeToForeignStatistic.studyPercent,
 			 $0.raiting(direction: direction))
