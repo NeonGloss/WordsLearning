@@ -62,15 +62,15 @@ final class StorageService: StorageServiceProtocol {
 
 	private func addDefaultWords(to words: [Word]) -> [Word] {
 		let wordsDict: [String: Word] = (words).reduce([String: Word]()) {
-			var result = $0
-			result[$1.foreign] = $1
-			return result
+			var resultWordsArray = $0
+			resultWordsArray[$1.foreign] = $1
+			return resultWordsArray
 		}
 
 		let defaultWordsDict: [String: Word] = DefaultWordsList.wordsList.reduce([String: Word]()) {
-			var result = $0
-			result[$1.foreign] = $1
-			return result
+			var resultWordsArray = $0
+			resultWordsArray[$1.foreign] = $1
+			return resultWordsArray
 		}
 
 		return wordsDict.merging(defaultWordsDict, uniquingKeysWith: { current, _ in current }).map { $0.value }

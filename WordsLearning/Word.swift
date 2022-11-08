@@ -44,6 +44,8 @@ final class Word: Codable {
 		 nToFRemark: String? = nil) {
 		self.transcription = transcription
 		self.partOfSpeech = partOfSpeech
+		self.fToNRemark = fToNRemark
+		self.nToFRemark = nToFRemark
 		self.foreign = foreign
 		self.native = native
 	}
@@ -79,22 +81,28 @@ final class Word: Codable {
 
 	func raiting(direction: TranslationDirection) -> Double {
 		let statistic = direction == .foreignToNative ? foreingToNativeStatistic : nativeToForeignStatistic
-		let learningPercent = statistic.successPercent
 
 		// рейтинг от 1 до 101
 		var rating: Double = 101 - statistic.studyPercent
+
 		// чем больше процент не правильных ответов, тем выше рейтинг
-		rating *= (1.01 - min(max(learningPercent / 100, 0), 1))
+		let wrongAnswersMultiplier = (1.01 - min(max(statistic.successPercent / 100, 0), 1))
+
 		// чем чаще слово повторяли, тем меньше рейтинг
-		rating *= exp(-Double(statistic.totalAnswers) * 0.07)
+		let repetitionRateMultiplier = exp(-Double(statistic.totalAnswers) * 0.07)
+
 		// если последний ответ был неправильным увеличиваем рейтинг
-		if !statistic.isLastAnswerWasCorrcet {
-			rating *= 1.5
-		}
+		let lastAnswerCorrectMultiplier = statistic.isLastAnswerWasCorrcet ? 1 : 1.5
+
 		// чем дольше слово не повторяли, тем выше рейтинг
 		let daysFromLastQuestion = NSCalendar.current.numberOfDaysBetween(statistic.lastQuestionDate, and: Date())
-		rating *= log10(Double(daysFromLastQuestion + 1)) + 1
+		let timeMultiplier = log10(Double(daysFromLastQuestion + 5)) + 1
 
+		rating = rating *
+				 wrongAnswersMultiplier *
+				 repetitionRateMultiplier *
+				 lastAnswerCorrectMultiplier *
+				 timeMultiplier
 		return max(rating, 0.1)
 	}
 
@@ -109,7 +117,26 @@ final class Word: Codable {
 
 	}
 
-	func change(with parts: EditedWordParts) {
+	/// Устанавливает слово как изученное добавляя необходимое количество правильных ответов согласно дельте прибавляемой к проценту изучения за каждый правильный ответ
+	/// - Parameters:
+	///   - direction: направление перевода
+	///   - useingDeltaPercent: процент за правильный ответ
+	func markAsStudied(for direction: TranslationDirection, useingDeltaPercent: Int, date: Date) {
+		let statistics = direction == .foreignToNative ? foreingToNativeStatistic : nativeToForeignStatistic
+		var numberOfAnswersToBeStudied: Int = Int((100 - Int(statistics.studyPercent)) / useingDeltaPercent) + 1
+		while numberOfAnswersToBeStudied != 0 {
+			updateStatistics(direction: direction,
+							 lastAnswerIsCorrect: true,
+							 percentDelta: useingDeltaPercent,
+							 lastAnswerDate: date)
+			numberOfAnswersToBeStudied -= 1
+		}
+
+	}
+
+	/// Обновить данные слова
+	/// - Parameter parts: части слова
+	func update(with parts: EditedWordParts) {
 		transcription = parts.transcription
 		fToNRemark = parts.fToNRemark
 		nToFRemark = parts.nToFRemark

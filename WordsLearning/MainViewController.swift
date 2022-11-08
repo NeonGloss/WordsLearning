@@ -108,6 +108,16 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		return button
 	}()
 
+	private var shuffleButton: UIButton = {
+		let button = UIButton()
+		button.setImage(SemanticImages.shuffle, for: .normal)
+		button.backgroundColor = .clear
+		button.layer.borderColor = UIColor.white.cgColor
+		button.layer.borderWidth = 1.5
+		button.layer.cornerRadius = 10
+		return button
+	}()
+
 	// MARK: Object lifecycle
 
 	/// Инициализатор
@@ -157,6 +167,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		
 		directionSwitch.addTarget(self, action: #selector(directionSwitchTapped(_:)), for: .allTouchEvents)
 		markStudiedButton.addTarget(self, action: #selector(markStudiedTapped), for: .touchUpInside)
+		shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
 		repeatButton.addTarget(self, action: #selector(repeatButtonTapped), for: .touchUpInside)
 		menuButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
 		editButton.addTarget(self, action: #selector(editWordTapped), for: .touchUpInside)
@@ -166,6 +177,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		view.addSubview(directionSwitch)
 		view.addSubview(wordRemarkLabel)
 		view.addSubview(answerWordView)
+		view.addSubview(shuffleButton)
 		view.addSubview(repeatButton)
 		view.addSubview(menuButton)
 		view.addSubview(editButton)
@@ -192,6 +204,11 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 
 	@objc private func markStudiedTapped() {
 		interactor.markStudiedTapped()
+	}
+
+	@objc private func shuffleButtonTapped() {
+		shuffleButton.backgroundColor = shuffleButton.backgroundColor == .clear ? .gray : .clear
+		interactor.shuffleButtonTapped()
 	}
 
 	private func setupLayout() {
@@ -227,20 +244,25 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 			answerWordField.leadingAnchor.constraint(equalTo: answerWordView.leadingAnchor, constant: 15),
 			answerWordField.trailingAnchor.constraint(equalTo: answerWordView.trailingAnchor, constant: -15),
 
-			repeatButton.topAnchor.constraint(equalTo: answerWordField.bottomAnchor, constant: 30),
-			repeatButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-			repeatButton.heightAnchor.constraint(equalToConstant: 40),
-			repeatButton.widthAnchor.constraint(equalToConstant: 40),
+			markStudiedButton.centerYAnchor.constraint(equalTo: repeatButton.centerYAnchor),
+			markStudiedButton.trailingAnchor.constraint(equalTo: editButton.leadingAnchor, constant: -15),
+			markStudiedButton.heightAnchor.constraint(equalTo: editButton.heightAnchor),
+			markStudiedButton.widthAnchor.constraint(equalTo: editButton.heightAnchor),
 
 			editButton.centerYAnchor.constraint(equalTo: repeatButton.centerYAnchor),
-			editButton.trailingAnchor.constraint(equalTo: repeatButton.leadingAnchor, constant: -15),
+			editButton.trailingAnchor.constraint(equalTo: answerWordView.centerXAnchor, constant: -15),
 			editButton.heightAnchor.constraint(equalToConstant: 40),
 			editButton.widthAnchor.constraint(equalToConstant: 40),
 
-			markStudiedButton.centerYAnchor.constraint(equalTo: repeatButton.centerYAnchor),
-			markStudiedButton.leadingAnchor.constraint(equalTo: repeatButton.trailingAnchor, constant: 15),
-			markStudiedButton.heightAnchor.constraint(equalTo: editButton.heightAnchor),
-			markStudiedButton.widthAnchor.constraint(equalTo: editButton.heightAnchor),
+			shuffleButton.centerYAnchor.constraint(equalTo: repeatButton.centerYAnchor),
+			shuffleButton.leadingAnchor.constraint(equalTo: answerWordView.centerXAnchor, constant: 15),
+			shuffleButton.heightAnchor.constraint(equalTo: editButton.heightAnchor),
+			shuffleButton.widthAnchor.constraint(equalTo: editButton.heightAnchor),
+
+			repeatButton.topAnchor.constraint(equalTo: answerWordField.bottomAnchor, constant: 30),
+			repeatButton.leadingAnchor.constraint(equalTo: shuffleButton.trailingAnchor, constant: 15),
+			repeatButton.heightAnchor.constraint(equalToConstant: 40),
+			repeatButton.widthAnchor.constraint(equalToConstant: 40),
 		])
 	}
 }

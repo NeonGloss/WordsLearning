@@ -33,6 +33,8 @@ protocol MainInteractorProtocol {
 	func markStudiedTapped()
 
 	func repeatButtonTapped()
+
+	func shuffleButtonTapped()
 }
 
 /// Интерактор сцены
@@ -48,6 +50,7 @@ final class MainInteractor: MainInteractorProtocol {
 	private var translationDirection: TranslationDirection = .foreignToNative
 	private var isFirstAnswerReceived: Bool = false
 	private var isRepeatTurnedOn: Bool = false
+	private var isShuffleTurnedOn: Bool = false
 
 	/// Инициализатор
 	/// - Parameters:
@@ -121,6 +124,11 @@ final class MainInteractor: MainInteractorProtocol {
 		isRepeatTurnedOn = !isRepeatTurnedOn
 	}
 
+	func shuffleButtonTapped() {
+		isShuffleTurnedOn = !isShuffleTurnedOn
+
+	}
+
 	// MARK: Private
 
 	private func wordsWasLoaded(_ words: [Word]) {
@@ -129,10 +137,12 @@ final class MainInteractor: MainInteractorProtocol {
 	}
 
 	private func askQuestion() {
-		guard let word = quizService.getNextWord(for: translationDirection) else { return }
-		currentQuestionWord = word
+		let nextWord = isShuffleTurnedOn ? quizService.getNextWordByShuffle(for: translationDirection) :
+										   quizService.getNextWordByRaiting(for: translationDirection)
+		guard let nextWord = nextWord else { return }
+		currentQuestionWord = nextWord
 		isFirstAnswerReceived = false
-		fillUIWith(word)
+		fillUIWith(nextWord)
 	}
 
 	private func getRandomIndexUpTo(_ upperBound: Int) -> Int {
@@ -140,7 +150,7 @@ final class MainInteractor: MainInteractorProtocol {
 	}
 
 	private func currentWordWasEdited(parts: EditedWordParts) {
-		currentQuestionWord?.change(with: parts)
+		currentQuestionWord?.update(with: parts)
 		guard let word = currentQuestionWord else { return }
 		quizService.currentWordWasEdited(parts: parts)
 		fillUIWith(word)
