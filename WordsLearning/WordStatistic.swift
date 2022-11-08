@@ -9,11 +9,11 @@ import UIKit
 
 final class WordStatistic: Codable {
 
-	var studyPercent: Double
 	var lastQuestionDate: Date
 	var errorAnswersCount: Int
 	var successAnswersCount: Int
 	var isLastAnswerWasCorrcet: Bool
+	private(set) var studyPercent: Double
 
 	var totalAnswers: Int { successAnswersCount + errorAnswersCount }
 	var successPercent: Double { totalAnswers > 0 ? Double(successAnswersCount * 100 / totalAnswers) : 0 }

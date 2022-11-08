@@ -17,7 +17,12 @@ protocol QuizServiceProtocol: AnyObject {
 	func setWords(_ words: [Word])
 
 	/// Выдать слово из набора по рейтингу. Чем выше рейтинг слова, тем выше шанс его выпадения.
-	func getNextWord(for direction: TranslationDirection) -> Word?
+	/// - Parameter direction: направление перевода
+	func getNextWordByRaiting(for direction: TranslationDirection) -> Word?
+
+	/// Выдать слово из набора в рандомном порядке.
+	/// - Parameter direction: направление перевода
+	func getNextWordByShuffle(for direction: TranslationDirection) -> Word?
 
 	/// Обработать изменение слова
 	func currentWordWasEdited(parts: EditedWordParts)
@@ -45,13 +50,19 @@ final class QuizService: QuizServiceProtocol {
 		self.words = words
 	}
 
-	func getNextWord(for direction: TranslationDirection) -> Word? {
-		currentQuestionWord = getWordFrom(words, direction: direction)
+	func getNextWordByRaiting(for direction: TranslationDirection) -> Word? {
+		currentQuestionWord = getWordByRaitingFrom(words, direction: direction)
+		return currentQuestionWord
+	}
+
+	func getNextWordByShuffle(for direction: TranslationDirection) -> Word? {
+		let wordIndex = getRandomIndexUpTo(words.count - 1)
+		currentQuestionWord = words[wordIndex]
 		return currentQuestionWord
 	}
 
 	func currentWordWasEdited(parts: EditedWordParts) {
-		currentQuestionWord?.change(with: parts)
+		currentQuestionWord?.update(with: parts)
 	}
 
 	func assertAnswer(_ answer: String, direction: TranslationDirection, putInStatistics: Bool) -> Bool {
@@ -69,32 +80,21 @@ final class QuizService: QuizServiceProtocol {
 	}
 
 	func markCurrentWordAsStudied(forDirection direction: TranslationDirection) {
-		let specifiedStats = direction == .nativeToForeign ?
-			currentQuestionWord?.nativeToForeignStatistic : currentQuestionWord?.foreingToNativeStatistic
-		specifiedStats?.studyPercent = 100
+		currentQuestionWord?.markAsStudied(for: direction,
+										   useingDeltaPercent: QuizSettings.rightAnswerPercentDelta,
+										   date: Date())
 	}
 
 	// MARK: Private
 
-	private func getWordFrom(_ words: [Word], direction: TranslationDirection) -> Word? {
+	private func getWordByRaitingFrom(_ words: [Word], direction: TranslationDirection) -> Word? {
 		guard words.count > 0 else { return nil }
 		let raitingSortedWords = words.sorted {
 			$0.raiting(direction: direction) > $1.raiting(direction: direction)
 		}
 		let wordIndex = getRandomIndexUpTo(min(words.count - 1, 10))
 
-		// Логируем текущее состояние массива слов
-		print("Word list: word -> perceentFtoN -> perceentNtoF -> raiting\n")
-		print("-------------------------- Total: \(raitingSortedWords.count)")
-		let wordsForLog = raitingSortedWords.map { ($0.foreign,
-													$0.foreingToNativeStatistic.studyPercent,
-													$0.nativeToForeignStatistic.studyPercent,
-													$0.raiting(direction: direction)) }
-		wordsForLog.enumerated().forEach {
-			let string = "Word: \($0.1.0)\tFtoN: \($0.1.1)\tNtoF: \($0.1.2)\traiting: \($0.1.3)"
-			$0.0 == wordIndex ? print(string + " <<") : print(string)
-		}
-		// Логируем текущее состояние массива слов
+		logCurrentStateOfWords(raitingSortedWords: raitingSortedWords, direction: direction)
 
 		currentQuestionWord = raitingSortedWords[wordIndex]
 		return currentQuestionWord
@@ -112,5 +112,20 @@ final class QuizService: QuizServiceProtocol {
 
 	private func getRandomIndexUpTo(_ upperBound: Int) -> Int {
 		Int.random(in: 0...upperBound)
+	}
+	/// Логируем текущее состояние массива слов
+	/// - Parameter raitingSortedWords: список слов отсортированных по рейтингу
+	/// - Parameter direction: направление перевода
+	private func logCurrentStateOfWords(raitingSortedWords: [Word], direction: TranslationDirection) {
+		print("Word list: word -> perceentFtoN -> perceentNtoF -> raiting\n")
+		print("-------------------------- Total: \(raitingSortedWords.count)")
+		let wordsForLog = raitingSortedWords.map { ($0.foreign,
+													$0.foreingToNativeStatistic.studyPercent,
+													$0.nativeToForeignStatistic.studyPercent,
+													$0.raiting(direction: direction)) }
+		wordsForLog.enumerated().forEach {
+			let string = "Word: \($0.1.0)\tFtoN: \($0.1.1)\tNtoF: \($0.1.2)\traiting: \($0.1.3)"
+			print(string)
+		}
 	}
 }

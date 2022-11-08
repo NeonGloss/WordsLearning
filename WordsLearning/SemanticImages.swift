@@ -63,4 +63,9 @@ final class SemanticImages {
 		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
 		return UIImage(systemName: "repeat")?.applyingSymbolConfiguration(config) ?? UIImage()
 	}
+
+	static var shuffle: UIImage {
+		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
+		return UIImage(systemName: "shuffle")?.applyingSymbolConfiguration(config) ?? UIImage()
+	}
 }

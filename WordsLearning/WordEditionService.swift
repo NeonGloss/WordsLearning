@@ -34,7 +34,7 @@ final class WordEditionService: WordStorageServiceProtocol {
 		guard let index = origWords.firstIndex(of: origWord) else { return }
 
 		let resultWords = origWords
-		resultWords[index].change(with: newWordParts)
+		resultWords[index].update(with: newWordParts)
 		storageService.saveWords(resultWords, completion: completion)
 	}
 }
