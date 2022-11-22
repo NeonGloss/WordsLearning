@@ -9,11 +9,22 @@ import Foundation
 
 enum PartOfSpeech: Codable {
 
+	/// вопросительное слово
 	case questionWord
+
+	/// прилогательное
 	case adjective
+
+	/// союз
 	case pretext
+
+	/// другое
 	case other
+
+	/// глагол
 	case verb
+
+	/// существительное
 	case noun
 }
 
