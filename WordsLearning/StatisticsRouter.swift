@@ -10,19 +10,24 @@ import UIKit
 
 /// Протокол роутера сцены
 protocol StatisticsRouterProtocol {
+    
+    func routeModallyTo(_ viewController: UIViewController)
 	
 }
 
 /// Роутер сцены
 final class StatisticsRouter: StatisticsRouterProtocol {
 
-	private weak var navigationController: UINavigationController?
+    private weak var viewController: UIViewController?
 
 	/// Инициализатор
-	///
 	/// - Parameters:
-	///   - navigationController: навигейшн контроллер
-	init(navigationController: UINavigationController?) {
-		self.navigationController = navigationController
+	///   - viewController: текущий view controller
+	init(viewController: UIViewController?) {
+		self.viewController = viewController
 	}
+    
+    func routeModallyTo(_ viewControllerToPresent: UIViewController) {
+        viewController?.present(viewControllerToPresent, animated: true)
+    }
 }

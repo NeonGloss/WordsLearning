@@ -143,11 +143,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 	// MARK: Display
 
 	func displayWordQuestion(question: String, remark: String?, studyPercent: String) {
-		if let remark = remark {
-			wordRemarkLabel.text = "(" + remark + ")"
-		} else {
-			wordRemarkLabel.text = nil
-		}
+        wordRemarkLabel.text = remark
 		questionWordLabel.text = question
 		studyPercentLabel.text = studyPercent
 		answerWordField.becomeFirstResponder()

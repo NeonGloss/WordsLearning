@@ -48,7 +48,13 @@ final class MainPresenter: MainPresenterProtocol {
 	}
 
 	func askWord(wordString: String, remark: String?, studyPercent: String) {
-		viewController?.displayWordQuestion(question: wordString, remark: remark, studyPercent: studyPercent)
+        let resultRemark: String?
+        if let remark = remark {
+            resultRemark = "(" + remark + ")"
+        } else {
+            resultRemark = nil
+        }
+		viewController?.displayWordQuestion(question: wordString, remark: resultRemark, studyPercent: studyPercent)
 	}
 
 	func cleanAnswerField() {
