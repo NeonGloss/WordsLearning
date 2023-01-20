@@ -41,7 +41,7 @@ final class Word: Codable {
 	private(set) var foreingToNativeStatistic: WordStatistic = WordStatistic()
 	private(set) var nativeToForeignStatistic: WordStatistic = WordStatistic()
 
-	/// Инициализатор, если не указывается часть речи, то по умолчанию - глагол
+	/// Инициализатор, если не указывается часть речи, то по умолчанию - существительное
 	/// - Parameters:
 	///   - foreign: слово на иностранном языке
 	///   - native: слово на родном языке
@@ -50,7 +50,7 @@ final class Word: Codable {
 	init(foreign: String,
 		 native: [String],
 		 transcription: String,
-		 partOfSpeech: PartOfSpeech = .verb,
+		 partOfSpeech: PartOfSpeech = .noun,
 		 fToNRemark: String? = nil,
 		 nToFRemark: String? = nil) {
 		self.transcription = transcription

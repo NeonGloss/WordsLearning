@@ -14,7 +14,7 @@ protocol StatisticsInteractorProtocol {
 	/// Обновление данных
 	func viewDidLoad()
 
-	func translationSwitcherChanged(to newValue: Bool)
+	func sortSwitcherChanged(to newValue: Bool)
 }
 
 /// Интерактор сцены
@@ -22,39 +22,49 @@ final class StatisticsInteractor: StatisticsInteractorProtocol {
 
 	/// Презентер сцены
 	var presenter: StatisticsPresenterProtocol?
-	private var storageService: StorageServiceProtocol
+    var router: StatisticsRouterProtocol?
+    private let storageService: StorageServiceProtocol
 
-	private var words: [Word] = []
+    private enum SortType {
+        case foreignAlfabaticaly
+        case fToNStudyPercent
+    }
+    private var currentSort: SortType
+    private var words: [Word] = []
 
 	/// Инициализатор
 	/// - Parameters:
 	///   - service: сервис
-	///   - analyticsService: сервис отправки аналитики
 	init(storageService: StorageServiceProtocol) {
 		self.storageService = storageService
+        currentSort = .fToNStudyPercent
 		storageService.readWords(complition: { [weak self] words in
 			self?.wordsWasLoaded(words)
 			// TODO: убрать лоадер и разметсить слова если viewDidLoad уже произошло
-			self?.updateUI(for: .foreignToNative)
+			self?.updateUI()
 		})
 	}
 
 	func viewDidLoad() {
 		// TODO: проверить что слова загружены, убрать лоадер и отобразить слова
-		updateUI(for: .foreignToNative)
+		updateUI()
 	}
 
-	func translationSwitcherChanged(to newValue: Bool) {
-		let translationDirection = newValue == true ? TranslationDirection.nativeToForeign :
-																		  .foreignToNative
-		updateUI(for: translationDirection)
+	func sortSwitcherChanged(to newValue: Bool) {
+        currentSort = currentSort == .foreignAlfabaticaly ? .fToNStudyPercent : .foreignAlfabaticaly
+		updateUI()
 	}
 
-	private func updateUI(for direction: TranslationDirection) {
+	private func updateUI() {
 		var items: [DRTableViewCellProtocol] = []
-		let wordsForUI = makeWordsForUI(from: words, forDirection: direction)
-		wordsForUI.forEach { word, remark, studyPercent, raitingForDirection in
-			items.append(StatisticsCell(word: word, remark: remark, studyPercent: studyPercent, raiting: raitingForDirection))
+        
+        var wordsForUI = words.sorted { $0.foreign < $1.foreign }
+        if currentSort == .fToNStudyPercent {
+            wordsForUI = wordsForUI.sorted { $0.foreingToNativeStatistic.studyPercent < $1.foreingToNativeStatistic.studyPercent }
+        }
+        
+        wordsForUI.forEach {
+            items.append(StatisticsCell(word: $0, output: self))
 		}
 		presenter?.presentItems(items)
 	}
@@ -79,4 +89,23 @@ final class StatisticsInteractor: StatisticsInteractorProtocol {
 		}
 		return wordsForStatisticsOutput
 	}
+}
+
+extension StatisticsInteractor: StaticsticsCellOutput {
+    
+    func cellTappedWithWord(_ word: Word) {
+        let actionOnEditionClose: (EditedWordParts?) -> Void = { [weak self] parts in
+            guard let parts = parts else { return }
+            self?.wordWasUpdated(word, withParts: parts)
+        }
+        let editionViewController = WordEditionAssembler().create(for: word, actionOnClose: actionOnEditionClose)
+        router?.routeModallyTo(editionViewController)
+    }
+    
+    // MARK: Private
+    
+    private func wordWasUpdated(_ word: Word, withParts parts: EditedWordParts) {
+        word.update(with: parts)
+        updateUI()
+    }
 }

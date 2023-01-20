@@ -20,10 +20,10 @@ final class StatisticsAssembler: StatisticsAssemblerProtocol {
 
 	func create() -> UIViewController {
 		let storageService = StorageService(specificStorage: KeychainStorageService(keychainWrapper: KeychainWrapper()))
-		let interactor = StatisticsInteractor(storageService: storageService)
+        let interactor = StatisticsInteractor(storageService: storageService)
 		let viewController = StatisticsViewController(interactor: interactor)
-		let presenter = StatisticsPresenter(viewController: viewController)
-		interactor.presenter = presenter
+		interactor.presenter = StatisticsPresenter(viewController: viewController)
+        interactor.router = StatisticsRouter(viewController: viewController)
 		return viewController
 	}
 }

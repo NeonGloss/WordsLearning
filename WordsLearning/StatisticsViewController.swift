@@ -22,12 +22,19 @@ final class StatisticsViewController: UIViewController, StatisticsViewController
 	private var interactor: StatisticsInteractorProtocol
 
 	private lazy var table = DRTableView(frame: .zero)
-	private var directionSwitch: UISwitch = {
+	private var sortSwitch: UISwitch = {
 		let directionSwitch = UISwitch()
-		directionSwitch.thumbTintColor = .gray
-		directionSwitch.onTintColor = .white
+		directionSwitch.thumbTintColor = .orange
+		directionSwitch.onTintColor = .lightGray
 		return directionSwitch
 	}()
+    
+    private let sortTypeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Sort by %"
+        label.font = label.font.bold()
+        return label
+    }()
 
 	// MARK: Object lifecycle
 
@@ -71,19 +78,23 @@ final class StatisticsViewController: UIViewController, StatisticsViewController
 		view.overrideUserInterfaceStyle = .light
 		view.backgroundColor = UIColor.white
 		table.separatorStyle = .singleLine
-		directionSwitch.addTarget(self, action: #selector(directionSwitchTapped(_:)), for: .allTouchEvents)
+		sortSwitch.addTarget(self, action: #selector(sortSwitchTapped(_:)), for: .allTouchEvents)
 	}
 
 	private func setupConstraints() {
 		view.addSubview(table)
-		view.addSubview(directionSwitch)
+		view.addSubview(sortSwitch)
+        view.addSubview(sortTypeLabel)
 		view.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
 		NSLayoutConstraint.activate([
-			directionSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-			directionSwitch.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+			sortSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+			sortSwitch.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            
+            sortTypeLabel.leadingAnchor.constraint(equalTo: sortSwitch.leadingAnchor, constant:  -100),
+            sortTypeLabel.centerYAnchor.constraint(equalTo: sortSwitch.centerYAnchor),
 
-			table.topAnchor.constraint(equalTo: directionSwitch.bottomAnchor, constant: 5),
+			table.topAnchor.constraint(equalTo: sortSwitch.bottomAnchor, constant: 5),
 			table.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 			table.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			table.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -96,8 +107,9 @@ final class StatisticsViewController: UIViewController, StatisticsViewController
 		self.dismiss(animated: true, completion: nil)
 	}
 
-	@objc private func directionSwitchTapped(_ switcher: UISwitch) {
-		switcher.thumbTintColor = switcher.isOn ? .orange : .gray
-		interactor.translationSwitcherChanged(to: switcher.isOn)
+	@objc private func sortSwitchTapped(_ switcher: UISwitch) {
+        sortTypeLabel.text = switcher.isOn ? "Sort by A" : "Sort by %"
+		switcher.thumbTintColor = switcher.isOn ? .orange : .orange
+		interactor.sortSwitcherChanged(to: switcher.isOn)
 	}
 }
