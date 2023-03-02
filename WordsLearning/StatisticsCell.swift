@@ -13,6 +13,12 @@ protocol StaticsticsCellOutput: AnyObject {
     /// Нажата ячейка
     /// - Parameter word: слово в ячейке
     func cellTappedWithWord(_ word: Word)
+    
+    /// Ечейка выбрана для удаления
+    /// - Parameters:
+    ///   - word: словов в ячейке
+    ///   - complition: замыкание принимаюшее флаг успеха удаления слова
+    func cellTappedForDeletionWithWord(_ wordForDeletion: Word, complition: @escaping (Bool) -> ())
 }
 
 /// Ячейка экрана стистики
@@ -76,6 +82,11 @@ final class StatisticsCell: UITableViewCell, DRTableViewCellProtocol {
 
 	func emptySpaceOnTableWasTapped() {}
 
+    func selectedToBeRemoved(complition: @escaping (Bool) -> ()) {
+        output?.cellTappedForDeletionWithWord(word) { result in
+            complition(result)
+        }
+    }
 
 	// MARK: Private
 

@@ -9,14 +9,20 @@
 import UIKit
 
 final class DRTableView: UITableView {
+    
+    private var settings: DRTableViewSettings = DRTableViewSettings()
 
 	/// Элементы(ячейки) для отображения
 	public var items = [DRTableViewCellProtocol]() {
 		didSet {
 			items.forEach { registerCellOfType(type(of: $0).self) }
-			reloadData()
 		}
 	}
+    
+    convenience init(settings: DRTableViewSettings) {
+        self.init(frame: .zero)
+        self.settings = settings
+    }
 
 	init(frame: CGRect) {
 		super.init(frame: frame, style: .plain)
@@ -78,4 +84,23 @@ extension DRTableView: UITableViewDelegate, UITableViewDataSource {
 			($0 as? DRTableViewCellProtocol)?.someCellWasSelected()
 		}
 	}
+    
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard settings.rowDeletingBySwipeIsEnabled else { return nil }
+        let deleteAction = UIContextualAction(style: .destructive, title: "🗑") { (_, _, completion) in
+            let cell = tableView.cellForRow(at: indexPath) as? DRTableViewCellProtocol
+            cell?.selectedToBeRemoved() {[weak self] result in
+                if result == true {
+                    self?.items.remove(at: indexPath.row)
+                    self?.deleteRows(at: [indexPath], with: .fade)
+                }
+                completion(result)
+            }
+        }
+        
+        let config = UISwipeActionsConfiguration(actions: [deleteAction])
+        config.performsFirstActionWithFullSwipe = true
+        return config
+    }
 }

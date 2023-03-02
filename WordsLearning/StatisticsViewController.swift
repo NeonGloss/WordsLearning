@@ -21,7 +21,7 @@ final class StatisticsViewController: UIViewController, StatisticsViewController
 
 	private var interactor: StatisticsInteractorProtocol
 
-	private lazy var table = DRTableView(frame: .zero)
+	private lazy var table = DRTableView(settings: DRTableViewSettings())
 	private var sortSwitch: UISwitch = {
 		let directionSwitch = UISwitch()
 		directionSwitch.thumbTintColor = .orange

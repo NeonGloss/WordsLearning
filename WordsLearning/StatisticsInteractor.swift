@@ -102,6 +102,13 @@ extension StatisticsInteractor: StaticsticsCellOutput {
         router?.routeModallyTo(editionViewController)
     }
     
+    func cellTappedForDeletionWithWord(_ wordForDeletion: Word, complition: @escaping (Bool) -> ()) {
+        words.removeAll { $0.foreign == wordForDeletion.foreign }
+        storageService.saveWords(words) { result in
+            complition(result)
+        }
+    }
+    
     // MARK: Private
     
     private func wordWasUpdated(_ word: Word, withParts parts: EditedWordParts) {

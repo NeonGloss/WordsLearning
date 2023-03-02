@@ -26,4 +26,8 @@ final class PlainCell: UITableViewCell, DRTableViewCellProtocol {
 	func someCellWasSelected() {}
 
 	func emptySpaceOnTableWasTapped() {}
+    
+    func selectedToBeRemoved(complition: @escaping (Bool) -> ()) {
+        complition(false)
+    }
 }

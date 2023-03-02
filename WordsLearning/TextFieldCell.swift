@@ -69,6 +69,10 @@ final class TextFieldCell: UITableViewCell, DRTableViewCellProtocol {
 	func emptySpaceOnTableWasTapped() {
 		finishEnteringText()
 	}
+    
+    func selectedToBeRemoved(complition: @escaping (Bool) -> ()) {
+        complition(false)
+    }
 
 	public func makeFirstResponder() {
 		textField.becomeFirstResponder()
