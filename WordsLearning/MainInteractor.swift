@@ -51,6 +51,8 @@ final class MainInteractor: MainInteractorProtocol {
 	private var isFirstAnswerReceived: Bool = false
 	private var isRepeatTurnedOn: Bool = false
 	private var isShuffleTurnedOn: Bool = false
+    
+    private let notificationService: NotificationServiceProtocol
 
 	/// Инициализатор
 	/// - Parameters:
@@ -59,15 +61,15 @@ final class MainInteractor: MainInteractorProtocol {
 	///   - storageService: сервис хранения данных
 	init(router: MainRouterProtocol,
 		 quizService: QuizServiceProtocol,
-		 storageService: StorageServiceProtocol) {
+		 storageService: StorageServiceProtocol,
+         notificationService: NotificationServiceProtocol) {
 		self.router = router
 		self.quizService = quizService
 		self.storageService = storageService
-		storageService.readWords(complition: { [weak self] words in
-			self?.wordsWasLoaded(words)
-			// TODO: dismissLoader
-			self?.askQuestion()
-		})
+        self.notificationService = notificationService
+        
+        startRepeadedLearningSuggestionNotification()
+        readWordsFromStorage() { [weak self] in self?.wordsWasLoaded($0) }
 	}
 
 	func viewDidLoad() {
@@ -130,6 +132,19 @@ final class MainInteractor: MainInteractorProtocol {
 	}
 
 	// MARK: Private
+    
+    private func readWordsFromStorage(completion: @escaping ([Word]) -> Void) {
+        storageService.readWords() { completion($0) }
+    }
+    
+    private func startRepeadedLearningSuggestionNotification() {
+        notificationService.requestRights { [weak self] isGranted in
+            guard isGranted else { return }
+            let title = "Пора поучить слова"
+            let bodyText = "Если учить по 10 слов в день, то через 10 дней ты будешь знать 100 новых слов!!"
+            self?.notificationService.sendNotificationWith(title: title, body: bodyText, secondsInterval: 3600)
+        }
+    }
 
 	private func wordsWasLoaded(_ words: [Word]) {
 		quizService.setWords(words)

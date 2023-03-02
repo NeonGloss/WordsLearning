@@ -22,4 +22,7 @@ protocol DRTableViewCellProtocol: UITableViewCell {
 
 	/// Сообщает что таблица была нажата на пустом месте
 	func emptySpaceOnTableWasTapped()
+    
+    /// Сообщает что ячейка выбрана для удаления
+    func selectedToBeRemoved(complition: @escaping (Bool) -> ())
 }

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1DC00294290AA15A00396313 /* StatisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC00293290AA15A00396313 /* StatisticsCell.swift */; };
+		3099475829B1091800307963 /* DRTableViewSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099475729B1091800307963 /* DRTableViewSettings.swift */; };
+		30B71A6729A52831004F29CA /* NotivicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B71A6629A52831004F29CA /* NotivicationService.swift */; };
 		A313713428ABA46600052CC0 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A313713328ABA46600052CC0 /* KeychainWrapper.swift */; };
 		A313713628ABB49600052CC0 /* WordStatistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A313713528ABB49600052CC0 /* WordStatistic.swift */; };
 		A349C19428F03BA4003216FF /* StatisticsAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349C18E28F03BA4003216FF /* StatisticsAssembler.swift */; };
@@ -83,6 +85,8 @@
 
 /* Begin PBXFileReference section */
 		1DC00293290AA15A00396313 /* StatisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCell.swift; sourceTree = "<group>"; };
+		3099475729B1091800307963 /* DRTableViewSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRTableViewSettings.swift; sourceTree = "<group>"; };
+		30B71A6629A52831004F29CA /* NotivicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotivicationService.swift; sourceTree = "<group>"; };
 		A313713328ABA46600052CC0 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		A313713528ABB49600052CC0 /* WordStatistic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordStatistic.swift; sourceTree = "<group>"; };
 		A349C18E28F03BA4003216FF /* StatisticsAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsAssembler.swift; sourceTree = "<group>"; };
@@ -169,6 +173,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		30B71A6529A5281D004F29CA /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				30B71A6629A52831004F29CA /* NotivicationService.swift */,
+			);
+			name = Notification;
+			sourceTree = "<group>";
+		};
 		A349C18D28F03B7B003216FF /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,6 +200,7 @@
 				A349C1A828F1A295003216FF /* Constants.swift */,
 				A349C1A728F1A1CE003216FF /* Cells */,
 				A349C19B28F03D65003216FF /* DRTableView.swift */,
+				3099475729B1091800307963 /* DRTableViewSettings.swift */,
 				A349C19C28F03D65003216FF /* DRTableViewCellProtocol.swift */,
 				A349C19F28F03D92003216FF /* UITableView+extension.swift */,
 				A349C1A128F03DC6003216FF /* HasCellIdProtocol.swift */,
@@ -369,6 +382,7 @@
 		A3E30DBB288090E4005907BF /* CommonElements */ = {
 			isa = PBXGroup;
 			children = (
+				30B71A6529A5281D004F29CA /* Notification */,
 				A349C19A28F03D4E003216FF /* RKTable */,
 				A3E30DBC288090F8005907BF /* RootViewController.swift */,
 				A3AB8D0C28A65B5E00B16CC2 /* StorageService */,
@@ -555,6 +569,7 @@
 				A3CF0BBD28BE4DD600A3B916 /* WordEditionInteractor.swift in Sources */,
 				A3B1042D289AABC3007F8D82 /* RichAlertViewController.swift in Sources */,
 				A349C19D28F03D65003216FF /* DRTableView.swift in Sources */,
+				3099475829B1091800307963 /* DRTableViewSettings.swift in Sources */,
 				A3AB8D1528AABE7D00B16CC2 /* QuizSettings.swift in Sources */,
 				A349C19528F03BA4003216FF /* StatisticsPresenter.swift in Sources */,
 				A3AB8D1028A65DF000B16CC2 /* KeychainStorageService.swift in Sources */,
@@ -569,6 +584,7 @@
 				A349C1A028F03D92003216FF /* UITableView+extension.swift in Sources */,
 				A3E58EA628D4C9C000B7BF2A /* SettingsPresenter.swift in Sources */,
 				A3E30DB728808FCD005907BF /* MainInteractor.swift in Sources */,
+				30B71A6729A52831004F29CA /* NotivicationService.swift in Sources */,
 				A3B10432289AAF31007F8D82 /* ButtonSettins.swift in Sources */,
 				A349C19E28F03D65003216FF /* DRTableViewCellProtocol.swift in Sources */,
 				A3AB8D0B28A5A75300B16CC2 /* Calendar+extension.swift in Sources */,
