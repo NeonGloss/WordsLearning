@@ -32,6 +32,10 @@ protocol MainPresenterProtocol {
 	///   - word: слово-вопрос
 	///   - completion: замыкание
 	func showSuccess(for word: Word, completion: @escaping () -> Void)
+    
+    /// Отобразить был ли выбран некоторый набор слов для изучения, или изучаются все слова
+    /// - Parameter isGoingOn: флаг набор\все слова
+    func showThatStudySelectedWords(isGoingOn: Bool)
 }
 
 /// Презентер сцены
@@ -84,6 +88,10 @@ final class MainPresenter: MainPresenterProtocol {
 								   subtitle: alertMessage,
 								   buttonsSettings: [buttonSettings])
 	}
+    
+    func showThatStudySelectedWords(isGoingOn: Bool) {
+        viewController?.showThatStudySelectedWords(isGoingOn: isGoingOn)
+    }
 
 	// MARK: Private
 
@@ -94,7 +102,7 @@ final class MainPresenter: MainPresenterProtocol {
 		if let remark = word.nToFRemark {
 			text.append(contentsOf: "(" + remark + ")")
 		}
-		text.append(contentsOf: "\nВаш ответ:\n\(answerText)")
+		text.append(contentsOf: "\n\nВаш ответ:\n\(answerText)")
 		return text
 	}
 

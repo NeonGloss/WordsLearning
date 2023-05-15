@@ -19,6 +19,10 @@ protocol MainViewControllerProtocol: UIViewController {
 
 	/// Очистить поле ответа
 	func cleanAnswerField()
+    
+    /// Отобразить был ли выбран некоторый набор слов для изучения, или изучаются все слова
+    /// - Parameter isGoingOn: флаг набор\все слова
+    func showThatStudySelectedWords(isGoingOn: Bool)
 }
 
 /// Вью-контроллер сцены
@@ -69,6 +73,16 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		directionSwitch.onTintColor = .white
 		return directionSwitch
 	}()
+    
+    private var  selectWordsForStudyButton: UIButton = {
+        let button = UIButton()
+        button.setImage(SemanticImages.dotCircleAndHandPointUpLeftFill, for: .normal)
+        button.layer.borderColor = UIColor.white.cgColor
+        button.backgroundColor = .clear
+        button.layer.borderWidth = 1.5
+        button.layer.cornerRadius = 10
+        return button
+    }()
 
 	private var menuButton: UIButton = {
 		let button = UIButton()
@@ -152,6 +166,10 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 	func cleanAnswerField() {
 		answerWordField.text = ""
 	}
+    
+    func showThatStudySelectedWords(isGoingOn: Bool) {
+        selectWordsForStudyButton.backgroundColor = isGoingOn ? .blue : .clear
+    }
 
 	// MARK: Private
 
@@ -159,14 +177,16 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		view.overrideUserInterfaceStyle = .light
 		answerWordField.backgroundColor = .white
 		answerWordField.delegate = self
-		view.backgroundColor = .orange
+        view.backgroundColor = Design.Colors.background1
 		
-		directionSwitch.addTarget(self, action: #selector(directionSwitchTapped(_:)), for: .allTouchEvents)
-		markStudiedButton.addTarget(self, action: #selector(markStudiedTapped), for: .touchUpInside)
-		shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
-		repeatButton.addTarget(self, action: #selector(repeatButtonTapped), for: .touchUpInside)
-		menuButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
-		editButton.addTarget(self, action: #selector(editWordTapped), for: .touchUpInside)
+        selectWordsForStudyButton.addTarget(self, action: #selector(selectWordsTapped), for: .touchUpInside)
+        directionSwitch.addTarget(self, action: #selector(directionSwitchTapped(_:)), for: .allTouchEvents)
+        markStudiedButton.addTarget(self, action: #selector(markStudiedTapped), for: .touchUpInside)
+        shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
+        repeatButton.addTarget(self, action: #selector(repeatButtonTapped), for: .touchUpInside)
+        menuButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
+        editButton.addTarget(self, action: #selector(editWordTapped), for: .touchUpInside)
+        view.addSubview(selectWordsForStudyButton)
 		view.addSubview(questionWordLabel)
 		view.addSubview(studyPercentLabel)
 		view.addSubview(markStudiedButton)
@@ -206,6 +226,10 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		shuffleButton.backgroundColor = shuffleButton.backgroundColor == .clear ? .gray : .clear
 		interactor.shuffleButtonTapped()
 	}
+    
+    @objc private func selectWordsTapped() {
+        interactor.selectWordsButtonTapped()
+    }
 
 	private func setupLayout() {
 		view.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
@@ -259,6 +283,11 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 			repeatButton.leadingAnchor.constraint(equalTo: shuffleButton.trailingAnchor, constant: 15),
 			repeatButton.heightAnchor.constraint(equalToConstant: 40),
 			repeatButton.widthAnchor.constraint(equalToConstant: 40),
+            
+            selectWordsForStudyButton.topAnchor.constraint(equalTo: shuffleButton.bottomAnchor, constant: 15),
+            selectWordsForStudyButton.centerXAnchor.constraint(equalTo: shuffleButton.trailingAnchor, constant: 7.5),
+            selectWordsForStudyButton.heightAnchor.constraint(equalToConstant: 40),
+            selectWordsForStudyButton.widthAnchor.constraint(equalToConstant: 40),
 		])
 	}
 }

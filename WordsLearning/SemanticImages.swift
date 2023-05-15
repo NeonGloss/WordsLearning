@@ -68,4 +68,19 @@ final class SemanticImages {
 		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
 		return UIImage(systemName: "shuffle")?.applyingSymbolConfiguration(config) ?? UIImage()
 	}
+    
+    static var dotCircleAndHandPointUpLeftFill: UIImage {
+        let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
+        return UIImage(systemName: "dot.circle.and.hand.point.up.left.fill")?.applyingSymbolConfiguration(config) ?? UIImage()
+    }
+    
+    static var plusCircle: UIImage {
+        let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
+        return UIImage(systemName: "plus.circle")?.applyingSymbolConfiguration(config) ?? UIImage()
+    }
+    
+    static var plusCircleFill: UIImage {
+        let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
+        return UIImage(systemName: "plus.circle.fill")?.applyingSymbolConfiguration(config) ?? UIImage()
+    }
 }

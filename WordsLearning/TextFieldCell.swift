@@ -116,14 +116,14 @@ final class TextFieldCell: UITableViewCell, DRTableViewCellProtocol {
 	private func setupUI() {
 		backgroundColor = .clear
 		textField.backgroundColor = .clear
-		textField.font = Const.Fonts.normal
+		textField.font = Design.Fonts.normal
 		textField.attributedPlaceholder =
 			NSAttributedString(string: placeHolderText,
-							   attributes: [NSAttributedString.Key.foregroundColor: UIColor.dsBorder0,
-											NSAttributedString.Key.font: Const.Fonts.small])
-		textField.tintColor = .dsTextHighlighted
-		textField.textColor = .dsTextHighlighted
-		underlineView.backgroundColor = .dsBorder0
+							   attributes: [NSAttributedString.Key.foregroundColor: Design.Colors.dsBorder0,
+											NSAttributedString.Key.font: Design.Fonts.small])
+		textField.tintColor = Design.Colors.dsTextHighlighted
+		textField.textColor = Design.Colors.dsTextHighlighted
+		underlineView.backgroundColor = Design.Colors.dsBorder0
 	}
 }
 

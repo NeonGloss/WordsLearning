@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CryptoKit
 
 enum PartOfSpeech: Codable {
 
@@ -40,6 +41,13 @@ final class Word: Codable {
 
 	private(set) var foreingToNativeStatistic: WordStatistic = WordStatistic()
 	private(set) var nativeToForeignStatistic: WordStatistic = WordStatistic()
+	
+	var shaHash: String {
+		let inputString = foreign + native.joined()
+		let inputData = Data(inputString.utf8)
+		let hashDigest = SHA256.hash(data: inputData)
+		return hashDigest.compactMap { String(format: "%02x", $0) }.joined()
+	}
 
 	/// Инициализатор, если не указывается часть речи, то по умолчанию - существительное
 	/// - Parameters:
@@ -163,9 +171,11 @@ extension Word: Equatable {
 	}
 }
 
+/// From the documentation: “Hash values are not guaranteed to be equal across different executions of your program.”
 extension Word: Hashable {
 
 	func hash(into hasher: inout Hasher) {
 		hasher.combine(foreign)
+        hasher.combine(native)
 	}
 }
