@@ -86,8 +86,8 @@ final class SettingsViewController: UIViewController,
 	private func setupNavigationBar() {
 		title = "Меню"
 		navigationController?.navigationBar.titleTextAttributes = [
-			NSAttributedString.Key.foregroundColor: UIColor.dsBackground0,
-			NSAttributedString.Key.font: Const.Fonts.header
+			NSAttributedString.Key.foregroundColor: Design.Colors.background0,
+			NSAttributedString.Key.font: Design.Fonts.header
 		]
 
 		let backItem = UIBarButtonItem(image: SemanticImages.xmark,

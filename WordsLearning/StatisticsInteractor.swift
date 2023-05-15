@@ -22,22 +22,23 @@ final class StatisticsInteractor: StatisticsInteractorProtocol {
 
 	/// Презентер сцены
 	var presenter: StatisticsPresenterProtocol?
-    var router: StatisticsRouterProtocol?
-    private let storageService: StorageServiceProtocol
+	var router: StatisticsRouterProtocol?
+	private let storageService: StorageServiceProtocol
 
-    private enum SortType {
-        case foreignAlfabaticaly
-        case fToNStudyPercent
-    }
-    private var currentSort: SortType
-    private var words: [Word] = []
+	private enum SortType {
+		case foreignAlfabaticaly
+		case fToNStudyPercent
+	}
+
+	private var currentSort: SortType
+	private var words: [Word] = []
 
 	/// Инициализатор
 	/// - Parameters:
 	///   - service: сервис
 	init(storageService: StorageServiceProtocol) {
 		self.storageService = storageService
-        currentSort = .fToNStudyPercent
+		currentSort = .fToNStudyPercent
 		storageService.readWords(complition: { [weak self] words in
 			self?.wordsWasLoaded(words)
 			// TODO: убрать лоадер и разметсить слова если viewDidLoad уже произошло
@@ -51,25 +52,27 @@ final class StatisticsInteractor: StatisticsInteractorProtocol {
 	}
 
 	func sortSwitcherChanged(to newValue: Bool) {
-        currentSort = currentSort == .foreignAlfabaticaly ? .fToNStudyPercent : .foreignAlfabaticaly
+		currentSort = currentSort == .foreignAlfabaticaly ? .fToNStudyPercent : .foreignAlfabaticaly
+
 		updateUI()
 	}
 
+	// MARK: - Private
+
 	private func updateUI() {
 		var items: [DRTableViewCellProtocol] = []
-        
-        var wordsForUI = words.sorted { $0.foreign < $1.foreign }
-        if currentSort == .fToNStudyPercent {
-            wordsForUI = wordsForUI.sorted { $0.foreingToNativeStatistic.studyPercent < $1.foreingToNativeStatistic.studyPercent }
-        }
-        
-        wordsForUI.forEach {
-            items.append(StatisticsCell(word: $0, output: self))
+
+		var wordsForUI = words.sorted { $0.foreign < $1.foreign }
+		if currentSort == .fToNStudyPercent {
+			wordsForUI = wordsForUI.sorted { $0.foreingToNativeStatistic.studyPercent < $1.foreingToNativeStatistic.studyPercent }
+		}
+
+		wordsForUI.forEach {
+			items.append(StatisticsCell(word: $0, output: self))
 		}
 		presenter?.presentItems(items)
 	}
 
-	// MARK: Privatea
 
 	private func wordsWasLoaded(_ words: [Word]) {
 		self.words = words
@@ -92,27 +95,27 @@ final class StatisticsInteractor: StatisticsInteractorProtocol {
 }
 
 extension StatisticsInteractor: StaticsticsCellOutput {
-    
-    func cellTappedWithWord(_ word: Word) {
-        let actionOnEditionClose: (EditedWordParts?) -> Void = { [weak self] parts in
-            guard let parts = parts else { return }
-            self?.wordWasUpdated(word, withParts: parts)
-        }
-        let editionViewController = WordEditionAssembler().create(for: word, actionOnClose: actionOnEditionClose)
-        router?.routeModallyTo(editionViewController)
-    }
-    
-    func cellTappedForDeletionWithWord(_ wordForDeletion: Word, complition: @escaping (Bool) -> ()) {
-        words.removeAll { $0.foreign == wordForDeletion.foreign }
-        storageService.saveWords(words) { result in
-            complition(result)
-        }
-    }
-    
-    // MARK: Private
-    
-    private func wordWasUpdated(_ word: Word, withParts parts: EditedWordParts) {
-        word.update(with: parts)
-        updateUI()
-    }
+
+	func cellTappedWithWord(_ word: Word) {
+		let actionOnEditionClose: (EditedWordParts?) -> Void = { [weak self] parts in
+			guard let parts = parts else { return }
+			self?.wordWasUpdated(word, withParts: parts)
+		}
+		let editionViewController = WordEditionAssembler().create(for: word, actionOnClose: actionOnEditionClose)
+		router?.routeModallyTo(editionViewController)
+	}
+
+	func cellTappedForDeletionWithWord(_ wordForDeletion: Word, complition: @escaping (Bool) -> ()) {
+		words.removeAll { $0.foreign == wordForDeletion.foreign }
+		storageService.saveWords(words) { result in
+			complition(result)
+		}
+	}
+
+	// MARK: Private
+
+	private func wordWasUpdated(_ word: Word, withParts parts: EditedWordParts) {
+		word.update(with: parts)
+		updateUI()
+	}
 }

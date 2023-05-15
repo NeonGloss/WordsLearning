@@ -55,9 +55,11 @@ final class WordEditionInteractor: WordEditionInteractorProtocol {
 	private var editedNative: [String]
 	private var origWord: Word
 
-	/// Инициализатор
-	/// - Parameters:
-	///   - storageService: сервис работы с хранилищем
+    /// Инициализатор
+    /// - Parameters:
+    ///   - storageService: сервис работы с хранилищем
+    ///   - word: словов для изменения
+    ///   - actionOnClose: замыкание, которое будет выполненно при закрытии экрана
 	init(storageService: WordStorageServiceProtocol, word: Word, actionOnClose: @escaping (EditedWordParts?) -> Void) {
 		self.storageService = storageService
 		self.actionOnClose = actionOnClose

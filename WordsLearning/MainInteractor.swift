@@ -35,6 +35,9 @@ protocol MainInteractorProtocol {
 	func repeatButtonTapped()
 
 	func shuffleButtonTapped()
+    
+    /// Обработка нажатия кнопки выбора определенных слов для изученя
+    func selectWordsButtonTapped()
 }
 
 /// Интерактор сцены
@@ -48,9 +51,11 @@ final class MainInteractor: MainInteractorProtocol {
 	private let quizService: QuizServiceProtocol
 	private let storageService: StorageServiceProtocol
 	private var translationDirection: TranslationDirection = .foreignToNative
-	private var isFirstAnswerReceived: Bool = false
-	private var isRepeatTurnedOn: Bool = false
-	private var isShuffleTurnedOn: Bool = false
+    private var isFirstAnswerReceived: Bool = false
+    private var isShuffleTurnedOn: Bool = false
+    private var isRepeatTurnedOn: Bool = false
+    private var wordsForStudy: [Word] = []
+    private var selectedForPartialStuydWords: [Word] = []
     
     private let notificationService: NotificationServiceProtocol
 
@@ -130,6 +135,16 @@ final class MainInteractor: MainInteractorProtocol {
 		isShuffleTurnedOn = !isShuffleTurnedOn
 
 	}
+    
+    func selectWordsButtonTapped() {
+        let actionOnClose: ([Word]) -> Void = { [weak self] selectedWords in
+            self?.someWordsSelectedForStudy(selectedWords)
+        }
+        let wordsSelection = WordsSelectionAssembler().create(allWords: wordsForStudy,
+                                                              alreadySelectedWords: selectedForPartialStuydWords,
+                                                              actionOnClose: actionOnClose)
+        router.routeModallyTo(wordsSelection)
+    }
 
 	// MARK: Private
     
@@ -147,7 +162,8 @@ final class MainInteractor: MainInteractorProtocol {
     }
 
 	private func wordsWasLoaded(_ words: [Word]) {
-		quizService.setWords(words)
+        quizService.setWords(words)
+        wordsForStudy = words
 		askQuestion()
 	}
 
@@ -170,6 +186,16 @@ final class MainInteractor: MainInteractorProtocol {
 		quizService.currentWordWasEdited(parts: parts)
 		fillUIWith(word)
 	}
+    
+    private func someWordsSelectedForStudy(_ selectedWords: [Word]) {
+        let wordsListHasChanged = !Set(selectedForPartialStuydWords).symmetricDifference(selectedWords).isEmpty
+        selectedForPartialStuydWords = selectedWords
+        presenter?.showThatStudySelectedWords(isGoingOn: selectedWords.count != 0)
+        if wordsListHasChanged {
+            quizService.setWords(selectedWords.count != 0 ? selectedWords : wordsForStudy)
+            askQuestion()
+        }
+    }
 
 	private func fillUIWith(_ word: Word) {
 		presenter?.cleanAnswerField()
