@@ -30,7 +30,7 @@ final class WordEditionService: WordStorageServiceProtocol {
 	private func updateSpecificWord(origWord: Word,
 									with newWordParts: EditedWordParts,
 									in origWords: [Word],
-									completion: (Bool) -> Void) {
+									completion: @escaping (Bool) -> Void) {
 		guard let index = origWords.firstIndex(of: origWord) else { return }
 
 		let resultWords = origWords

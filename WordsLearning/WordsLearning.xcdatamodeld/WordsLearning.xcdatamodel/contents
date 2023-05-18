@@ -1,4 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22A400" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CDSettings" representedClassName="CDSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="answerStudyPercentDelta" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="currentStudyList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDWordsList" inverseName="isCurrentStudyList" inverseEntity="CDWordsList"/>
+    </entity>
+    <entity name="CDWord" representedClassName="CDWord" syncable="YES" codeGenerationType="class">
+        <attribute name="correctAnswersCountForForeignQuestion" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="correctAnswersCountForNativeQuestion" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="foreign" attributeType="String"/>
+        <attribute name="foreignComment" optional="YES" attributeType="String"/>
+        <attribute name="foreignLastQuestionDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="foreignStudyPercent" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isLastAnswerForForeignWasCorrect" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isLastAnswerForNativeWasCorrect" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="native" attributeType="String"/>
+        <attribute name="nativeComment" optional="YES" attributeType="String"/>
+        <attribute name="nativeLastQuestionDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="nativeStudyPercent" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="partOfSpeech" optional="YES" attributeType="String"/>
+        <attribute name="transcription" attributeType="String" defaultValueString=""/>
+        <attribute name="wrongAnswersCountForForeignQuestion" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="wrongAnswersCountForNativeQuestion" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="wordsLists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDWordsList" inverseName="words" inverseEntity="CDWordsList"/>
+    </entity>
+    <entity name="CDWordsList" representedClassName="CDWordsList" syncable="YES" codeGenerationType="class">
+        <attribute name="comment" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="isCurrentStudyList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDSettings" inverseName="currentStudyList" inverseEntity="CDSettings"/>
+        <relationship name="words" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDWord" inverseName="wordsLists" inverseEntity="CDWord"/>
+    </entity>
 </model>

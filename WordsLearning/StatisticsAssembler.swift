@@ -19,7 +19,7 @@ protocol StatisticsAssemblerProtocol {
 final class StatisticsAssembler: StatisticsAssemblerProtocol {
 
 	func create() -> UIViewController {
-		let storageService = StorageService(specificStorage: KeychainStorageService(keychainWrapper: KeychainWrapper()))
+		let storageService = StorageService(specificStorage: CoreDataDAO())
         let interactor = StatisticsInteractor(storageService: storageService)
 		let viewController = StatisticsViewController(interactor: interactor)
 		interactor.presenter = StatisticsPresenter(viewController: viewController)

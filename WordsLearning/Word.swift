@@ -8,7 +8,7 @@
 import Foundation
 import CryptoKit
 
-enum PartOfSpeech: Codable {
+enum PartOfSpeech: String, Codable {
 
 	/// вопросительное слово
 	case questionWord
@@ -55,12 +55,20 @@ final class Word: Codable {
 	///   - native: слово на родном языке
 	///   - transcription: транскрипция
 	///   - partOfSpeech: часть речи
+	///   - fToNRemark: комментарий для иностранного слова
+	///   - nToFRemark: комментарий для родной формы слова
+	///   - foreingToNativeStatistic: статистика по изучению перевода с иностранной формы слова
+	///   - nativeToForeignStatistic: статистика по изучению перевода с родной формы слова
 	init(foreign: String,
 		 native: [String],
 		 transcription: String,
 		 partOfSpeech: PartOfSpeech = .noun,
 		 fToNRemark: String? = nil,
-		 nToFRemark: String? = nil) {
+		 nToFRemark: String? = nil,
+		 foreingToNativeStatistic: WordStatistic = WordStatistic(),
+		 nativeToForeignStatistic: WordStatistic = WordStatistic()) {
+		self.foreingToNativeStatistic = foreingToNativeStatistic
+		self.nativeToForeignStatistic = nativeToForeignStatistic
 		self.transcription = transcription
 		self.partOfSpeech = partOfSpeech
 		self.fToNRemark = fToNRemark
@@ -176,6 +184,6 @@ extension Word: Hashable {
 
 	func hash(into hasher: inout Hasher) {
 		hasher.combine(foreign)
-        hasher.combine(native)
+		hasher.combine(native)
 	}
 }

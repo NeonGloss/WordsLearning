@@ -8,14 +8,26 @@
 import Security
 import UIKit
 
+/// Протокол обертки над keychain
 protocol KeychainWrapperProtocol {
 
+	/// Сохранить данные по ключу
+	/// - Parameters:
+	///   - key: ключ
+	///   - data: данные
 	@discardableResult
 	func save(key: String, data: Data) -> OSStatus
 
+	/// Загрузить данные записанные для указанного ключа
+	/// - Parameter key: ключ
 	func load(key: String) -> Data?
+
+	/// Удалить данные записаные для указанного ключа
+	/// - Parameter key: ключ
+	func deleteData(forKey key: String)
 }
 
+/// Класс обертка над Keychain
 final class KeychainWrapper: KeychainWrapperProtocol {
 
 	@discardableResult
@@ -42,6 +54,14 @@ final class KeychainWrapper: KeychainWrapperProtocol {
 		let status: OSStatus = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
 
 		return status == noErr ? dataTypeRef as! Data? : nil
+	}
+
+	func deleteData(forKey key: String) {
+		let query = [
+			kSecClass as String       : kSecClassGenericPassword as String,
+			kSecAttrAccount as String : key] as [String : Any]
+
+		SecItemDelete(query as CFDictionary)
 	}
 
 	// MARK: Private

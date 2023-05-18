@@ -17,6 +17,9 @@
 		30B71A6729A52831004F29CA /* NotivicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B71A6629A52831004F29CA /* NotivicationService.swift */; };
 		30DF3FBA2A12411A00AF3A1C /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FB92A12411A00AF3A1C /* Design.swift */; };
 		30DF3FBC2A12459000AF3A1C /* UIImage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FBB2A12459000AF3A1C /* UIImage+extension.swift */; };
+		30DF3FBE2A12D63F00AF3A1C /* NSManagedObjectContext+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FBD2A12D63F00AF3A1C /* NSManagedObjectContext+extension.swift */; };
+		30DF3FC32A13B50100AF3A1C /* CoreDataDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FC22A13B50100AF3A1C /* CoreDataDAO.swift */; };
+		30DF3FC52A13D66200AF3A1C /* CDWord+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FC42A13D66200AF3A1C /* CDWord+extension.swift */; };
 		A313713428ABA46600052CC0 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A313713328ABA46600052CC0 /* KeychainWrapper.swift */; };
 		A313713628ABB49600052CC0 /* WordStatistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A313713528ABB49600052CC0 /* WordStatistic.swift */; };
 		A349C19428F03BA4003216FF /* StatisticsAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349C18E28F03BA4003216FF /* StatisticsAssembler.swift */; };
@@ -39,7 +42,7 @@
 		A3AB8D0928A59E5B00B16CC2 /* QuizService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AB8D0828A59E5B00B16CC2 /* QuizService.swift */; };
 		A3AB8D0B28A5A75300B16CC2 /* Calendar+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AB8D0A28A5A75300B16CC2 /* Calendar+extension.swift */; };
 		A3AB8D0E28A65B7B00B16CC2 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AB8D0D28A65B7B00B16CC2 /* StorageService.swift */; };
-		A3AB8D1028A65DF000B16CC2 /* KeychainStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AB8D0F28A65DF000B16CC2 /* KeychainStorageService.swift */; };
+		A3AB8D1028A65DF000B16CC2 /* KeychainDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AB8D0F28A65DF000B16CC2 /* KeychainDAO.swift */; };
 		A3AB8D1228AA494700B16CC2 /* DefaultWordsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AB8D1128AA494700B16CC2 /* DefaultWordsList.swift */; };
 		A3AB8D1528AABE7D00B16CC2 /* QuizSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AB8D1428AABE7D00B16CC2 /* QuizSettings.swift */; };
 		A3B1042D289AABC3007F8D82 /* RichAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B1042C289AABC3007F8D82 /* RichAlertViewController.swift */; };
@@ -101,6 +104,9 @@
 		30B71A6629A52831004F29CA /* NotivicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotivicationService.swift; sourceTree = "<group>"; };
 		30DF3FB92A12411A00AF3A1C /* Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Design.swift; sourceTree = "<group>"; };
 		30DF3FBB2A12459000AF3A1C /* UIImage+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+extension.swift"; sourceTree = "<group>"; };
+		30DF3FBD2A12D63F00AF3A1C /* NSManagedObjectContext+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+extension.swift"; sourceTree = "<group>"; };
+		30DF3FC22A13B50100AF3A1C /* CoreDataDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataDAO.swift; sourceTree = "<group>"; };
+		30DF3FC42A13D66200AF3A1C /* CDWord+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDWord+extension.swift"; sourceTree = "<group>"; };
 		A313713328ABA46600052CC0 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		A313713528ABB49600052CC0 /* WordStatistic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordStatistic.swift; sourceTree = "<group>"; };
 		A349C18E28F03BA4003216FF /* StatisticsAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsAssembler.swift; sourceTree = "<group>"; };
@@ -123,7 +129,7 @@
 		A3AB8D0828A59E5B00B16CC2 /* QuizService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizService.swift; sourceTree = "<group>"; };
 		A3AB8D0A28A5A75300B16CC2 /* Calendar+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+extension.swift"; sourceTree = "<group>"; };
 		A3AB8D0D28A65B7B00B16CC2 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
-		A3AB8D0F28A65DF000B16CC2 /* KeychainStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStorageService.swift; sourceTree = "<group>"; };
+		A3AB8D0F28A65DF000B16CC2 /* KeychainDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDAO.swift; sourceTree = "<group>"; };
 		A3AB8D1128AA494700B16CC2 /* DefaultWordsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWordsList.swift; sourceTree = "<group>"; };
 		A3AB8D1428AABE7D00B16CC2 /* QuizSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSettings.swift; sourceTree = "<group>"; };
 		A3B1042C289AABC3007F8D82 /* RichAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichAlertViewController.swift; sourceTree = "<group>"; };
@@ -206,6 +212,35 @@
 			name = Notification;
 			sourceTree = "<group>";
 		};
+		30DF3FBF2A13B14500AF3A1C /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				A3AB8D0D28A65B7B00B16CC2 /* StorageService.swift */,
+				30DF3FC12A13B1A000AF3A1C /* CoreData */,
+				30DF3FC02A13B18C00AF3A1C /* Keychain */,
+			);
+			name = Persistence;
+			sourceTree = "<group>";
+		};
+		30DF3FC02A13B18C00AF3A1C /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				A3AB8D0F28A65DF000B16CC2 /* KeychainDAO.swift */,
+				A313713328ABA46600052CC0 /* KeychainWrapper.swift */,
+			);
+			name = Keychain;
+			sourceTree = "<group>";
+		};
+		30DF3FC12A13B1A000AF3A1C /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				A3E30D8228808F0E005907BF /* WordsLearning.xcdatamodeld */,
+				30DF3FC22A13B50100AF3A1C /* CoreDataDAO.swift */,
+				30DF3FC42A13D66200AF3A1C /* CDWord+extension.swift */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
 		A349C18D28F03B7B003216FF /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +292,7 @@
 				A35187782898662300C90CBB /* UIFont+extension.swift */,
 				A3AB8D0A28A5A75300B16CC2 /* Calendar+extension.swift */,
 				30DF3FBB2A12459000AF3A1C /* UIImage+extension.swift */,
+				30DF3FBD2A12D63F00AF3A1C /* NSManagedObjectContext+extension.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -268,17 +304,6 @@
 				A3AB8D1428AABE7D00B16CC2 /* QuizSettings.swift */,
 			);
 			name = QuizService;
-			sourceTree = "<group>";
-		};
-		A3AB8D0C28A65B5E00B16CC2 /* StorageService */ = {
-			isa = PBXGroup;
-			children = (
-				A3AB8D0D28A65B7B00B16CC2 /* StorageService.swift */,
-				A3AB8D1128AA494700B16CC2 /* DefaultWordsList.swift */,
-				A3AB8D0F28A65DF000B16CC2 /* KeychainStorageService.swift */,
-				A313713328ABA46600052CC0 /* KeychainWrapper.swift */,
-			);
-			name = StorageService;
 			sourceTree = "<group>";
 		};
 		A3B1042B289AABAF007F8D82 /* Alerts */ = {
@@ -379,7 +404,6 @@
 				A3E30D8528808F10005907BF /* Assets.xcassets */,
 				A3E30D8A28808F10005907BF /* Info.plist */,
 				A3E30D8728808F10005907BF /* LaunchScreen.storyboard */,
-				A3E30D8228808F0E005907BF /* WordsLearning.xcdatamodeld */,
 			);
 			name = SupportingFiles;
 			sourceTree = "<group>";
@@ -411,10 +435,11 @@
 		A3E30DBB288090E4005907BF /* CommonElements */ = {
 			isa = PBXGroup;
 			children = (
+				A3E30DBC288090F8005907BF /* RootViewController.swift */,
+				A3AB8D1128AA494700B16CC2 /* DefaultWordsList.swift */,
+				30DF3FBF2A13B14500AF3A1C /* Persistence */,
 				30B71A6529A5281D004F29CA /* Notification */,
 				A349C19A28F03D4E003216FF /* RKTable */,
-				A3E30DBC288090F8005907BF /* RootViewController.swift */,
-				A3AB8D0C28A65B5E00B16CC2 /* StorageService */,
 				A3AB8D0728A59E3A00B16CC2 /* QuizService */,
 				A3B1043A289D27F4007F8D82 /* UIElements */,
 				A3B10430289AAF2A007F8D82 /* Models */,
@@ -568,6 +593,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30DF3FC32A13B50100AF3A1C /* CoreDataDAO.swift in Sources */,
 				A349C1AC28F1A2E2003216FF /* UIColor+Extension.swift in Sources */,
 				3099476129C1E7DA00307963 /* WordsSelectionPresenter.swift in Sources */,
 				A3CF0BC028BE4F5800A3B916 /* SemanticStrings.swift in Sources */,
@@ -603,13 +629,15 @@
 				A3CF0BBE28BE4DD600A3B916 /* WordEditionService.swift in Sources */,
 				A3CF0BBD28BE4DD600A3B916 /* WordEditionInteractor.swift in Sources */,
 				A3B1042D289AABC3007F8D82 /* RichAlertViewController.swift in Sources */,
+				30DF3FBE2A12D63F00AF3A1C /* NSManagedObjectContext+extension.swift in Sources */,
 				A349C19D28F03D65003216FF /* DRTableView.swift in Sources */,
 				3099475829B1091800307963 /* DRTableViewSettings.swift in Sources */,
 				A3AB8D1528AABE7D00B16CC2 /* QuizSettings.swift in Sources */,
 				A349C19528F03BA4003216FF /* StatisticsPresenter.swift in Sources */,
-				A3AB8D1028A65DF000B16CC2 /* KeychainStorageService.swift in Sources */,
+				A3AB8D1028A65DF000B16CC2 /* KeychainDAO.swift in Sources */,
 				A3AB8D0E28A65B7B00B16CC2 /* StorageService.swift in Sources */,
 				A313713628ABB49600052CC0 /* WordStatistic.swift in Sources */,
+				30DF3FC52A13D66200AF3A1C /* CDWord+extension.swift in Sources */,
 				A3CF0BBA28BE4DD600A3B916 /* WordEditionPresenter.swift in Sources */,
 				A3E30D7A28808F0D005907BF /* AppDelegate.swift in Sources */,
 				A349C19628F03BA4003216FF /* StatisticsRouter.swift in Sources */,

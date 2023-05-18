@@ -20,7 +20,7 @@ protocol WordEditionAssemblerProtocol {
 final class WordEditionAssembler: WordEditionAssemblerProtocol {
 
 	func create(for word: Word, actionOnClose: @escaping (EditedWordParts?) -> Void) -> WordEditionViewControllerProtocol {
-		let storageService = StorageService(specificStorage: KeychainStorageService(keychainWrapper: KeychainWrapper()))
+		let storageService = StorageService(specificStorage: CoreDataDAO())
 		let wordEditionService = WordEditionService(storageService: storageService)
 		let interactor = WordEditionInteractor(storageService: wordEditionService,
 											   word: word,

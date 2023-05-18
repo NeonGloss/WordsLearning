@@ -24,8 +24,8 @@ extension UIColor {
 			self.init(r: 133, g: 133, b: 133) //gray
         }
 
-        var rgbValue:UInt32 = 0
-        Scanner(string: cString).scanHexInt32(&rgbValue)
+        var rgbValue:UInt64 = 0
+        Scanner(string: cString).scanHexInt64(&rgbValue)
 
 		self.init(r: CGFloat((rgbValue & 0xFF0000) >> 16),
 				  g: CGFloat((rgbValue & 0x00FF00) >> 8),
