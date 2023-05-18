@@ -24,7 +24,7 @@ final class MainAssembler: MainAssemblerProtocol {
 
 	func createMainScene(with navigationController: UINavigationController) -> MainViewControllerProtocol {
         let notificationService = NotificationService(notificationCenter: UNUserNotificationCenter.current())
-        let storageService = StorageService(specificStorage: KeychainStorageService(keychainWrapper: KeychainWrapper()))
+        let storageService = StorageService(specificStorage: CoreDataDAO())
         
         let router = MainRouter()
         let interactor = MainInteractor(router: router,

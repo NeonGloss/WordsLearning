@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Объект статистики изучения слова
 final class WordStatistic: Codable {
 
 	var lastQuestionDate: Date
@@ -18,12 +19,32 @@ final class WordStatistic: Codable {
 	var totalAnswers: Int { successAnswersCount + errorAnswersCount }
 	var successPercent: Double { totalAnswers > 0 ? Double(successAnswersCount * 100 / totalAnswers) : 0 }
 
+	/// Иницилизатор по умолчанию
 	init() {
 		isLastAnswerWasCorrcet = true
 		lastQuestionDate = Date()
 		successAnswersCount = 0
 		errorAnswersCount = 0
 		studyPercent = 0
+	}
+
+	/// Инициализатор
+	/// - Parameters:
+	///   - isLastAnswerWasCorrcet: был ли последний ответ верным
+	///   - lastQuestionDate: дата последнего вопроса
+	///   - successAnswersCount: количество успешных ответов
+	///   - errorAnswersCount: количество неверных ответов
+	///   - studyPercent: процент изучения слова
+	init(isLastAnswerWasCorrcet: Bool,
+		 lastQuestionDate: Date,
+		 successAnswersCount: Int,
+		 errorAnswersCount: Int,
+		 studyPercent: Double) {
+		self.isLastAnswerWasCorrcet = isLastAnswerWasCorrcet
+		self.lastQuestionDate = lastQuestionDate
+		self.successAnswersCount = successAnswersCount
+		self.errorAnswersCount = errorAnswersCount
+		self.studyPercent = studyPercent
 	}
 
 	func update(lastAnswerIsCorrect: Bool, percentDelta: Int, lastAnswerDate: Date) {
