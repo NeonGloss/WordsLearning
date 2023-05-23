@@ -22,6 +22,8 @@ final class PlainCell: UITableViewCell, DRTableViewCellProtocol {
     }
 
 	func didSelected() {}
+	
+	func selectedToBeEdited() {}
 
 	func someCellWasSelected() {}
 

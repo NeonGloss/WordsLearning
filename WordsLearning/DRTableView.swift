@@ -87,7 +87,8 @@ extension DRTableView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard settings.rowDeletingBySwipeIsEnabled else { return nil }
+		guard settings.rowDeletingBySwipeIsEnabled || settings.editBySwipeIsEnabled else { return nil }
+
         let deleteAction = UIContextualAction(style: .destructive, title: "🗑") { (_, _, completion) in
             let cell = tableView.cellForRow(at: indexPath) as? DRTableViewCellProtocol
             cell?.selectedToBeRemoved() {[weak self] result in
@@ -99,7 +100,22 @@ extension DRTableView: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        let config = UISwipeActionsConfiguration(actions: [deleteAction])
+		let editAction = UIContextualAction(style: .normal, title: "✍️") { (_, _, completion) in
+			let cell = tableView.cellForRow(at: indexPath) as? DRTableViewCellProtocol
+			cell?.selectedToBeEdited()
+			tableView.deselectRow(at: indexPath, animated: true)
+			tableView.reloadData()
+		}
+
+		var actions: [UIContextualAction] = []
+		if settings.rowDeletingBySwipeIsEnabled {
+			actions.append(deleteAction)
+		}
+		if settings.editBySwipeIsEnabled {
+			actions.append(editAction)
+		}
+		
+        let config = UISwipeActionsConfiguration(actions: actions)
         config.performsFirstActionWithFullSwipe = true
         return config
     }

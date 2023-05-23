@@ -19,6 +19,10 @@ protocol WordsSelectionViewControllerProtocol: UIViewController {
 	/// - Parameter numberOfSelectedWords: количество выбранных слов
 	func setSelectedWordCountTo(_ numberOfSelectedWords: Int)
 
+	/// Выставить название списка
+	/// - Parameter name: название
+	func setNameTo(_ name: String?)
+
 	/// Сбросить выделение для всех слов
 	func deselectAllWords()
 
@@ -67,6 +71,16 @@ final class WordsSelectionViewController: UIViewController, WordsSelectionViewCo
 		return button
 	}()
 
+	private var dismissButton: UIButton = {
+		let button = UIButton()
+		button.setImage(SemanticImages.xmark.coloredAs(.orange, .black), for: .normal)
+		button.backgroundColor = .clear
+		button.layer.borderColor = UIColor.orange.cgColor
+		button.layer.borderWidth = 1.5
+		button.layer.cornerRadius = 10
+		return button
+	}()
+
 	private var cleanSelectionButton: UIButton = {
 		let button = UIButton()
 		button.setImage(SemanticImages.xmark.coloredAs(.black, .black), for: .normal)
@@ -79,16 +93,35 @@ final class WordsSelectionViewController: UIViewController, WordsSelectionViewCo
 		return button
 	}()
 
-	private var applyButton: UIButton = {
+	private var saveButton: UIButton = {
 		let button = UIButton()
 		button.setImage(SemanticImages.checkmark.coloredAs(.black, .black), for: .normal)
 		button.setTitleColor(.black, for: .normal)
-		button.setTitle("   Apply", for: .normal)
+		button.setTitle("   Save", for: .normal)
 		button.backgroundColor = .clear
 		button.layer.borderColor = UIColor.orange.cgColor
 		button.layer.borderWidth = 1.5
 		button.layer.cornerRadius = 10
 		return button
+	}()
+
+	private var nameFieldView: UIView = {
+		let view = UIView()
+		view.backgroundColor = .white
+		view.layer.borderColor = UIColor.black.cgColor
+		view.layer.borderWidth = 1
+		view.layer.cornerRadius = 20
+		return view
+	}()
+
+	private var nameField: UITextField = {
+		let textField = UITextField()
+		textField.placeholder = "Введите азвание списка"
+		textField.autocapitalizationType = .none
+		textField.layer.cornerRadius = 20
+		textField.font = UIFont(name: "Thonburi", size: 25)?.bold()
+		textField.autocorrectionType = .no
+		return textField
 	}()
 
 	// MARK: Object lifecycle
@@ -122,26 +155,30 @@ final class WordsSelectionViewController: UIViewController, WordsSelectionViewCo
 		interactor.viewWillDisappear()
 	}
 
-	// MARK: Display
+	// MARK: - Display
 
 	func displayItems(_ items: [DRTableViewCellProtocol]) {
 		table.items = items
 	}
 
+	func setNameTo(_ name: String?) {
+		nameField.text = name
+	}
+
 	func setSelectedWordCountTo(_ numberOfSelectedWords: Int) {
 		selectedElementsCounterLabel.text = String(numberOfSelectedWords)
-		let image = table.items.count == numberOfSelectedWords ? SemanticImages.plusCircle.coloredAs(.gray, .gray) :
-		SemanticImages.checkmarkCircle.coloredAs(.white, .orange)
+		let image = numberOfSelectedWords == 0 ? SemanticImages.plusCircle.coloredAs(.gray, .gray) :
+												 SemanticImages.checkmarkCircle.coloredAs(.white, .orange)
 
 		selectedCounterImageButton.setImage(image, for: .normal)
 
 		if table.items.count == numberOfSelectedWords {
 			titleLabel.isHidden = false
-			applyButton.isHidden = true
+			saveButton.isHidden = true
 			cleanSelectionButton.isHidden = true
 		} else {
 			titleLabel.isHidden = true
-			applyButton.isHidden = false
+			saveButton.isHidden = false
 			cleanSelectionButton.isHidden = false
 		}
 	}
@@ -158,16 +195,19 @@ final class WordsSelectionViewController: UIViewController, WordsSelectionViewCo
 		self.dismiss(animated: true)
 	}
 
-	// MARK: Private
+	// MARK: - Private
 
 	private func seutpViews() {
-		cleanSelectionButton.addTarget(self, action: #selector(cleanSelectionButtonTapped), for: .allTouchEvents)
-		applyButton.addTarget(self, action: #selector(applyButtonTapped), for: .touchUpInside)
+		cleanSelectionButton.addTarget(self, action: #selector(cancelButtonTapped), for: .allTouchEvents)
+		saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
 		sortSwitch.addTarget(self, action: #selector(sortSwitchTapped(_:)), for: .allTouchEvents)
+		dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchUpInside)
 		selectedCounterImageButton.isUserInteractionEnabled = false
 		view.overrideUserInterfaceStyle = .light
 		view.backgroundColor = UIColor.white
 		table.separatorStyle = .singleLine
+
+		nameField.delegate = self
 	}
 
 	private func setupConstraints() {
@@ -177,27 +217,45 @@ final class WordsSelectionViewController: UIViewController, WordsSelectionViewCo
 		view.addSubview(selectedElementsCounterLabel)
 		view.addSubview(selectedCounterImageButton)
 		view.addSubview(cleanSelectionButton)
-		view.addSubview(applyButton)
+		view.addSubview(nameFieldView)
+		view.addSubview(dismissButton)
+		view.addSubview(saveButton)
 		view.addSubview(titleLabel)
+		view.addSubview(nameField)
 		view.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
 		NSLayoutConstraint.activate([
 
+			dismissButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+			dismissButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+			dismissButton.widthAnchor.constraint(equalToConstant: 25),
+			dismissButton.heightAnchor.constraint(equalToConstant: 25),
+
+			nameFieldView.heightAnchor.constraint(equalToConstant: 40),
+			nameFieldView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			nameFieldView.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
+			nameFieldView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+
+			nameField.topAnchor.constraint(equalTo: nameFieldView.topAnchor, constant: 2),
+			nameField.bottomAnchor.constraint(equalTo: nameFieldView.bottomAnchor, constant: -2),
+			nameField.leadingAnchor.constraint(equalTo: nameFieldView.leadingAnchor, constant: 15),
+			nameField.trailingAnchor.constraint(equalTo: nameFieldView.trailingAnchor, constant: -15),
+
 			cleanSelectionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-			cleanSelectionButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
+			cleanSelectionButton.topAnchor.constraint(equalTo: nameFieldView.bottomAnchor, constant: 10),
 			cleanSelectionButton.heightAnchor.constraint(equalToConstant: 40),
 			cleanSelectionButton.widthAnchor.constraint(equalToConstant: 140),
 
-			applyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-			applyButton.topAnchor.constraint(equalTo: cleanSelectionButton.topAnchor),
-			applyButton.heightAnchor.constraint(equalTo: cleanSelectionButton.heightAnchor),
-			applyButton.widthAnchor.constraint(equalTo: cleanSelectionButton.widthAnchor),
+			saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+			saveButton.topAnchor.constraint(equalTo: cleanSelectionButton.topAnchor),
+			saveButton.heightAnchor.constraint(equalTo: cleanSelectionButton.heightAnchor),
+			saveButton.widthAnchor.constraint(equalTo: cleanSelectionButton.widthAnchor),
 
 			titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 			titleLabel.centerYAnchor.constraint(equalTo: cleanSelectionButton.centerYAnchor),
 
 			sortSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-			sortSwitch.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+			sortSwitch.topAnchor.constraint(equalTo: cleanSelectionButton.topAnchor, constant: 50),
 
 			sortTypeLabel.leadingAnchor.constraint(equalTo: sortSwitch.leadingAnchor, constant:  -100),
 			sortTypeLabel.centerYAnchor.constraint(equalTo: sortSwitch.centerYAnchor),
@@ -219,17 +277,22 @@ final class WordsSelectionViewController: UIViewController, WordsSelectionViewCo
 
 	// MARK: Private
 
-	@objc private func cleanSelectionButtonTapped() {
+	@objc private func cancelButtonTapped() {
 		interactor.cleanSelectionButtonTapped()
 	}
 
-	@objc private func applyButtonTapped() {
-		interactor.applyButtonTapped()
+	@objc private func saveButtonTapped() {
+		interactor.saveButtonTapped()
 	}
 
 	@objc private func dissmissScene() {
 		self.dismiss(animated: true, completion: nil)
 		interactor.viewWillDisappear()
+	}
+
+	@objc private func dismissButtonTapped() {
+		self.dismiss(animated: true, completion: nil)
+		interactor.dismissButtonTapped()
 	}
 
 	@objc private func sortSwitchTapped(_ switcher: UISwitch) {
@@ -238,3 +301,23 @@ final class WordsSelectionViewController: UIViewController, WordsSelectionViewCo
 		interactor.sortSwitcherChanged(to: switcher.isOn)
 	}
 }
+
+extension WordsSelectionViewController: UITextFieldDelegate {
+
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		textChanged(in: textField)
+		return false
+	}
+
+	func textFieldDidChangeSelection(_ textField: UITextField) {
+		textChanged(in: textField)
+	}
+
+	// MARK: Private
+
+	private func textChanged(in textField: UITextField) {
+		let newText = textField.text ?? ""
+		interactor.listNameChanged(to: newText)
+	}
+}
+

@@ -9,5 +9,8 @@
 struct DRTableViewSettings {
     
     /// Включена ли функция удаления ячейки по свайпу
-    let rowDeletingBySwipeIsEnabled = false
+    var rowDeletingBySwipeIsEnabled = false
+
+	/// Включена доступность кнопки изменения содержимого при свайпе ячейки
+	var editBySwipeIsEnabled = false
 }

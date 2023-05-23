@@ -12,23 +12,22 @@ protocol WordsSelectionAssemblerProtocol {
 
 	/// Создает экран
 	/// - Parameters:
-	///   - words: слова доступные для изучения
-	///   - alreadySelectedWords: выбранные ранее слова
-	///   - actionOnClose: замыкание при закрытии, со списком выбранных слов
-	func create(allWords: [Word],
-				alreadySelectedWords:[Word],
-				actionOnClose: @escaping ([Word]) -> Void) -> WordsSelectionViewControllerProtocol
+	///   - storageService: сервис хранения данных
+	///   - editingList: список для изменения
+	///   - actionOnClose: замыкание при закрытии, возвращает флаг - был ли список изменен
+	func create(storageService: WordsListStorageServiceProtocol,
+				editingList:WordsList?,
+				actionOnClose: @escaping (Bool) -> Void) -> WordsSelectionViewControllerProtocol
 }
 
 /// Сборщик экрана выбора части слов из общего списка
 final class WordsSelectionAssembler: WordsSelectionAssemblerProtocol {
 
-	func create(allWords: [Word],
-				alreadySelectedWords:[Word],
-				actionOnClose: @escaping ([Word]) -> Void) -> WordsSelectionViewControllerProtocol {
-
-		let interactor = WordsSelectionInteractor(words: allWords,
-												  alreadySelectedWords: alreadySelectedWords,
+	func create(storageService: WordsListStorageServiceProtocol,
+				editingList:WordsList?,
+				actionOnClose: @escaping (Bool) -> Void) -> WordsSelectionViewControllerProtocol {
+		let interactor = WordsSelectionInteractor(storageService: storageService,
+												  editingList: editingList,
 												  actionOnClose: actionOnClose)
 		let viewController = WordsSelectionViewController(interactor: interactor)
 		let presenter = WordsSelectionPresenter(viewController: viewController)

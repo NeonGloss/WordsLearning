@@ -18,7 +18,8 @@ final class WordEditionService: WordStorageServiceProtocol {
 	init(storageService: StorageServiceProtocol) {
 		self.storageService = storageService
 	}
-	
+
+	// TODO: зачем это вынесено в отдельный класс? надо обратно внести в интерактор?
 	func updateWord(origWord: Word, newWordParts: EditedWordParts, completion: @escaping (Bool) -> Void) {
 		storageService.readWords { [weak self] currentWords in
 			self?.updateSpecificWord(origWord: origWord, with: newWordParts, in: currentWords, completion: completion)

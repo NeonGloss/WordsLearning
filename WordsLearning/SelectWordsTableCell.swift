@@ -1,5 +1,5 @@
 //
-//  StatisticsCell.swift
+//  SelectWordsTableCell.swift
 //  WordsLearning
 //
 //  Created by Кузин Роман Эдуардович on 27.10.2022.
@@ -98,6 +98,8 @@ final class SelectWordsTableCell: UITableViewCell,
 
 	func emptySpaceOnTableWasTapped() {}
 
+	func selectedToBeEdited() {}
+	
     func selectedToBeRemoved(complition: @escaping (Bool) -> ()) {}
     
     // MARK: - SelectWordsTableCellProtocol
@@ -136,6 +138,7 @@ final class SelectWordsTableCell: UITableViewCell,
             
             nativeWordsLabel.topAnchor.constraint(equalTo: foreingWordLabel.bottomAnchor, constant: 10),
             nativeWordsLabel.leadingAnchor.constraint(equalTo: foreingWordLabel.leadingAnchor),
+			nativeWordsLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.75),
             
             nToFRemarkLabel.topAnchor.constraint(equalTo: nativeWordsLabel.bottomAnchor, constant: 10),
             nToFRemarkLabel.leadingAnchor.constraint(equalTo: nativeWordsLabel.leadingAnchor),

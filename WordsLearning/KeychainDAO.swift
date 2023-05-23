@@ -56,7 +56,7 @@ final class KeychainDAO: KeychainDAOProtocol {
 		saveData(data, completion: completion)
 	}
 
-	func readWords(complition: @escaping ([Word]) -> ()) {
+	func loadWords(complition: @escaping ([Word]) -> ()) {
 		let data = readData()
 		let loadedWords = try? JSONDecoder().decode([Word].self, from: data)
 		complition(loadedWords ?? [])
