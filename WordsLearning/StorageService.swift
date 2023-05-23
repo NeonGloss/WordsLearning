@@ -19,6 +19,32 @@ protocol DAOProtocol {
 	/// Загрузить слова
 	/// - Parameter complition: замыкание, возвращающее загруженный список слов
 	func loadWords(complition: @escaping ([Word]) -> ())
+
+	/// Загрузить списки слов
+	func loadWordsLists() -> [WordsList]
+
+	/// Создать список слов
+	/// - Parameter newWordsList: новый список слов
+	func create(_ newWordsList: WordsList)
+
+	/// Удалить список слов
+	/// - Parameter name: название списка слов
+	func deleteWordsList(name: String)
+
+	/// Обновидть данные списка слов
+	/// - Parameters:
+	///   - origWordsList: список
+	///   - newName: новое название
+	///   - newComment: новый коментарий
+	///   - newWords: новый массив слов
+	func update(origWordsList: WordsList, newName: String, newComment: String?, newWords: [Word])
+
+	/// Пересохранить слово с изменениями
+	/// - Parameters:
+	///   - origWord: изначальное слово
+	///   - newWordParts: новые свойства слова
+	///   - completion: замыкание, возвращает true - если изменения сохранились успешно
+	func update(origWord: Word, newWordParts: EditedWordParts, completion: @escaping (Bool) -> Void)
 }
 
 /// Протокол сервиса хранения данных
@@ -34,7 +60,9 @@ protocol StorageServiceProtocol {
 }
 
 /// Сервис хранения данных
-final class StorageService: StorageServiceProtocol {
+final class StorageService: StorageServiceProtocol,
+							WordsListStorageServiceProtocol,
+							WordEditionStorageServiceProtocol {
 
 	private let specificStorageService: DAOProtocol
 
@@ -57,6 +85,37 @@ final class StorageService: StorageServiceProtocol {
 			resultedWords = self.addDefaultWords(to: loadedWords)
 			complition(resultedWords)
 		}
+	}
+
+	// MARK: - WordsListStorageServiceProtocol
+
+	func loadWordsLists() -> [WordsList] {
+		specificStorageService.loadWordsLists()
+	}
+
+	func loadWords(complition: @escaping ([Word]) -> ()) {
+		specificStorageService.loadWords(complition: complition)
+	}
+
+	func update(origWordsList: WordsList, newName: String, newComment: String?, newWords: [Word]) {
+		specificStorageService.update(origWordsList: origWordsList,
+									  newName: newName,
+									  newComment: newComment,
+									  newWords: newWords)
+	}
+
+	func create(_ newWordsList: WordsList) {
+		specificStorageService.create(newWordsList)
+	}
+
+	func deleteWordsList(name: String) {
+		specificStorageService.deleteWordsList(name: name)
+	}
+
+	// MARK: - WordEditionStorageServiceProtocol
+
+	func update(origWord: Word, newWordParts: EditedWordParts, completion: @escaping (Bool) -> Void) {
+		specificStorageService.update(origWord: origWord, newWordParts: newWordParts, completion: completion)
 	}
 
 	// MARK: - Private
