@@ -9,15 +9,19 @@
 /// Протокол презентера сцены выбора слов для изучения
 protocol WordsSelectionPresenterProtocol {
 	
-	func presentItems(_ items: [DRTableViewCellProtocol])
+	/// Отобразить элементы таблицы
+	/// - Parameters:
+	///  - listName: название списка
+	///  - items: элементы таблицы
+	///  - selectedWordsCount: количество слов в списке
+	func present(listName: String?, items: [DRTableViewCellProtocol], selectedWordsCount: Int)
 	
 	/// Отобразить количество выбранных слов
 	/// - Parameter numberOfSelectedWords: количество выбранных слов
 	func setSelectedWordCountTo(_ numberOfSelectedWords: Int)
 	
 	/// Очистить выделение
-	/// - Parameter numberOfAllWords: общее количество слов
-	func cleanSelection(numberOfAllWords: Int)
+	func clearSelection()
 	
 	/// Закрыть сцену
 	func closeScene()
@@ -34,17 +38,19 @@ final class WordsSelectionPresenter: WordsSelectionPresenterProtocol {
 		self.viewController = viewController
 	}
 	
-	func presentItems(_ items: [DRTableViewCellProtocol]) {
+	func present(listName: String?, items: [DRTableViewCellProtocol], selectedWordsCount: Int) {
+		viewController?.setNameTo(listName)
 		viewController?.displayItems(items)
+		viewController?.setSelectedWordCountTo(selectedWordsCount)
 	}
 	
 	func setSelectedWordCountTo(_ numberOfSelectedWords: Int) {
 		viewController?.setSelectedWordCountTo(numberOfSelectedWords)
 	}
 	
-	func cleanSelection(numberOfAllWords: Int) {
+	func clearSelection() {
 		viewController?.deselectAllWords()
-		viewController?.setSelectedWordCountTo(numberOfAllWords)
+		viewController?.setSelectedWordCountTo(0)
 	}
 	
 	func closeScene() {

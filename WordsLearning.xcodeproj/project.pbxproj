@@ -20,6 +20,13 @@
 		30DF3FBE2A12D63F00AF3A1C /* NSManagedObjectContext+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FBD2A12D63F00AF3A1C /* NSManagedObjectContext+extension.swift */; };
 		30DF3FC32A13B50100AF3A1C /* CoreDataDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FC22A13B50100AF3A1C /* CoreDataDAO.swift */; };
 		30DF3FC52A13D66200AF3A1C /* CDWord+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FC42A13D66200AF3A1C /* CDWord+extension.swift */; };
+		30DF3FDB2A16466900AF3A1C /* WordsListsSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FD72A16466900AF3A1C /* WordsListsSelectionViewController.swift */; };
+		30DF3FDC2A16466900AF3A1C /* WordsListsSelectionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FD82A16466900AF3A1C /* WordsListsSelectionInteractor.swift */; };
+		30DF3FDD2A16466900AF3A1C /* WordsListsSelectionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FD92A16466900AF3A1C /* WordsListsSelectionPresenter.swift */; };
+		30DF3FDE2A16466900AF3A1C /* WordsListsSelectionAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FDA2A16466900AF3A1C /* WordsListsSelectionAssembler.swift */; };
+		30DF3FE02A16490F00AF3A1C /* WordsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FDF2A16490F00AF3A1C /* WordsList.swift */; };
+		30DF3FE22A164A0300AF3A1C /* SelectWordsListsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FE12A164A0300AF3A1C /* SelectWordsListsTableCell.swift */; };
+		30DF3FE42A1655B600AF3A1C /* CDWordsList+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FE32A1655B600AF3A1C /* CDWordsList+extension.swift */; };
 		A313713428ABA46600052CC0 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A313713328ABA46600052CC0 /* KeychainWrapper.swift */; };
 		A313713628ABB49600052CC0 /* WordStatistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A313713528ABB49600052CC0 /* WordStatistic.swift */; };
 		A349C19428F03BA4003216FF /* StatisticsAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349C18E28F03BA4003216FF /* StatisticsAssembler.swift */; };
@@ -107,6 +114,13 @@
 		30DF3FBD2A12D63F00AF3A1C /* NSManagedObjectContext+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+extension.swift"; sourceTree = "<group>"; };
 		30DF3FC22A13B50100AF3A1C /* CoreDataDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataDAO.swift; sourceTree = "<group>"; };
 		30DF3FC42A13D66200AF3A1C /* CDWord+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDWord+extension.swift"; sourceTree = "<group>"; };
+		30DF3FD72A16466900AF3A1C /* WordsListsSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordsListsSelectionViewController.swift; sourceTree = "<group>"; };
+		30DF3FD82A16466900AF3A1C /* WordsListsSelectionInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordsListsSelectionInteractor.swift; sourceTree = "<group>"; };
+		30DF3FD92A16466900AF3A1C /* WordsListsSelectionPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordsListsSelectionPresenter.swift; sourceTree = "<group>"; };
+		30DF3FDA2A16466900AF3A1C /* WordsListsSelectionAssembler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordsListsSelectionAssembler.swift; sourceTree = "<group>"; };
+		30DF3FDF2A16490F00AF3A1C /* WordsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsList.swift; sourceTree = "<group>"; };
+		30DF3FE12A164A0300AF3A1C /* SelectWordsListsTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectWordsListsTableCell.swift; sourceTree = "<group>"; };
+		30DF3FE32A1655B600AF3A1C /* CDWordsList+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDWordsList+extension.swift"; sourceTree = "<group>"; };
 		A313713328ABA46600052CC0 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		A313713528ABB49600052CC0 /* WordStatistic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordStatistic.swift; sourceTree = "<group>"; };
 		A349C18E28F03BA4003216FF /* StatisticsAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsAssembler.swift; sourceTree = "<group>"; };
@@ -236,9 +250,21 @@
 			children = (
 				A3E30D8228808F0E005907BF /* WordsLearning.xcdatamodeld */,
 				30DF3FC22A13B50100AF3A1C /* CoreDataDAO.swift */,
+				30DF3FE32A1655B600AF3A1C /* CDWordsList+extension.swift */,
 				30DF3FC42A13D66200AF3A1C /* CDWord+extension.swift */,
 			);
 			name = CoreData;
+			sourceTree = "<group>";
+		};
+		30DF3FCA2A16459F00AF3A1C /* WordsListsSelection */ = {
+			isa = PBXGroup;
+			children = (
+				30DF3FDA2A16466900AF3A1C /* WordsListsSelectionAssembler.swift */,
+				30DF3FD82A16466900AF3A1C /* WordsListsSelectionInteractor.swift */,
+				30DF3FD92A16466900AF3A1C /* WordsListsSelectionPresenter.swift */,
+				30DF3FD72A16466900AF3A1C /* WordsListsSelectionViewController.swift */,
+			);
+			name = WordsListsSelection;
 			sourceTree = "<group>";
 		};
 		A349C18D28F03B7B003216FF /* Statistics */ = {
@@ -274,6 +300,7 @@
 				A349C1A428F1A1C8003216FF /* TextFieldCell.swift */,
 				1DC00293290AA15A00396313 /* StatisticsCell.swift */,
 				3099476629C2005F00307963 /* SelectWordsTableCell.swift */,
+				30DF3FE12A164A0300AF3A1C /* SelectWordsListsTableCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -323,6 +350,7 @@
 				A313713528ABB49600052CC0 /* WordStatistic.swift */,
 				30DF3FB92A12411A00AF3A1C /* Design.swift */,
 				A349C1A828F1A295003216FF /* Constants.swift */,
+				30DF3FDF2A16490F00AF3A1C /* WordsList.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -411,6 +439,7 @@
 		A3E30DB928808FD6005907BF /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				30DF3FCA2A16459F00AF3A1C /* WordsListsSelection */,
 				3099475929C1E6DD00307963 /* WordsSelection */,
 				A349C18D28F03B7B003216FF /* Statistics */,
 				A3E58E9E28D4C99400B7BF2A /* Settings */,
@@ -435,8 +464,8 @@
 		A3E30DBB288090E4005907BF /* CommonElements */ = {
 			isa = PBXGroup;
 			children = (
-				A3E30DBC288090F8005907BF /* RootViewController.swift */,
 				A3AB8D1128AA494700B16CC2 /* DefaultWordsList.swift */,
+				A3E30DBC288090F8005907BF /* RootViewController.swift */,
 				30DF3FBF2A13B14500AF3A1C /* Persistence */,
 				30B71A6529A5281D004F29CA /* Notification */,
 				A349C19A28F03D4E003216FF /* RKTable */,
@@ -598,6 +627,7 @@
 				3099476129C1E7DA00307963 /* WordsSelectionPresenter.swift in Sources */,
 				A3CF0BC028BE4F5800A3B916 /* SemanticStrings.swift in Sources */,
 				A3E58EA728D4C9C000B7BF2A /* SettingsRouter.swift in Sources */,
+				30DF3FDC2A16466900AF3A1C /* WordsListsSelectionInteractor.swift in Sources */,
 				A3E58EA828D4C9C000B7BF2A /* SettingsViewController.swift in Sources */,
 				A3E58EA528D4C9C000B7BF2A /* SettingsAssembler.swift in Sources */,
 				A351877C289924B500C90CBB /* AlertService.swift in Sources */,
@@ -623,16 +653,19 @@
 				A3E30DBD288090F8005907BF /* RootViewController.swift in Sources */,
 				A3E58EA928D4C9C000B7BF2A /* SettingsInteractor.swift in Sources */,
 				A3AB8D1228AA494700B16CC2 /* DefaultWordsList.swift in Sources */,
+				30DF3FE02A16490F00AF3A1C /* WordsList.swift in Sources */,
 				A3E30D8428808F0E005907BF /* WordsLearning.xcdatamodeld in Sources */,
 				A349C1A928F1A295003216FF /* Constants.swift in Sources */,
 				A3B1043C289D2806007F8D82 /* RespondingButton.swift in Sources */,
 				A3CF0BBE28BE4DD600A3B916 /* WordEditionService.swift in Sources */,
 				A3CF0BBD28BE4DD600A3B916 /* WordEditionInteractor.swift in Sources */,
 				A3B1042D289AABC3007F8D82 /* RichAlertViewController.swift in Sources */,
+				30DF3FE42A1655B600AF3A1C /* CDWordsList+extension.swift in Sources */,
 				30DF3FBE2A12D63F00AF3A1C /* NSManagedObjectContext+extension.swift in Sources */,
 				A349C19D28F03D65003216FF /* DRTableView.swift in Sources */,
 				3099475829B1091800307963 /* DRTableViewSettings.swift in Sources */,
 				A3AB8D1528AABE7D00B16CC2 /* QuizSettings.swift in Sources */,
+				30DF3FDB2A16466900AF3A1C /* WordsListsSelectionViewController.swift in Sources */,
 				A349C19528F03BA4003216FF /* StatisticsPresenter.swift in Sources */,
 				A3AB8D1028A65DF000B16CC2 /* KeychainDAO.swift in Sources */,
 				A3AB8D0E28A65B7B00B16CC2 /* StorageService.swift in Sources */,
@@ -643,8 +676,10 @@
 				A349C19628F03BA4003216FF /* StatisticsRouter.swift in Sources */,
 				1DC00294290AA15A00396313 /* StatisticsCell.swift in Sources */,
 				A3AB8CF628A0248D00B16CC2 /* SemanticImages.swift in Sources */,
+				30DF3FDD2A16466900AF3A1C /* WordsListsSelectionPresenter.swift in Sources */,
 				A349C1A228F03DC6003216FF /* HasCellIdProtocol.swift in Sources */,
 				A349C1A028F03D92003216FF /* UITableView+extension.swift in Sources */,
+				30DF3FE22A164A0300AF3A1C /* SelectWordsListsTableCell.swift in Sources */,
 				A3E58EA628D4C9C000B7BF2A /* SettingsPresenter.swift in Sources */,
 				30DF3FBA2A12411A00AF3A1C /* Design.swift in Sources */,
 				A3E30DB728808FCD005907BF /* MainInteractor.swift in Sources */,
@@ -653,6 +688,7 @@
 				A349C19E28F03D65003216FF /* DRTableViewCellProtocol.swift in Sources */,
 				A3AB8D0B28A5A75300B16CC2 /* Calendar+extension.swift in Sources */,
 				A35187792898662300C90CBB /* UIFont+extension.swift in Sources */,
+				30DF3FDE2A16466900AF3A1C /* WordsListsSelectionAssembler.swift in Sources */,
 				A3E30DB328808FCD005907BF /* MainAssembler.swift in Sources */,
 				A3E30DB628808FCD005907BF /* MainViewController.swift in Sources */,
 			);

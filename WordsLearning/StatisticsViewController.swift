@@ -36,6 +36,12 @@ final class StatisticsViewController: UIViewController, StatisticsViewController
         return label
     }()
 
+	private let countLabel: UILabel = {
+	 let label = UILabel()
+	 label.font = label.font.bold()
+	 return label
+ }()
+
 	// MARK: Object lifecycle
 
 	/// Инициализатор
@@ -66,13 +72,14 @@ final class StatisticsViewController: UIViewController, StatisticsViewController
 		super.viewDidDisappear(animated)
 	}
 
-	// MARK: Display
+	// MARK: - Display
 
 	func displayItems(_ items: [DRTableViewCellProtocol]) {
 		table.items = items
+		countLabel.text = String(items.count)
 	}
 
-	// MARK: Private
+	// MARK: - Private
 
 	private func seutpViews() {
 		view.overrideUserInterfaceStyle = .light
@@ -84,12 +91,16 @@ final class StatisticsViewController: UIViewController, StatisticsViewController
 	private func setupConstraints() {
 		view.addSubview(table)
 		view.addSubview(sortSwitch)
+		view.addSubview(countLabel)
         view.addSubview(sortTypeLabel)
 		view.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
 		NSLayoutConstraint.activate([
 			sortSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
 			sortSwitch.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+
+			countLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+			countLabel.centerYAnchor.constraint(equalTo: sortSwitch.centerYAnchor),
             
             sortTypeLabel.leadingAnchor.constraint(equalTo: sortSwitch.leadingAnchor, constant:  -100),
             sortTypeLabel.centerYAnchor.constraint(equalTo: sortSwitch.centerYAnchor),
@@ -100,8 +111,6 @@ final class StatisticsViewController: UIViewController, StatisticsViewController
 			table.bottomAnchor.constraint(equalTo: view.bottomAnchor)
 		])
 	}
-
-	// MARK: Private
 
 	@objc private func dissmissScene() {
 		self.dismiss(animated: true, completion: nil)

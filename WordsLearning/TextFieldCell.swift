@@ -69,6 +69,8 @@ final class TextFieldCell: UITableViewCell, DRTableViewCellProtocol {
 	func emptySpaceOnTableWasTapped() {
 		finishEnteringText()
 	}
+
+	func selectedToBeEdited() {}
     
     func selectedToBeRemoved(complition: @escaping (Bool) -> ()) {
         complition(false)

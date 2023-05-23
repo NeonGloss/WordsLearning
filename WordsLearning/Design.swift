@@ -16,7 +16,7 @@ struct Design {
         static let dsBackground1 = UIColor(hex: "#333739")
         static let dsBrand = UIColor(hex: "#EB5E3D")
         static let dsBackground2 = UIColor(hex: "#41464A")
-        static let dsNuance0 = UIColor(hex: "#444748")
+        static let dsNuance0 = UIColor(hex: "#fda172")
         static let dsNuance1 = UIColor(hex: "#393D3D")
         static let dsBorder0 = UIColor(hex: "#979797")
         static let dsBorder1 = UIColor(hex: "#3F4344")

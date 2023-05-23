@@ -19,6 +19,11 @@ final class SemanticImages {
 		return UIImage(systemName: "multiply.circle.fill")?.applyingSymbolConfiguration(config) ?? UIImage()
 	}
 
+	static var questionMarkCircleFill: UIImage {
+		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .red])
+		return UIImage(systemName: "questionmark.circle.fill")?.applyingSymbolConfiguration(config) ?? UIImage()
+	}
+
 	static var editionPen: UIImage {
 		let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
 		return UIImage(systemName: "square.and.pencil")?.applyingSymbolConfiguration(config) ?? UIImage()

@@ -22,8 +22,15 @@ protocol WordsSelectionInteractorProtocol {
 	/// Очистить выделение
 	func cleanSelectionButtonTapped()
 
-	/// Обработка нажатия кнопки применения выделения
-	func applyButtonTapped()
+	/// Нажата кнопка "сохранить"
+	func saveButtonTapped()
+
+	/// Изменилось название списка
+	/// - Parameter newName: новое название
+	func listNameChanged(to newName: String)
+
+	/// Нажата кнопка закрытия без сохранения
+	func dismissButtonTapped()
 }
 
 /// Интерактор сцены выбора слов для изучения
@@ -32,29 +39,41 @@ final class WordsSelectionInteractor: WordsSelectionInteractorProtocol {
 	/// Презентер сцены
 	var presenter: WordsSelectionPresenterProtocol?
 
+	private var storageService: WordsListStorageServiceProtocol
+
 	private enum SortType {
 		case foreignAlfabaticaly
 		case fToNStudyPercent
 	}
 
+	private let editingList: WordsList?
 	private var currentSort: SortType
 	private var allWords: [Word] = []
+	private var listName: String?
 	private var selectedWords: [Word] = []
-	private let actionOnClose: ([Word]) -> Void
+	private let actionOnClose: (Bool) -> Void
 
 	/// Инициализатор
 	/// - Parameters:
-	///   - words: роутер
+	///   - storageService: сервис хранения данных
+	///   - editingList: список для изменения
 	///   - actionOnClose: замыкание, которое будет выполненно при закрытии экрана
-	init(words: [Word], alreadySelectedWords: [Word], actionOnClose: @escaping ([Word]) -> Void) {
-		selectedWords = alreadySelectedWords
+	init(storageService: WordsListStorageServiceProtocol,
+		 editingList: WordsList?,
+		 actionOnClose: @escaping (Bool) -> Void) {
+		self.storageService = storageService
 		self.actionOnClose = actionOnClose
 		currentSort = .fToNStudyPercent
-		allWords = words
+		self.editingList = editingList
+
+		selectedWords = editingList?.words ?? []
+		listName = editingList?.name
+		storageService.loadWords { [weak self] words in
+			self?.allWords = words
+		}
 	}
 
 	func viewDidLoad() {
-		// TODO: проверить что слова загружены, убрать лоадер и отобразить слова
 		updateUI()
 	}
 
@@ -65,19 +84,43 @@ final class WordsSelectionInteractor: WordsSelectionInteractorProtocol {
 
 	func cleanSelectionButtonTapped() {
 		selectedWords = []
-		presenter?.cleanSelection(numberOfAllWords: allWords.count)
+		presenter?.clearSelection()
 	}
 
-	func applyButtonTapped() {
-		actionOnClose(selectedWords)
+	func saveButtonTapped() {
+		guard let newListName = listName,
+			  // TODO: add warning
+			  !newListName.isEmpty,
+			  !selectedWords.isEmpty else { return }
+		if let editingList = editingList {
+			storageService.update(origWordsList: editingList, newName: newListName, newComment: nil, newWords: selectedWords)
+		} else {
+			let newList = WordsList(name: newListName, commentString: nil, words: selectedWords)
+			storageService.create(newList)
+		}
+
+		actionOnClose(true)
 		presenter?.closeScene()
 	}
 
 	func viewWillDisappear() {
-		actionOnClose(selectedWords)
+		presenter?.closeScene()
+	}
+
+	func dismissButtonTapped() {
+		presenter?.closeScene()
+	}
+
+	func listNameChanged(to newName: String) {
+		listName = newName
 	}
 
 	// MARK: - Private
+
+	private func checkIfNameEntered() -> Bool {
+		guard let listName = listName else { return false}
+		return !listName.isEmpty
+	}
 
 	private func updateUI() {
 		var items: [DRTableViewCellProtocol] = []
@@ -91,8 +134,7 @@ final class WordsSelectionInteractor: WordsSelectionInteractorProtocol {
 											  isSelectedForPartialStudy: selectedWords.contains($0),
 											  output: self))
 		}
-		presenter?.presentItems(items)
-		presenter?.setSelectedWordCountTo(selectedWords.count != 0 ? selectedWords.count : items.count)
+		presenter?.present(listName: listName, items: items, selectedWordsCount: selectedWords.count)
 	}
 
 	func makeWordsForUI(from words: [Word],
@@ -119,7 +161,7 @@ extension WordsSelectionInteractor: SelectWordsTableCellOutput {
 		} else {
 			selectedWords.append(word)
 		}
-		presenter?.setSelectedWordCountTo(selectedWords.count == 0 ? allWords.count : selectedWords.count)
+		presenter?.setSelectedWordCountTo(selectedWords.count)
 	}
 
 	func cellTappedForDeletionWithWord(_ wordForDeletion: Word, complition: @escaping (Bool) -> ()) {}

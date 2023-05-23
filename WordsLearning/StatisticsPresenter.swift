@@ -9,6 +9,8 @@
 /// Протокол презентера сцены
 protocol StatisticsPresenterProtocol {
 
+	/// Отобразить элементы таблицы
+	/// - Parameter items: элементы таблицы
 	func presentItems(_ items: [DRTableViewCellProtocol])
 }
 

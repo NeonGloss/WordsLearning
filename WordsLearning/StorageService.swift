@@ -12,13 +12,13 @@ protocol DAOProtocol {
 
 	/// Сохранить слова
 	/// - Parameters:
-	///  - list: список приложений партнеров
 	///  - words: замыкание с флагом успеха сохранения данных
+	///  - completion: замыкание, возвращающее флаг успеха сохранения
 	func saveWords(_ words: [Word], completion: ((Bool) -> Void)?)
 
-	/// Прочитать слова
-	/// - Parameter complition: блок кода выполняемый после загрузки данных
-	func readWords(complition: @escaping ([Word]) -> ())
+	/// Загрузить слова
+	/// - Parameter complition: замыкание, возвращающее загруженный список слов
+	func loadWords(complition: @escaping ([Word]) -> ())
 }
 
 /// Протокол сервиса хранения данных
@@ -52,7 +52,7 @@ final class StorageService: StorageServiceProtocol {
 
 	func readWords(complition: @escaping ([Word]) -> ()) {
 		var resultedWords: [Word] = []
-		specificStorageService.readWords { [weak self] loadedWords in
+		specificStorageService.loadWords { [weak self] loadedWords in
 			guard let self = self else { return }
 			resultedWords = self.addDefaultWords(to: loadedWords)
 			complition(resultedWords)
@@ -74,6 +74,11 @@ final class StorageService: StorageServiceProtocol {
 			return resultWordsArray
 		}
 
-		return wordsDict.merging(defaultWordsDict, uniquingKeysWith: { current, _ in current }).map { $0.value }
+		let allWords = wordsDict.merging(defaultWordsDict, uniquingKeysWith: { current, _ in current }).map { $0.value }
+		if allWords.count != words.count {
+			saveWords(allWords, completion: { _ in })
+		}
+
+		return allWords
 	}
 }

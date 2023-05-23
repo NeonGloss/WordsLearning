@@ -31,8 +31,6 @@ struct DefaultWordsList {
         Word(foreign: "גלידה", native: ["мороженое"], transcription: "глида!"),
         Word(foreign: "מאין", native: ["откуда"], transcription: "мэ-а!йн", partOfSpeech: .questionWord, fToNRemark: "?", nToFRemark: "?"),
         Word(foreign: "שם", native: ["там"], transcription: "щам", partOfSpeech: .other),
-        
-        
 		Word(foreign: "כותב", native: ["пишет"], transcription: "котэ!в", partOfSpeech: .verb, nToFRemark: "м.р"),
 		Word(foreign: "כותבת", native: ["пишет"], transcription: "котэ!вэт", partOfSpeech: .verb, nToFRemark: "ж.р"),
 		Word(foreign: "לכתוב", native: ["писать"], transcription: "лихтов", partOfSpeech: .verb),
@@ -40,43 +38,33 @@ struct DefaultWordsList {
 		Word(foreign: "יודעת", native: ["знает", "умеет"], transcription: "ёдаат", partOfSpeech: .verb, nToFRemark: "что-то, ж.р"),
 		Word(foreign: "לדעת", native: ["знать", "уметь"], transcription: "ладаат", partOfSpeech: .verb),
 		Word(foreign: "רוצא", native: ["хочет"], transcription: "роцэ!", partOfSpeech: .verb, nToFRemark: "м.р"),
-
 		Word(foreign: "אוהב", native: ["любит"], transcription: "оhэв", partOfSpeech: .verb, nToFRemark: "м.р"),
 		Word(foreign: "אוהבת", native: ["любит"], transcription: "оhэвэт", partOfSpeech: .verb, nToFRemark: "ж.р"),
 		Word(foreign: "לאהוב", native: ["любить"], transcription: "леэhов", partOfSpeech: .verb),
-
 		Word(foreign: "הולך", native: ["идет", "ходит"], transcription: "hоле!х", partOfSpeech: .verb, nToFRemark: "м.р"),
 		Word(foreign: "הולכת", native: ["идет", "ходит"], transcription: "hолехэт", partOfSpeech: .verb, nToFRemark: "ж.р"),
 		Word(foreign: "ללכת", native: ["идти", "ходить"], transcription: "льалехэт", partOfSpeech: .verb),
-
 		Word(foreign: "בא", native: ["приходит", "входит"], transcription: "ба", partOfSpeech: .verb, nToFRemark: "м.р"),
 		Word(foreign: "נוסע", native: ["едет", "ездит"], transcription: "носэ!а", partOfSpeech: .verb, nToFRemark: "м.р"),
 		Word(foreign: "נוסעת", native: ["едет", "ездит"], transcription: "носаат", partOfSpeech: .verb, nToFRemark: "ж.р"),
 		Word(foreign: "לנסוע", native: ["ехать", "ездить"], transcription: "линсоа", partOfSpeech: .verb),
-
 		Word(foreign: "מדבר", native: ["разговаривает", "говорит"], transcription: "медабэр/медабэрэт", partOfSpeech: .verb),
 		Word(foreign: "קורא", native: ["читает"], transcription: "корэ!/корэт", partOfSpeech: .verb),
 		Word(foreign: "לקרוא", native: ["читать"], transcription: "ликро", partOfSpeech: .verb),
-
 		Word(foreign: "לומד", native: ["изучает", "учится"], transcription: "льомэ!д", partOfSpeech: .verb, nToFRemark: "м.р"),
 		Word(foreign: "שומע", native: ["слушает", "слышет"], transcription: "шомеа", partOfSpeech: .verb, nToFRemark: "м.р"),
 		Word(foreign: "שומעת", native: ["слушает", "слышет"], transcription: "шомаат", partOfSpeech: .verb, nToFRemark: "ж.р"),
 		Word(foreign: "לשמוע", native: ["слушать", "слышать"], transcription: "лишмоа", partOfSpeech: .verb),
-
 		Word(foreign: "שר", native: ["поет"], transcription: "шир", partOfSpeech: .verb, nToFRemark: "м.р"),
 		Word(foreign: "שרה", native: ["поет"], transcription: "шира", partOfSpeech: .verb, nToFRemark: "ж.р"),
 		Word(foreign: "לשיר", native: ["петь"], transcription: "лашир", partOfSpeech: .verb),
-
 		Word(foreign: "עושה", native: ["делает"], transcription: "осэ!/оса", partOfSpeech: .verb),
 		Word(foreign: "לעשות", native: ["делать"], transcription: "лаасот", partOfSpeech: .verb),
-
 		Word(foreign: "שותה", native: ["пьет"], transcription: "шотэ!|шота", partOfSpeech: .verb),
 		Word(foreign: "לשתות", native: ["пить"], transcription: "лиштот", partOfSpeech: .verb),
-
 		Word(foreign: "גר", native: ["проживает"], transcription: "гар", partOfSpeech: .verb, nToFRemark: "м.р"),
 		Word(foreign: "גרה", native: ["проживает"], transcription: "гара!", partOfSpeech: .verb, nToFRemark: "ж.р"),
 		Word(foreign: "לגור", native: ["проживать"], transcription: "лагур", partOfSpeech: .verb, nToFRemark: "где-то"),
-
 		Word(foreign: "עובד", native: ["работает"], transcription: "овэ!д", partOfSpeech: .verb, nToFRemark: "м.р"),
 		Word(foreign: "עובדת", native: ["работает"], transcription: "овэдэт", partOfSpeech: .verb, nToFRemark: "ж.р"),
 		Word(foreign: "לעבוד", native: ["работать"], transcription: "ляавод", partOfSpeech: .verb),
@@ -86,7 +74,6 @@ struct DefaultWordsList {
 		Word(foreign: "מבין", native: ["понимает"], transcription: "мэви!н", partOfSpeech: .verb, nToFRemark: "м.р"),
 		Word(foreign: "אומר", native: ["говорит"], transcription: "омэр/омэрэт"),
 		Word(foreign: "לומר", native: ["сказать", "говорить"], transcription: "льомар"),
-
 		Word(foreign: "מצטער", native: ["сожалеет"], transcription: "мицтаэ!р", partOfSpeech: .verb, nToFRemark: "м.р"),
 		Word(foreign: "מצטערת", native: ["сожалеет"], transcription: "мицтаэрэт", partOfSpeech: .verb, nToFRemark: "ж.р"),
 
@@ -117,7 +104,6 @@ struct DefaultWordsList {
 		Word(foreign: "יפה", native: ["красивый", "красивая"], transcription: "ёфэ!/ёфа!", partOfSpeech: .adjective),
 		Word(foreign: "רומי", native: ["римский(м.р)"], transcription: "ро!ми", partOfSpeech: .adjective),
 		Word(foreign: "רומית", native: ["римская"], transcription: "ро!мит", partOfSpeech: .adjective),
-
 		Word(foreign: "רחוב", native: ["улица"], transcription: "рэхо!в"),
 		Word(foreign: "רחובות", native: ["улицы"], transcription: "рэхово!т"),
 		Word(foreign: "ארמון", native: ["замок", "дворец"], transcription: "армо!н"),
@@ -173,16 +159,12 @@ struct DefaultWordsList {
 		Word(foreign: "בדואי", native: ["бедуинский", "бедуин"], transcription: "бэ!дуи"),
 		Word(foreign: "בדואים", native: ["бедуинская", "бедуинка"], transcription: "бэдуи!м"),
 		Word(foreign: "חיום", native: ["сегодня(м.р)"], transcription: "хайом"),
-
 		Word(foreign: "אחר", native: ["другой"], transcription: "ахэ!р", partOfSpeech: .adjective),
 		Word(foreign: "אחרת", native: ["другая"], transcription: "ахэ!рэт", partOfSpeech: .adjective),
-
 		Word(foreign: "אוכל", native: ["ест", "кушает"], transcription: "охэ!ль", partOfSpeech: .verb, nToFRemark: "м.р"),
 		Word(foreign: "אוכלת", native: ["ест", "кушает"], transcription: "охэ!лэт", partOfSpeech: .verb, nToFRemark: "ж.р"),
-
 		Word(foreign: "יושב", native: ["сидит"], transcription: "йоше!в/йоше!вэт", nToFRemark: "м.р"),
 		Word(foreign: "מטייל", native: ["гуляет"], transcription: "метайе!ль/метайе!льэт", partOfSpeech: .verb, nToFRemark: "м.р"),
-
 		Word(foreign: "רואה", native: ["видит(м.р|ж.р)"], transcription: "ро-э! | ро-а!", partOfSpeech: .verb),
 		Word(foreign: "לראות", native: ["видеть"], transcription: "лирот", partOfSpeech: .verb),
 
@@ -194,14 +176,11 @@ struct DefaultWordsList {
 		Word(foreign: "זמן", native: ["время"], transcription: "зман"),
 		Word(foreign: "זמנים", native: ["времена"], transcription: "зманим"),
 		Word(foreign: "מחר", native: ["завтра"], transcription: "маха!р"),
-
 		Word(foreign: "רץ", native: ["бежит"], transcription: "рац", partOfSpeech: .verb, nToFRemark: "м.р"),
         Word(foreign: "רצה", native: ["бежит"], transcription: "раца!", partOfSpeech: .verb, nToFRemark: "ж.р"),
         Word(foreign: "לרוץ", native: ["бегать", "бежать"], transcription: "ларуц", partOfSpeech: .verb),
-
         Word(foreign: "לובש", native: ["надевает"], transcription: "льовэ!ш/льовэ!шет", nToFRemark: "м.р"),
         Word(foreign: "שואל", native: ["спрашивает"], transcription: "що-эль/що-элет", nToFRemark: "м.р"),
-
         Word(foreign: "חושב", native: ["думает"], transcription: "хощев", partOfSpeech: .verb, nToFRemark: "м.р"),
         Word(foreign: "חושבת", native: ["думает"], transcription: "хощэвэт", partOfSpeech: .verb, nToFRemark: "ж.р"),
         Word(foreign: "לחשוב", native: ["думать"], transcription: "лахшов/лахашов", partOfSpeech: .verb),
@@ -218,7 +197,7 @@ struct DefaultWordsList {
         Word(foreign: "מי ש", native: ["тот, кто", "тот кто"], transcription: "ми шэ", partOfSpeech: .other),
         Word(foreign: "מה שמך", native: ["как тебя зовут(?)", "как зовут(?)"], transcription: "ма шимха(к мужчине)\nма шмех(к женщине)", partOfSpeech: .other),
         Word(foreign: "לאט", native: ["медленно"], transcription: "леа!т", partOfSpeech: .adjective),
-        Word(foreign: "מהר", native: ["быстро"], transcription: "махэ!р", partOfSpeech: .adjective),
+        Word(foreign: "מהר", native: ["быстро"], transcription: "маhэ!р", partOfSpeech: .adjective),
         Word(foreign: "קשה", native: ["тяжело"], transcription: "кашэ!", partOfSpeech: .adjective),
         Word(foreign: "שאלה", native: ["вопрос"], transcription: "щэ-ельа/ще-ельот"),
         Word(foreign: "מאה", native: ["сто", "сотня", "век"], transcription: "мэ-а(м.р)/мэ-от(ж.р)", partOfSpeech: .other),
@@ -305,8 +284,31 @@ struct DefaultWordsList {
         Word(foreign: "מתוק", native: ["сладкий"], transcription: "маток", partOfSpeech: .adjective),
         Word(foreign: "מתוקה", native: ["сладкая"], transcription: "мэтука", partOfSpeech: .adjective),
         Word(foreign: "למודיעין", native: ["для разведки", "в разведке"], transcription: "ле/бэ модиин", partOfSpeech: .other),
-        Word(foreign: "בן כמה", native: ["сколько лет"], transcription: "бэн кама?", partOfSpeech: .questionWord, fToNRemark: "? к муж."),
-        Word(foreign: "בת כמה", native: ["сколько лет"], transcription: "бат кама?", partOfSpeech: .questionWord, fToNRemark: "? к жен."),
+        Word(foreign: "בן כמה", native: ["сколько лет", "сколько тебе лет"], transcription: "бэн кама?", partOfSpeech: .questionWord, fToNRemark: "? к муж."),
+        Word(foreign: "בת כמה", native: ["сколько лет", "сколько тебе лет"], transcription: "бат кама?", partOfSpeech: .questionWord, fToNRemark: "? к жен."),
+
+		// MARK: - lesson 11.1
+
+		Word(foreign: "שלי", native: ["мой","моё", "моя", "мое", "мои"], transcription: "шели!", partOfSpeech: .other),
+		Word(foreign: "שלך", native: ["твой", "твои"], transcription: "шельха - для м.р.\nшельах - для ж.р.", partOfSpeech: .other),
+		Word(foreign: "שלו", native: ["его", "ему"], transcription: "шельо!", partOfSpeech: .other),
+		Word(foreign: "שלה", native: ["ее", "ей", "её"], transcription: "шельа!", partOfSpeech: .other),
+		Word(foreign: "שלנו", native: ["наш", "наше", "наши"], transcription: "шельа!ну", partOfSpeech: .other),
+		Word(foreign: "שלכם", native: ["ваша", "ваши", "ваш"], transcription: "шельахэ!м", partOfSpeech: .other, nToFRemark: "Местоимение для мн.ч. м.р"),
+		Word(foreign: "שלכן", native: ["ваша", "ваши", "ваш"], transcription: "шельахэ!н", partOfSpeech: .other, nToFRemark: "Местоимение для мн.ч. ж.р"),
+		Word(foreign: "שלהם", native: ["их"], transcription: "шельаhэ!м", partOfSpeech: .other, nToFRemark: "Местоимение для мн.ч. м.р"),
+		Word(foreign: "שלהן", native: ["их"], transcription: "шельаhэ!м", partOfSpeech: .other, nToFRemark: "Местоимение для мн.ч. ж.р"),
+		Word(foreign: "כלב", native: ["собака"], transcription: "келев/кльави!м", partOfSpeech: .noun),
+		Word(foreign: "חתול", native: ["кот"], transcription: "хату!ль/хатули!м", partOfSpeech: .noun, nToFRemark: "м.р."),
+		Word(foreign: "חתולה", native: ["кошка"], transcription: "хатульа!/хатульо!т", partOfSpeech: .noun, nToFRemark: "ж.р."),
+		Word(foreign: "לתת", native: ["давать", "дать"], transcription: "льатэ!т", partOfSpeech: .verb),
+		Word(foreign: "נותן", native: ["дает", "даёт"], transcription: "нотэ!н/нотэ!нэт\nнот-ни!м/нот-но!т", partOfSpeech: .verb),
+		Word(foreign: "לעמוד", native: ["стоять"], transcription: "льа-а!мод", partOfSpeech: .verb),
+		Word(foreign: "עומד", native: ["стоит"], transcription: "омэ!д/омэ!дэт\nомди!м/омдо!т", partOfSpeech: .verb),
+		Word(foreign: "עצוב", native: ["грустный", "печальный"], transcription: "ацу!в/ацува!", partOfSpeech: .adjective),
+		Word(foreign: "שמח", native: ["счастливый", "радостный", "веселый", "весёлый"], transcription: "самэ!ах/смеха!", partOfSpeech: .adjective),
+		Word(foreign: "חכם", native: ["умный", "мудрый"], transcription: "хаха!м/хахама!", partOfSpeech: .adjective),
+		Word(foreign: "כל-כך", native: ["настолько"], transcription: "коль-ка!х", partOfSpeech: .other),
 
         // MARK: - lesson 12.1
         

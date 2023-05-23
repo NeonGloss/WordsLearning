@@ -46,18 +46,18 @@ final class MainInteractor: MainInteractorProtocol {
 	/// Презентер сцены
 	var presenter: MainPresenterProtocol?
 
-	private let router: MainRouterProtocol
-	private var currentQuestionWord: Word?
-	private let quizService: QuizServiceProtocol
+	private let notificationService: NotificationServiceProtocol
 	private let storageService: StorageServiceProtocol
+	private let quizService: QuizServiceProtocol
+	private let router: MainRouterProtocol
+
 	private var translationDirection: TranslationDirection = .foreignToNative
     private var isFirstAnswerReceived: Bool = false
     private var isShuffleTurnedOn: Bool = false
     private var isRepeatTurnedOn: Bool = false
-    private var wordsForStudy: [Word] = []
-    private var selectedForPartialStuydWords: [Word] = []
-    
-    private let notificationService: NotificationServiceProtocol
+	private var currentWordsList: WordsList?
+	private var currentQuestionWord: Word?
+	private var allWords: [Word] = []
 
 	/// Инициализатор
 	/// - Parameters:
@@ -137,13 +137,12 @@ final class MainInteractor: MainInteractorProtocol {
 	}
     
     func selectWordsButtonTapped() {
-        let actionOnClose: ([Word]) -> Void = { [weak self] selectedWords in
-            self?.someWordsSelectedForStudy(selectedWords)
-        }
-        let wordsSelection = WordsSelectionAssembler().create(allWords: wordsForStudy,
-                                                              alreadySelectedWords: selectedForPartialStuydWords,
-                                                              actionOnClose: actionOnClose)
-        router.routeModallyTo(wordsSelection)
+		let actionOnClose: (WordsList?) -> Void = { [weak self] wordsList in
+			self?.wordsListWasSelectedForStudy(wordsList)
+		}
+		let wordsSelection = WordsListsSelectionAssembler().create(currentWordsList: currentWordsList,
+																   actionOnClose: actionOnClose)
+		router.routeModallyTo(wordsSelection)
     }
 
 	// MARK: Private
@@ -163,7 +162,7 @@ final class MainInteractor: MainInteractorProtocol {
 
 	private func wordsWasLoaded(_ words: [Word]) {
         quizService.setWords(words)
-        wordsForStudy = words
+        allWords = words
 		askQuestion()
 	}
 
@@ -187,14 +186,20 @@ final class MainInteractor: MainInteractorProtocol {
 		fillUIWith(word)
 	}
     
-    private func someWordsSelectedForStudy(_ selectedWords: [Word]) {
-        let wordsListHasChanged = !Set(selectedForPartialStuydWords).symmetricDifference(selectedWords).isEmpty
-        selectedForPartialStuydWords = selectedWords
-        presenter?.showThatStudySelectedWords(isGoingOn: selectedWords.count != 0)
-        if wordsListHasChanged {
-            quizService.setWords(selectedWords.count != 0 ? selectedWords : wordsForStudy)
-            askQuestion()
-        }
+	private func wordsListWasSelectedForStudy(_ wordsList: WordsList?) {
+		var resultedWordsForStudy: [Word] = []
+		currentWordsList = wordsList
+		if let wordsList = wordsList,
+		   !wordsList.words.isEmpty {
+			resultedWordsForStudy = wordsList.words
+			presenter?.showThatStudySelectedWords(isGoingOn: true)
+		} else {
+			presenter?.showThatStudySelectedWords(isGoingOn: false)
+			resultedWordsForStudy = allWords
+		}
+
+		quizService.setWords(resultedWordsForStudy)
+		askQuestion()
     }
 
 	private func fillUIWith(_ word: Word) {

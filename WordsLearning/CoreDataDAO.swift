@@ -23,9 +23,41 @@ final class CoreDataDAO: DAOProtocol {
 		}
 	}
 
-	func readWords(complition: @escaping ([Word]) -> ()) {
+	func loadWords(complition: @escaping ([Word]) -> ()) {
 		let loadedCDWords = context.fetchAllEntities(ofType: CDWord.self)
 		let loadedWords = loadedCDWords.compactMap { $0.word }
 		complition(loadedWords)
+	}
+}
+
+extension CoreDataDAO: WordsListStorageServiceProtocol {
+
+	func create(_ newWordsList: WordsList) {
+		let cdWordsList = CDWordsList(context: context)
+		let cdWords = context.fetchAllEntities(ofType: CDWord.self).filter { cdWord in
+			newWordsList.words.contains(where: { $0.foreign == cdWord.foreign})
+		}
+		cdWordsList.update(withName: newWordsList.name, comment: newWordsList.commentString, words: cdWords)
+	}
+	
+	func update(origWordsList: WordsList, newName: String, newComment: String?, newWords: [Word]) {
+		let cdList = context.fetchAllEntities(ofType: CDWordsList.self).first() { $0.name == origWordsList.name}
+		let cdWords = context.fetchAllEntities(ofType: CDWord.self).filter { cdWord in
+			newWords.contains(where: { $0.foreign == cdWord.foreign})
+		}
+		cdList?.update(withName: newName, comment: newComment, words: cdWords)
+	}
+
+	func loadWordsLists() -> [WordsList] {
+		let loadedCDWordsLists = context.fetchAllEntities(ofType: CDWordsList.self)
+		let loadedWordsLists = loadedCDWordsLists.compactMap() { $0.wordsList }
+		return loadedWordsLists
+	}
+
+	func deleteWordsList(name: String) {
+		let cdWordsList = context.fetchAllEntities(ofType: CDWordsList.self)
+		let cdListForDeletion = cdWordsList.first() { $0.name == name }
+		guard let cdListForDeletion = cdListForDeletion else { return }
+		context.delete(cdListForDeletion)
 	}
 }
