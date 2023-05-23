@@ -7,22 +7,20 @@
 
 import UIKit
 
-/// Протокол сборщика экрана
+/// Протокол сборщика экрана изменения свойств слова
 protocol WordEditionAssemblerProtocol {
 
 	/// Создает экран
 	/// - Parameter word: слово для изменения
-	/// - Parameter actionOnClose: замыкание при закрытии, с флагом успеха
+	/// - Parameter actionOnClose: замыкание при закрытии, возвращает обновленные свойства слова, если они были изменены
 	func create(for word: Word, actionOnClose: @escaping (EditedWordParts?) -> Void) -> WordEditionViewControllerProtocol
 }
 
-/// Сборщик экрана
+/// Сборщик экрана изменения свойств слова
 final class WordEditionAssembler: WordEditionAssemblerProtocol {
 
 	func create(for word: Word, actionOnClose: @escaping (EditedWordParts?) -> Void) -> WordEditionViewControllerProtocol {
-		let storageService = StorageService(specificStorage: CoreDataDAO())
-		let wordEditionService = WordEditionService(storageService: storageService)
-		let interactor = WordEditionInteractor(storageService: wordEditionService,
+		let interactor = WordEditionInteractor(storageService: StorageService(specificStorage: CoreDataDAO()),
 											   word: word,
 											   actionOnClose: actionOnClose)
 		let viewController = WordEditionViewController(interactor: interactor)

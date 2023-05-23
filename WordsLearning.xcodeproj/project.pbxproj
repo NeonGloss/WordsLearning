@@ -60,7 +60,6 @@
 		A3CF0BBA28BE4DD600A3B916 /* WordEditionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF0BB428BE4DD600A3B916 /* WordEditionPresenter.swift */; };
 		A3CF0BBC28BE4DD600A3B916 /* WordEditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF0BB628BE4DD600A3B916 /* WordEditionViewController.swift */; };
 		A3CF0BBD28BE4DD600A3B916 /* WordEditionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF0BB728BE4DD600A3B916 /* WordEditionInteractor.swift */; };
-		A3CF0BBE28BE4DD600A3B916 /* WordEditionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF0BB828BE4DD600A3B916 /* WordEditionService.swift */; };
 		A3CF0BC028BE4F5800A3B916 /* SemanticStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF0BBF28BE4F5800A3B916 /* SemanticStrings.swift */; };
 		A3E30D7A28808F0D005907BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E30D7928808F0D005907BF /* AppDelegate.swift */; };
 		A3E30D8428808F0E005907BF /* WordsLearning.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3E30D8228808F0E005907BF /* WordsLearning.xcdatamodeld */; };
@@ -154,7 +153,6 @@
 		A3CF0BB428BE4DD600A3B916 /* WordEditionPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEditionPresenter.swift; sourceTree = "<group>"; };
 		A3CF0BB628BE4DD600A3B916 /* WordEditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEditionViewController.swift; sourceTree = "<group>"; };
 		A3CF0BB728BE4DD600A3B916 /* WordEditionInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEditionInteractor.swift; sourceTree = "<group>"; };
-		A3CF0BB828BE4DD600A3B916 /* WordEditionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEditionService.swift; sourceTree = "<group>"; };
 		A3CF0BBF28BE4F5800A3B916 /* SemanticStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticStrings.swift; sourceTree = "<group>"; };
 		A3E30D7628808F0D005907BF /* WordsLearning.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordsLearning.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3E30D7928808F0D005907BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -370,7 +368,6 @@
 				A3CF0BB428BE4DD600A3B916 /* WordEditionPresenter.swift */,
 				A3CF0BB628BE4DD600A3B916 /* WordEditionViewController.swift */,
 				A3CF0BB728BE4DD600A3B916 /* WordEditionInteractor.swift */,
-				A3CF0BB828BE4DD600A3B916 /* WordEditionService.swift */,
 			);
 			name = WordEdition;
 			sourceTree = "<group>";
@@ -657,7 +654,6 @@
 				A3E30D8428808F0E005907BF /* WordsLearning.xcdatamodeld in Sources */,
 				A349C1A928F1A295003216FF /* Constants.swift in Sources */,
 				A3B1043C289D2806007F8D82 /* RespondingButton.swift in Sources */,
-				A3CF0BBE28BE4DD600A3B916 /* WordEditionService.swift in Sources */,
 				A3CF0BBD28BE4DD600A3B916 /* WordEditionInteractor.swift in Sources */,
 				A3B1042D289AABC3007F8D82 /* RichAlertViewController.swift in Sources */,
 				30DF3FE42A1655B600AF3A1C /* CDWordsList+extension.swift in Sources */,

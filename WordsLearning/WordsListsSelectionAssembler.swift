@@ -24,7 +24,7 @@ final class WordsListsSelectionAssembler: WordsListsSelectionAssemblerProtocol {
 				actionOnClose: @escaping (WordsList?) -> Void) -> WordsListsSelectionViewControllerProtocol {
 		let router = MainRouter()
 		let interactor = WordsListsSelectionInteractor(router: router,
-													   storageService: CoreDataDAO(),
+													   storageService: StorageService(specificStorage: CoreDataDAO()),
 													   currentWordsList: currentWordsList,
 													   actionOnClose: actionOnClose)
 		let viewController = WordsListsSelectionViewController(interactor: interactor)

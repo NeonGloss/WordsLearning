@@ -9,12 +9,16 @@
 /// Протокол сервиса хранения данных для списка изучения слов
 protocol WordsListStorageServiceProtocol {
 
-	/// Загрузить списки слов
-	func loadWordsLists() -> [WordsList]
-
 	/// Загрузить слова
 	/// - Parameter complition: замыкание, возвращающее загруженный список слов
 	func loadWords(complition: @escaping ([Word]) -> ())
+
+	/// Создать список слов
+	/// - Parameter newWordsList: новый список слов
+	func create(_ newWordsList: WordsList)
+
+	/// Загрузить списки слов
+	func loadWordsLists() -> [WordsList]
 
 	/// Обновидть данные списка слов
 	/// - Parameters:
@@ -23,10 +27,6 @@ protocol WordsListStorageServiceProtocol {
 	///   - newComment: новый коментарий
 	///   - newWords: новый массив слов
 	func update(origWordsList: WordsList, newName: String, newComment: String?, newWords: [Word])
-
-	/// Создать список слов
-	/// - Parameter newWordsList: новый список слов
-	func create(_ newWordsList: WordsList)
 
 	/// Удалить список слов
 	/// - Parameter name: название списка слов
@@ -57,7 +57,6 @@ final class WordsListsSelectionInteractor: WordsListsSelectionInteractorProtocol
 	var presenter: WordsListsSelectionPresenterProtocol?
 
 	private let router: MainRouterProtocol
-
 	private let storageService: WordsListStorageServiceProtocol
 
 	private var wordsLists: [WordsList] = []

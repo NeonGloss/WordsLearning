@@ -12,17 +12,18 @@ typealias EditedWordParts = (transcription: String,
 							 nToFRemark: String?,
 							 foreign: String)
 
-protocol WordStorageServiceProtocol {
+/// Протокол сервиса хранения данных для сцены изменения свойств слова
+protocol WordEditionStorageServiceProtocol {
 
 	/// Пересохранить слово с изменениями
 	/// - Parameters:
 	///   - origWord: изначальное слово
 	///   - newWordParts: новые свойства слова
 	///   - completion: замыкание, возвращает true - если изменения сохранились успешно
-	func updateWord(origWord: Word, newWordParts: EditedWordParts, completion: @escaping (Bool) -> Void)
+	func update(origWord: Word, newWordParts: EditedWordParts, completion: @escaping (Bool) -> Void)
 }
 
-/// Протокол интерактора сцены
+/// Протокол интерактора сцены изменения свойств слова
 protocol WordEditionInteractorProtocol {
 
 	func viewDidLoad()
@@ -40,13 +41,13 @@ protocol WordEditionInteractorProtocol {
 	func nToFRemarkChanged(to: String?)
 }
 
-/// Интерактор сцены
+/// Интерактор сцены изменения свойств слова
 final class WordEditionInteractor: WordEditionInteractorProtocol {
 
-	/// Презентер сцены
+	/// Презентер сцены изменения свойств слова
 	var presenter: WordEditionPresenterProtocol?
 
-	private var storageService: WordStorageServiceProtocol
+	private var storageService: WordEditionStorageServiceProtocol
 	private let actionOnClose: (EditedWordParts?) -> Void
 	private var editedTranscription: String
 	private var editedFToNRemark: String?
@@ -60,7 +61,9 @@ final class WordEditionInteractor: WordEditionInteractorProtocol {
     ///   - storageService: сервис работы с хранилищем
     ///   - word: словов для изменения
     ///   - actionOnClose: замыкание, которое будет выполненно при закрытии экрана
-	init(storageService: WordStorageServiceProtocol, word: Word, actionOnClose: @escaping (EditedWordParts?) -> Void) {
+	init(storageService: WordEditionStorageServiceProtocol,
+		 word: Word,
+		 actionOnClose: @escaping (EditedWordParts?) -> Void) {
 		self.storageService = storageService
 		self.actionOnClose = actionOnClose
 		self.origWord = word
@@ -74,7 +77,7 @@ final class WordEditionInteractor: WordEditionInteractorProtocol {
 
 	func saveButtonTapped() {
 		let parts = (editedTranscription, editedNative, editedFToNRemark, editedNtoFRemark, editedForeign)
-		storageService.updateWord(origWord: origWord, newWordParts: parts) { [weak self] isSuccess in
+		storageService.update(origWord: origWord, newWordParts: parts) { [weak self] isSuccess in
 			self?.actionOnClose(isSuccess ? parts : nil)
 			self?.presenter?.dismissScene()
 		}

@@ -21,6 +21,7 @@ final class CoreDataDAO: DAOProtocol {
 			let cdWord = loadedCDWords.first(where: { $0.foreign == word.foreign } ) ?? CDWord(context: context)
 			cdWord.update(with: word)
 		}
+		completion?(true)
 	}
 
 	func loadWords(complition: @escaping ([Word]) -> ()) {
@@ -28,9 +29,6 @@ final class CoreDataDAO: DAOProtocol {
 		let loadedWords = loadedCDWords.compactMap { $0.word }
 		complition(loadedWords)
 	}
-}
-
-extension CoreDataDAO: WordsListStorageServiceProtocol {
 
 	func create(_ newWordsList: WordsList) {
 		let cdWordsList = CDWordsList(context: context)
@@ -46,6 +44,21 @@ extension CoreDataDAO: WordsListStorageServiceProtocol {
 			newWords.contains(where: { $0.foreign == cdWord.foreign})
 		}
 		cdList?.update(withName: newName, comment: newComment, words: cdWords)
+	}
+
+	func update(origWord: Word, newWordParts: EditedWordParts, completion: @escaping (Bool) -> Void) {
+		let cdWord = context.fetchAllEntities(ofType: CDWord.self).first { $0.foreign == origWord.foreign }
+		guard let cdWord = cdWord else {
+			completion(false)
+			return
+		}
+
+		let newWord = Word(foreign: newWordParts.foreign,
+						   native: newWordParts.native,
+						   transcription: newWordParts.transcription)
+
+		cdWord.update(with: newWord)
+		completion(true)
 	}
 
 	func loadWordsLists() -> [WordsList] {

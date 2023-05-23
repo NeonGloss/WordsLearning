@@ -5,7 +5,7 @@
 //  Created by Roman Kuzin on 30.08.2022.
 //
 
-/// Протокол презентера сцены
+/// Протокол презентера сцены изменения свойств слова
 protocol WordEditionPresenterProtocol {
 
 	func fillUIWith(_ word: Word)
@@ -13,7 +13,7 @@ protocol WordEditionPresenterProtocol {
 	func dismissScene()
 }
 
-/// Презентер сцены
+/// Презентер сцены изменения свойств слова
 final class WordEditionPresenter: WordEditionPresenterProtocol {
 
 	private weak var viewController: WordEditionViewControllerProtocol?

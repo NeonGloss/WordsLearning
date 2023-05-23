@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// Протокол вью-контроллера сцены
+/// Протокол вью-контроллера сцены изменения свойств слова
 protocol WordEditionViewControllerProtocol: UIViewController {
 
 	func fillWith(foreign: String,
@@ -18,7 +18,7 @@ protocol WordEditionViewControllerProtocol: UIViewController {
 				  transctription: String)
 }
 
-/// Вью-контроллер сцены
+/// Вью-контроллер сцены изменения свойств слова
 final class WordEditionViewController: UIViewController, WordEditionViewControllerProtocol {
 
 	private var interactor: WordEditionInteractorProtocol

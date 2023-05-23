@@ -61,4 +61,24 @@ final class KeychainDAO: KeychainDAOProtocol {
 		let loadedWords = try? JSONDecoder().decode([Word].self, from: data)
 		complition(loadedWords ?? [])
 	}
+
+	func loadWordsLists() -> [WordsList] {
+		fatalError("Keychain should not be used for this")
+	}
+
+	func create(_ newWordsList: WordsList) {
+		fatalError("Keychain should not be used for this")
+	}
+
+	func deleteWordsList(name: String) {
+		fatalError("Keychain should not be used for this")
+	}
+
+	func update(origWordsList: WordsList, newName: String, newComment: String?, newWords: [Word]) {
+		fatalError("Keychain should not be used for this")
+	}
+
+	func update(origWord: Word, newWordParts: EditedWordParts, completion: @escaping (Bool) -> Void) {
+		fatalError("Keychain should not be used for this")
+	}
 }
