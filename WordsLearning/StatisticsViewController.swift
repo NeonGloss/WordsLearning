@@ -24,23 +24,40 @@ final class StatisticsViewController: UIViewController, StatisticsViewController
 	private lazy var table = DRTableView(settings: DRTableViewSettings())
 	private var sortSwitch: UISwitch = {
 		let directionSwitch = UISwitch()
-		directionSwitch.thumbTintColor = .orange
-		directionSwitch.onTintColor = .lightGray
+        directionSwitch.layer.borderWidth = 1
+        directionSwitch.layer.cornerRadius = 15
+        directionSwitch.thumbTintColor = .orange
+        directionSwitch.onTintColor = .systemMint
+        directionSwitch.layer.borderColor = UIColor.white.cgColor
 		return directionSwitch
+	}()
+
+	private let closeButton: CustomUIButton = {
+		var configuration = UIButton.Configuration.filled()
+		configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 20)
+		let button = CustomUIButton(configuration: configuration)
+		button.setImage(SemanticImages.leftChevron, for: .normal)
+        button.layer.borderWidth = 1.5
+		button.layer.borderColor = UIColor.white.cgColor
+		button.tintColor = Design.Colors.dsNuance0
+		button.layer.cornerRadius = 20
+		return button
 	}()
     
     private let sortTypeLabel: UILabel = {
         let label = UILabel()
         label.text = "Sort by %"
         label.font = label.font.bold()
+        label.textColor = .white
         return label
     }()
 
-	private let countLabel: UILabel = {
-	 let label = UILabel()
-	 label.font = label.font.bold()
-	 return label
- }()
+    private let countLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = label.font.bold()
+        return label
+    }()
 
 	// MARK: Object lifecycle
 
@@ -75,41 +92,61 @@ final class StatisticsViewController: UIViewController, StatisticsViewController
 	// MARK: - Display
 
 	func displayItems(_ items: [DRTableViewCellProtocol]) {
-		table.items = items
-		countLabel.text = String(items.count)
+        countLabel.text = String(items.count) + " words"
+        table.items = items
 	}
 
 	// MARK: - Private
 
 	private func seutpViews() {
-		view.overrideUserInterfaceStyle = .light
-		view.backgroundColor = UIColor.white
+        setupBackgroundGradient()
+
 		table.separatorStyle = .singleLine
 		sortSwitch.addTarget(self, action: #selector(sortSwitchTapped(_:)), for: .allTouchEvents)
+		closeButton.addTarget(self, action: #selector(dissmissScene), for: .touchUpInside)
 	}
+
+    private func setupBackgroundGradient() {
+        let topColor = Design.Colors.gradientBackground0Top.cgColor
+        let bottomColor = Design.Colors.gradientBackground0Bottom.cgColor
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = view.bounds
+        gradientLayer.colors = [topColor, bottomColor]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        view.layer.insertSublayer(gradientLayer, at: 0)
+    }
 
 	private func setupConstraints() {
 		view.addSubview(table)
 		view.addSubview(sortSwitch)
 		view.addSubview(countLabel)
+		view.addSubview(closeButton)
         view.addSubview(sortTypeLabel)
 		view.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
-		NSLayoutConstraint.activate([
-			sortSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-			sortSwitch.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
 
-			countLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-			countLabel.centerYAnchor.constraint(equalTo: sortSwitch.centerYAnchor),
-            
+        NSLayoutConstraint.activate([
+            sortSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            sortSwitch.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+
+
             sortTypeLabel.leadingAnchor.constraint(equalTo: sortSwitch.leadingAnchor, constant:  -100),
             sortTypeLabel.centerYAnchor.constraint(equalTo: sortSwitch.centerYAnchor),
 
-			table.topAnchor.constraint(equalTo: sortSwitch.bottomAnchor, constant: 5),
-			table.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			table.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-			table.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-		])
+            table.topAnchor.constraint(equalTo: sortSwitch.bottomAnchor, constant: 5),
+            table.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            table.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            table.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        closeButton.top(to: view.safeAreaLayoutGuide)
+        closeButton.leadingToSuperview().constant = 20
+        closeButton.height(40)
+        closeButton.width(40)
+
+        countLabel.centerXToSuperview()
+        countLabel.centerY(to: closeButton)
 	}
 
 	@objc private func dissmissScene() {

@@ -172,8 +172,8 @@ final class WordEditionViewController: UIViewController, WordEditionViewControll
 		return textField
 	}()
 
-	private var saveButton: RespondingButton = {
-		let button = RespondingButton()
+	private var saveButton: KeyboardRespondableUIButton = {
+		let button = KeyboardRespondableUIButton()
 		button.backgroundColor = .white
 		button.layer.borderColor = UIColor.black.cgColor
 		button.setTitle(SemanticStrings.save, for: .normal)
@@ -183,8 +183,8 @@ final class WordEditionViewController: UIViewController, WordEditionViewControll
 		return button
 	}()
 
-	private var cancelButton: RespondingButton = {
-		let button = RespondingButton()
+	private var cancelButton: KeyboardRespondableUIButton = {
+		let button = KeyboardRespondableUIButton()
 		button.backgroundColor = .white
 		button.layer.borderColor = UIColor.black.cgColor
 		button.setTitle(SemanticStrings.cancel, for: .normal)

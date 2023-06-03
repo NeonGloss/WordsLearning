@@ -88,4 +88,9 @@ final class SemanticImages {
         let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
         return UIImage(systemName: "plus.circle.fill")?.applyingSymbolConfiguration(config) ?? UIImage()
     }
+
+	static var arrowLeftArrowRight: UIImage {
+	 let config = UIImage.SymbolConfiguration(paletteColors: [.white, .white])
+	 return UIImage(systemName: "arrow.left.arrow.right")?.applyingSymbolConfiguration(config) ?? UIImage()
+ }
 }

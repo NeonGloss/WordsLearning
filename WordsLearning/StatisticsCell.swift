@@ -30,6 +30,7 @@ final class StatisticsCell: UITableViewCell, DRTableViewCellProtocol {
     private weak var output: StaticsticsCellOutput?
     private var word: Word
     
+    private let backRoundedCornersView = UIView()
     private let foreingWordLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Thonburi", size: 23)?.bold()
@@ -52,6 +53,10 @@ final class StatisticsCell: UITableViewCell, DRTableViewCellProtocol {
     }()
     private let fToNStudyPercentLabel = UILabel()
     private let nToFStudyPercentLabel = UILabel()
+    private enum Sizes {
+        static let horizontalIndent: CGFloat = 20.0
+        static let verticalIndent: CGFloat = 15.0
+    }
     
     /// Инициализатор
     /// - Parameters:
@@ -93,6 +98,7 @@ final class StatisticsCell: UITableViewCell, DRTableViewCellProtocol {
 	// MARK: Private
 
 	private func setupConstraints() {
+        contentView.addSubview(backRoundedCornersView)
         contentView.addSubview(fToNRemarkLabel)
         contentView.addSubview(nToFRemarkLabel)
         contentView.addSubview(nativeWordsLabel)
@@ -101,45 +107,47 @@ final class StatisticsCell: UITableViewCell, DRTableViewCellProtocol {
         contentView.addSubview(nToFStudyPercentLabel)
 		contentView.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
-		NSLayoutConstraint.activate([
-			foreingWordLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-			foreingWordLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            
-            fToNRemarkLabel.centerYAnchor.constraint(equalTo: foreingWordLabel.centerYAnchor),
-            fToNRemarkLabel.leadingAnchor.constraint(equalTo: foreingWordLabel.trailingAnchor, constant: 10),
-            
-            fToNStudyPercentLabel.centerYAnchor.constraint(equalTo: foreingWordLabel.centerYAnchor),
-            fToNStudyPercentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            
-            nativeWordsLabel.topAnchor.constraint(equalTo: foreingWordLabel.bottomAnchor, constant: 10),
-            nativeWordsLabel.leadingAnchor.constraint(equalTo: foreingWordLabel.leadingAnchor),
-			nativeWordsLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.75),
-            
-            nToFRemarkLabel.topAnchor.constraint(equalTo: nativeWordsLabel.bottomAnchor, constant: 10),
-            nToFRemarkLabel.leadingAnchor.constraint(equalTo: nativeWordsLabel.leadingAnchor),
-            nToFRemarkLabel.trailingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: -50),
-            nToFRemarkLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+        backRoundedCornersView.topToSuperview().constant = 5
+        backRoundedCornersView.bottomToSuperview().constant = -5
+        backRoundedCornersView.leadingToSuperview().constant = Sizes.horizontalIndent
+        backRoundedCornersView.trailingToSuperview().constant = -Sizes.horizontalIndent
 
-            nToFStudyPercentLabel.centerYAnchor.constraint(equalTo: nativeWordsLabel.centerYAnchor),
-            nToFStudyPercentLabel.trailingAnchor.constraint(equalTo: fToNStudyPercentLabel.trailingAnchor),
-		])
+        foreingWordLabel.topToSuperview().constant = Sizes.verticalIndent
+        foreingWordLabel.leadingToSuperview().constant = 30
+
+        fToNRemarkLabel.centerX(to: foreingWordLabel)
+        fToNRemarkLabel.leading(to: foreingWordLabel).constant = 10
+
+        fToNStudyPercentLabel.centerY(to: foreingWordLabel)
+        fToNStudyPercentLabel.trailingToSuperview().constant = -30
+
+        nativeWordsLabel.topToBottom(of: foreingWordLabel).constant = 10
+        nativeWordsLabel.leading(to: foreingWordLabel)
+        nativeWordsLabel.width(to: contentView, multiplier: 0.75)
+
+        nToFRemarkLabel.top(to: nativeWordsLabel).constant = 10
+        nToFRemarkLabel.leading(to: nativeWordsLabel)
+        nToFRemarkLabel.trailingToSuperview().constant = -50
+        nToFRemarkLabel.bottomToSuperview().constant = -Sizes.verticalIndent
+
+        nToFStudyPercentLabel.centerY(to: nativeWordsLabel)
+        nToFStudyPercentLabel.trailing(to: fToNStudyPercentLabel)
         
         if nToFRemarkLabel.text != nil {
-            NSLayoutConstraint.activate([
-                nToFRemarkLabel.topAnchor.constraint(equalTo: nativeWordsLabel.bottomAnchor, constant: 10),
-                nToFRemarkLabel.leadingAnchor.constraint(equalTo: nativeWordsLabel.leadingAnchor),
-                nToFRemarkLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50),
-                nToFRemarkLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            ])
+            nToFRemarkLabel.topToBottom(of: nativeWordsLabel).constant = 10
+            nToFRemarkLabel.leading(to: nativeWordsLabel)
+            nToFRemarkLabel.trailingToSuperview().constant = -50
+            nToFRemarkLabel.bottomToSuperview().constant = -Sizes.verticalIndent
         } else {
-            NSLayoutConstraint.activate([
-                nativeWordsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            ])
+            nativeWordsLabel.bottomToSuperview().constant = -Sizes.verticalIndent
         }
     }
 
 	private func setupUI() {
 		backgroundColor = .clear
+        backRoundedCornersView.backgroundColor = .white
+        backRoundedCornersView.layer.cornerRadius = 10
+
         foreingWordLabel.text = word.foreign
         nativeWordsLabel.text = makeNativeString(from: word.native)
         fToNStudyPercentLabel.text = String(format: "%.0f", word.foreingToNativeStatistic.studyPercent) + " %"
@@ -147,10 +155,14 @@ final class StatisticsCell: UITableViewCell, DRTableViewCellProtocol {
         
         if let fToNRemarkText = word.fToNRemark, !fToNRemarkText.isEmpty {
 			fToNRemarkLabel.text = "(" + fToNRemarkText + ")"
+		} else {
+			fToNRemarkLabel.text = nil
 		}
         if let nToFRemarkText = word.nToFRemark, !nToFRemarkText.isEmpty {
             nToFRemarkLabel.text = "(" + nToFRemarkText + ")"
-        }
+        } else {
+			nToFRemarkLabel.text = nil
+		}
 	}
     
     // MAKR: Private
