@@ -10,7 +10,7 @@ import UIKit
 final class RichAlertViewController: UIViewController {
 
 	private let buttonsSettings: [ButtonSettins]
-	private var buttons: [RespondingButton] = []
+	private var buttons: [KeyboardRespondableUIButton] = []
 	private let titleString: String?
 	private let subtitle: String?
 	private let image: UIImage?
@@ -124,10 +124,10 @@ final class RichAlertViewController: UIViewController {
 		}
 	}
 
-	private func makeButtons(settings: [ButtonSettins]) -> [RespondingButton] {
-		var result: [RespondingButton] = []
+	private func makeButtons(settings: [ButtonSettins]) -> [KeyboardRespondableUIButton] {
+		var result: [KeyboardRespondableUIButton] = []
 		settings.forEach { settings in
-			let button = RespondingButton()
+			let button = KeyboardRespondableUIButton()
 			button.actionOnTap = settings.actionOnTap
 			button.backgroundColor = .white
 			button.layer.borderColor = UIColor.black.cgColor
@@ -155,7 +155,6 @@ final class RichAlertViewController: UIViewController {
 			imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
 			imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Sizes.imageToTop),
 
-
 			titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
 			titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Sizes.titleToTop),
 			titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: Sizes.contentToSubcontentMultiplier),
@@ -177,7 +176,7 @@ final class RichAlertViewController: UIViewController {
 		}
 	}
 
-	@objc private func buttonDidTapped(_ button: RespondingButton) {
+	@objc private func buttonDidTapped(_ button: KeyboardRespondableUIButton) {
 		if button.actionOnTap != nil {
 			button.actionOnTap?()
 		}

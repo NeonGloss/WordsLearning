@@ -11,12 +11,14 @@ import UIKit
 struct Design {
     
     enum Colors {
+		static let gradientBackground0Top = UIColor(hex: "#237A57")
+		static let gradientBackground0Bottom = UIColor(hex: "#093028")
         static let background0 = UIColor(hex: "#F9F3F0")
         static let background1 = UIColor(hex: "#d1701b")
         static let dsBackground1 = UIColor(hex: "#333739")
         static let dsBrand = UIColor(hex: "#EB5E3D")
         static let dsBackground2 = UIColor(hex: "#41464A")
-        static let dsNuance0 = UIColor(hex: "#fda172")
+        static let dsNuance0 = UIColor(hex: "#238A5F")
         static let dsNuance1 = UIColor(hex: "#393D3D")
         static let dsBorder0 = UIColor(hex: "#979797")
         static let dsBorder1 = UIColor(hex: "#3F4344")
@@ -32,6 +34,6 @@ struct Design {
         static let header = UIFont(name: "Times New Roman", size: 25) ?? .systemFont(ofSize: 10)
         static let normal = UIFont(name: "Thonburi", size: 18)?.bold() ?? .systemFont(ofSize: 5)
         static let small = UIFont(name: "Thonburi", size: 15) ?? .systemFont(ofSize: 5)
-        static let tabBar = UIFont(name: "Thonburi", size: 12) ?? .systemFont(ofSize: 5)
+        static let smallest = UIFont(name: "Thonburi", size: 13) ?? .systemFont(ofSize: 5)
     }
 }

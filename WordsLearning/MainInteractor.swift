@@ -15,7 +15,7 @@ enum TranslationDirection {
 }
 
 /// Протокол интерактора сцены
-protocol MainInteractorProtocol {
+protocol MainInteractorProtocol: ExtraCapabilitiesViewOutput {
 	
 	/// Обновление данных
 	func viewDidLoad()
@@ -23,8 +23,6 @@ protocol MainInteractorProtocol {
 	/// Получен ответ от пользователя
 	/// - Parameter answer: ответ
 	func answerReceived(_ answer: String)
-
-	func contrverseTranslationSwitcherChanged(to newValue: Bool)
 
 	func editWordTapped()
 
@@ -35,13 +33,14 @@ protocol MainInteractorProtocol {
 	func repeatButtonTapped()
 
 	func shuffleButtonTapped()
-    
-    /// Обработка нажатия кнопки выбора определенных слов для изученя
-    func selectWordsButtonTapped()
+
+	/// Нажата кнопка меню дополнительных функций
+	func extraCapabilitiesButtonTapped()
 }
 
 /// Интерактор сцены
-final class MainInteractor: MainInteractorProtocol {
+final class MainInteractor: MainInteractorProtocol,
+							ExtraCapabilitiesViewOutput {
 
 	/// Презентер сцены
 	var presenter: MainPresenterProtocol?
@@ -102,8 +101,9 @@ final class MainInteractor: MainInteractorProtocol {
 		isFirstAnswerReceived = true
 	}
 
-	func contrverseTranslationSwitcherChanged(to newValue: Bool) {
-		translationDirection = newValue == true ? .nativeToForeign : .foreignToNative
+	func contrverseTranslationSwitcherChanged() {
+		presenter?.showOrHideCapabilitiesMenu()
+		translationDirection = translationDirection == .nativeToForeign ? .foreignToNative : .nativeToForeign
 		askQuestion()
 	}
 
@@ -133,10 +133,16 @@ final class MainInteractor: MainInteractorProtocol {
 
 	func shuffleButtonTapped() {
 		isShuffleTurnedOn = !isShuffleTurnedOn
+	}
 
+	func showAllWordsButtonTapped() {
+		presenter?.showOrHideCapabilitiesMenu()
+		let statisticsVC = StatisticsAssembler().create()
+		router.routeTo(statisticsVC)
 	}
     
     func selectWordsButtonTapped() {
+		presenter?.showOrHideCapabilitiesMenu()
 		let actionOnClose: (WordsList?) -> Void = { [weak self] wordsList in
 			self?.wordsListWasSelectedForStudy(wordsList)
 		}
@@ -144,6 +150,10 @@ final class MainInteractor: MainInteractorProtocol {
 																   actionOnClose: actionOnClose)
 		router.routeModallyTo(wordsSelection)
     }
+
+	func extraCapabilitiesButtonTapped() {
+		presenter?.showOrHideCapabilitiesMenu()
+	}
 
 	// MARK: Private
     
@@ -187,14 +197,14 @@ final class MainInteractor: MainInteractorProtocol {
 	}
     
 	private func wordsListWasSelectedForStudy(_ wordsList: WordsList?) {
-		var resultedWordsForStudy: [Word] = []
 		currentWordsList = wordsList
+		presenter?.presentListName(wordsList?.name)
+
+		var resultedWordsForStudy: [Word] = []
 		if let wordsList = wordsList,
 		   !wordsList.words.isEmpty {
 			resultedWordsForStudy = wordsList.words
-			presenter?.showThatStudySelectedWords(isGoingOn: true)
 		} else {
-			presenter?.showThatStudySelectedWords(isGoingOn: false)
 			resultedWordsForStudy = allWords
 		}
 

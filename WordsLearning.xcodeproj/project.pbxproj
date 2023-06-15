@@ -14,6 +14,7 @@
 		3099476329C1E7DA00307963 /* WordsSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099475D29C1E7DA00307963 /* WordsSelectionViewController.swift */; };
 		3099476429C1E7DA00307963 /* WordsSelectionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099475E29C1E7DA00307963 /* WordsSelectionInteractor.swift */; };
 		3099476729C2005F00307963 /* SelectWordsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3099476629C2005F00307963 /* SelectWordsTableCell.swift */; };
+		30B6BB3E2A25E7DA00FE1F0F /* ExtraCapabilitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B6BB3D2A25E7DA00FE1F0F /* ExtraCapabilitiesView.swift */; };
 		30B71A6729A52831004F29CA /* NotivicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B71A6629A52831004F29CA /* NotivicationService.swift */; };
 		30DF3FBA2A12411A00AF3A1C /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FB92A12411A00AF3A1C /* Design.swift */; };
 		30DF3FBC2A12459000AF3A1C /* UIImage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FBB2A12459000AF3A1C /* UIImage+extension.swift */; };
@@ -27,6 +28,15 @@
 		30DF3FE02A16490F00AF3A1C /* WordsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FDF2A16490F00AF3A1C /* WordsList.swift */; };
 		30DF3FE22A164A0300AF3A1C /* SelectWordsListsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FE12A164A0300AF3A1C /* SelectWordsListsTableCell.swift */; };
 		30DF3FE42A1655B600AF3A1C /* CDWordsList+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DF3FE32A1655B600AF3A1C /* CDWordsList+extension.swift */; };
+		30EF24992A2A621600894200 /* Constrainable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EF24922A2A621600894200 /* Constrainable.swift */; };
+		30EF249A2A2A621600894200 /* Abstraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EF24932A2A621600894200 /* Abstraction.swift */; };
+		30EF249B2A2A621600894200 /* TinyConstraints+superview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EF24942A2A621600894200 /* TinyConstraints+superview.swift */; };
+		30EF249C2A2A621600894200 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EF24952A2A621600894200 /* Stack.swift */; };
+		30EF249D2A2A621600894200 /* TinyEdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EF24962A2A621600894200 /* TinyEdgeInsets.swift */; };
+		30EF249E2A2A621600894200 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EF24972A2A621600894200 /* Constraints.swift */; };
+		30EF249F2A2A621600894200 /* TinyConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EF24982A2A621600894200 /* TinyConstraints.swift */; };
+		30EF24A22A2B4D1D00894200 /* TappableViewWithLabelAndImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EF24A12A2B4D1D00894200 /* TappableViewWithLabelAndImage.swift */; };
+		30EF24A42A2B86D000894200 /* CustomUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EF24A32A2B86D000894200 /* CustomUIButton.swift */; };
 		A313713428ABA46600052CC0 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A313713328ABA46600052CC0 /* KeychainWrapper.swift */; };
 		A313713628ABB49600052CC0 /* WordStatistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A313713528ABB49600052CC0 /* WordStatistic.swift */; };
 		A349C19428F03BA4003216FF /* StatisticsAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349C18E28F03BA4003216FF /* StatisticsAssembler.swift */; };
@@ -55,7 +65,7 @@
 		A3B1042D289AABC3007F8D82 /* RichAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B1042C289AABC3007F8D82 /* RichAlertViewController.swift */; };
 		A3B10432289AAF31007F8D82 /* ButtonSettins.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B10431289AAF31007F8D82 /* ButtonSettins.swift */; };
 		A3B10439289C541D007F8D82 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B10438289C541D007F8D82 /* Word.swift */; };
-		A3B1043C289D2806007F8D82 /* RespondingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B1043B289D2805007F8D82 /* RespondingButton.swift */; };
+		A3B1043C289D2806007F8D82 /* KeyboardRespondableUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B1043B289D2805007F8D82 /* KeyboardRespondableUIButton.swift */; };
 		A3CF0BB928BE4DD600A3B916 /* WordEditionAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF0BB328BE4DD600A3B916 /* WordEditionAssembler.swift */; };
 		A3CF0BBA28BE4DD600A3B916 /* WordEditionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF0BB428BE4DD600A3B916 /* WordEditionPresenter.swift */; };
 		A3CF0BBC28BE4DD600A3B916 /* WordEditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF0BB628BE4DD600A3B916 /* WordEditionViewController.swift */; };
@@ -107,6 +117,7 @@
 		3099475D29C1E7DA00307963 /* WordsSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsSelectionViewController.swift; sourceTree = "<group>"; };
 		3099475E29C1E7DA00307963 /* WordsSelectionInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsSelectionInteractor.swift; sourceTree = "<group>"; };
 		3099476629C2005F00307963 /* SelectWordsTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectWordsTableCell.swift; sourceTree = "<group>"; };
+		30B6BB3D2A25E7DA00FE1F0F /* ExtraCapabilitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraCapabilitiesView.swift; sourceTree = "<group>"; };
 		30B71A6629A52831004F29CA /* NotivicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotivicationService.swift; sourceTree = "<group>"; };
 		30DF3FB92A12411A00AF3A1C /* Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Design.swift; sourceTree = "<group>"; };
 		30DF3FBB2A12459000AF3A1C /* UIImage+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+extension.swift"; sourceTree = "<group>"; };
@@ -120,6 +131,15 @@
 		30DF3FDF2A16490F00AF3A1C /* WordsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsList.swift; sourceTree = "<group>"; };
 		30DF3FE12A164A0300AF3A1C /* SelectWordsListsTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectWordsListsTableCell.swift; sourceTree = "<group>"; };
 		30DF3FE32A1655B600AF3A1C /* CDWordsList+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDWordsList+extension.swift"; sourceTree = "<group>"; };
+		30EF24922A2A621600894200 /* Constrainable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constrainable.swift; sourceTree = "<group>"; };
+		30EF24932A2A621600894200 /* Abstraction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Abstraction.swift; sourceTree = "<group>"; };
+		30EF24942A2A621600894200 /* TinyConstraints+superview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TinyConstraints+superview.swift"; sourceTree = "<group>"; };
+		30EF24952A2A621600894200 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
+		30EF24962A2A621600894200 /* TinyEdgeInsets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TinyEdgeInsets.swift; sourceTree = "<group>"; };
+		30EF24972A2A621600894200 /* Constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
+		30EF24982A2A621600894200 /* TinyConstraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TinyConstraints.swift; sourceTree = "<group>"; };
+		30EF24A12A2B4D1D00894200 /* TappableViewWithLabelAndImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TappableViewWithLabelAndImage.swift; sourceTree = "<group>"; };
+		30EF24A32A2B86D000894200 /* CustomUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIButton.swift; sourceTree = "<group>"; };
 		A313713328ABA46600052CC0 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		A313713528ABB49600052CC0 /* WordStatistic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordStatistic.swift; sourceTree = "<group>"; };
 		A349C18E28F03BA4003216FF /* StatisticsAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsAssembler.swift; sourceTree = "<group>"; };
@@ -148,7 +168,7 @@
 		A3B1042C289AABC3007F8D82 /* RichAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichAlertViewController.swift; sourceTree = "<group>"; };
 		A3B10431289AAF31007F8D82 /* ButtonSettins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSettins.swift; sourceTree = "<group>"; };
 		A3B10438289C541D007F8D82 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
-		A3B1043B289D2805007F8D82 /* RespondingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RespondingButton.swift; sourceTree = "<group>"; };
+		A3B1043B289D2805007F8D82 /* KeyboardRespondableUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardRespondableUIButton.swift; sourceTree = "<group>"; };
 		A3CF0BB328BE4DD600A3B916 /* WordEditionAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEditionAssembler.swift; sourceTree = "<group>"; };
 		A3CF0BB428BE4DD600A3B916 /* WordEditionPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEditionPresenter.swift; sourceTree = "<group>"; };
 		A3CF0BB628BE4DD600A3B916 /* WordEditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEditionViewController.swift; sourceTree = "<group>"; };
@@ -265,9 +285,49 @@
 			name = WordsListsSelection;
 			sourceTree = "<group>";
 		};
+		30EF24902A2A61EA00894200 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				30EF24912A2A61FD00894200 /* CompactConstraints */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		30EF24912A2A61FD00894200 /* CompactConstraints */ = {
+			isa = PBXGroup;
+			children = (
+				30EF24932A2A621600894200 /* Abstraction.swift */,
+				30EF24922A2A621600894200 /* Constrainable.swift */,
+				30EF24972A2A621600894200 /* Constraints.swift */,
+				30EF24952A2A621600894200 /* Stack.swift */,
+				30EF24982A2A621600894200 /* TinyConstraints.swift */,
+				30EF24942A2A621600894200 /* TinyConstraints+superview.swift */,
+				30EF24962A2A621600894200 /* TinyEdgeInsets.swift */,
+			);
+			name = CompactConstraints;
+			sourceTree = "<group>";
+		};
+		30EF24A02A2B4C0400894200 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				30B6BB3D2A25E7DA00FE1F0F /* ExtraCapabilitiesView.swift */,
+				30EF24A12A2B4D1D00894200 /* TappableViewWithLabelAndImage.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		30FBCB642A3B46C9008E0523 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				1DC00293290AA15A00396313 /* StatisticsCell.swift */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
 		A349C18D28F03B7B003216FF /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
+				30FBCB642A3B46C9008E0523 /* UI */,
 				A349C18E28F03BA4003216FF /* StatisticsAssembler.swift */,
 				A349C18F28F03BA4003216FF /* StatisticsPresenter.swift */,
 				A349C19028F03BA4003216FF /* StatisticsRouter.swift */,
@@ -296,7 +356,6 @@
 			children = (
 				A349C1A328F1A1C8003216FF /* PlainCell.swift */,
 				A349C1A428F1A1C8003216FF /* TextFieldCell.swift */,
-				1DC00293290AA15A00396313 /* StatisticsCell.swift */,
 				3099476629C2005F00307963 /* SelectWordsTableCell.swift */,
 				30DF3FE12A164A0300AF3A1C /* SelectWordsListsTableCell.swift */,
 			);
@@ -356,7 +415,8 @@
 		A3B1043A289D27F4007F8D82 /* UIElements */ = {
 			isa = PBXGroup;
 			children = (
-				A3B1043B289D2805007F8D82 /* RespondingButton.swift */,
+				A3B1043B289D2805007F8D82 /* KeyboardRespondableUIButton.swift */,
+				30EF24A32A2B86D000894200 /* CustomUIButton.swift */,
 			);
 			name = UIElements;
 			sourceTree = "<group>";
@@ -395,6 +455,7 @@
 		A3E30D7828808F0D005907BF /* WordsLearning */ = {
 			isa = PBXGroup;
 			children = (
+				30EF24902A2A61EA00894200 /* Helpers */,
 				A349C1AA28F1A2B8003216FF /* RKLib */,
 				A35187772898660F00C90CBB /* Extensions */,
 				A3E30DBB288090E4005907BF /* CommonElements */,
@@ -449,6 +510,7 @@
 		A3E30DBA28808FE2005907BF /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				30EF24A02A2B4C0400894200 /* Views */,
 				A3E30DAD28808FCD005907BF /* MainAssembler.swift */,
 				A3E30DAE28808FCD005907BF /* MainPresenter.swift */,
 				A3E30DAF28808FCD005907BF /* MainRouter.swift */,
@@ -638,6 +700,7 @@
 				A3CF0BBC28BE4DD600A3B916 /* WordEditionViewController.swift in Sources */,
 				A3CF0BB928BE4DD600A3B916 /* WordEditionAssembler.swift in Sources */,
 				A313713428ABA46600052CC0 /* KeychainWrapper.swift in Sources */,
+				30EF249B2A2A621600894200 /* TinyConstraints+superview.swift in Sources */,
 				A349C19928F03BA4003216FF /* StatisticsService.swift in Sources */,
 				A349C19828F03BA4003216FF /* StatisticsInteractor.swift in Sources */,
 				A3B10439289C541D007F8D82 /* Word.swift in Sources */,
@@ -650,17 +713,21 @@
 				A3E30DBD288090F8005907BF /* RootViewController.swift in Sources */,
 				A3E58EA928D4C9C000B7BF2A /* SettingsInteractor.swift in Sources */,
 				A3AB8D1228AA494700B16CC2 /* DefaultWordsList.swift in Sources */,
+				30EF249D2A2A621600894200 /* TinyEdgeInsets.swift in Sources */,
 				30DF3FE02A16490F00AF3A1C /* WordsList.swift in Sources */,
 				A3E30D8428808F0E005907BF /* WordsLearning.xcdatamodeld in Sources */,
 				A349C1A928F1A295003216FF /* Constants.swift in Sources */,
-				A3B1043C289D2806007F8D82 /* RespondingButton.swift in Sources */,
+				A3B1043C289D2806007F8D82 /* KeyboardRespondableUIButton.swift in Sources */,
 				A3CF0BBD28BE4DD600A3B916 /* WordEditionInteractor.swift in Sources */,
 				A3B1042D289AABC3007F8D82 /* RichAlertViewController.swift in Sources */,
 				30DF3FE42A1655B600AF3A1C /* CDWordsList+extension.swift in Sources */,
+				30EF24A22A2B4D1D00894200 /* TappableViewWithLabelAndImage.swift in Sources */,
 				30DF3FBE2A12D63F00AF3A1C /* NSManagedObjectContext+extension.swift in Sources */,
 				A349C19D28F03D65003216FF /* DRTableView.swift in Sources */,
 				3099475829B1091800307963 /* DRTableViewSettings.swift in Sources */,
+				30EF24A42A2B86D000894200 /* CustomUIButton.swift in Sources */,
 				A3AB8D1528AABE7D00B16CC2 /* QuizSettings.swift in Sources */,
+				30EF249F2A2A621600894200 /* TinyConstraints.swift in Sources */,
 				30DF3FDB2A16466900AF3A1C /* WordsListsSelectionViewController.swift in Sources */,
 				A349C19528F03BA4003216FF /* StatisticsPresenter.swift in Sources */,
 				A3AB8D1028A65DF000B16CC2 /* KeychainDAO.swift in Sources */,
@@ -668,6 +735,8 @@
 				A313713628ABB49600052CC0 /* WordStatistic.swift in Sources */,
 				30DF3FC52A13D66200AF3A1C /* CDWord+extension.swift in Sources */,
 				A3CF0BBA28BE4DD600A3B916 /* WordEditionPresenter.swift in Sources */,
+				30EF24992A2A621600894200 /* Constrainable.swift in Sources */,
+				30EF249E2A2A621600894200 /* Constraints.swift in Sources */,
 				A3E30D7A28808F0D005907BF /* AppDelegate.swift in Sources */,
 				A349C19628F03BA4003216FF /* StatisticsRouter.swift in Sources */,
 				1DC00294290AA15A00396313 /* StatisticsCell.swift in Sources */,
@@ -677,6 +746,7 @@
 				A349C1A028F03D92003216FF /* UITableView+extension.swift in Sources */,
 				30DF3FE22A164A0300AF3A1C /* SelectWordsListsTableCell.swift in Sources */,
 				A3E58EA628D4C9C000B7BF2A /* SettingsPresenter.swift in Sources */,
+				30EF249C2A2A621600894200 /* Stack.swift in Sources */,
 				30DF3FBA2A12411A00AF3A1C /* Design.swift in Sources */,
 				A3E30DB728808FCD005907BF /* MainInteractor.swift in Sources */,
 				30B71A6729A52831004F29CA /* NotivicationService.swift in Sources */,
@@ -687,6 +757,8 @@
 				30DF3FDE2A16466900AF3A1C /* WordsListsSelectionAssembler.swift in Sources */,
 				A3E30DB328808FCD005907BF /* MainAssembler.swift in Sources */,
 				A3E30DB628808FCD005907BF /* MainViewController.swift in Sources */,
+				30B6BB3E2A25E7DA00FE1F0F /* ExtraCapabilitiesView.swift in Sources */,
+				30EF249A2A2A621600894200 /* Abstraction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

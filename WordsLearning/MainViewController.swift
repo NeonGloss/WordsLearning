@@ -21,19 +21,25 @@ protocol MainViewControllerProtocol: UIViewController {
 	func cleanAnswerField()
     
     /// Отобразить был ли выбран некоторый набор слов для изучения, или изучаются все слова
-    /// - Parameter isGoingOn: флаг набор\все слова
-    func showThatStudySelectedWords(isGoingOn: Bool)
+    /// - Parameter listName: название списка
+    func showWordsListName(listName: String?)
+
+	/// Отобразить меню дополнительных функций
+	func showCapabilitiesMenu()
 }
 
 /// Вью-контроллер сцены
 final class MainViewController: UIViewController, MainViewControllerProtocol {
 
 	private var interactor: MainInteractorProtocol
+	private var сapabilitiesMenuIsShown = false
+	private var capabilitiesMenuView: UIView?
 	private let studyPercentLabel = UILabel()
+	private let listNameLabel = UILabel()
 	private var questionWordLabel: UILabel = {
 		let label = UILabel()
 		label.layer.borderColor = UIColor.white.cgColor
-		label.layer.cornerRadius = 20
+		label.layer.cornerRadius = Sizes.buttonWidth / 2
 		label.font = UIFont(name: "Thonburi", size: 50)?.bold()
 		label.textAlignment = .center
 		label.adjustsFontSizeToFitWidth = true
@@ -43,7 +49,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 	private let wordRemarkLabel: UILabel = {
 		let label = UILabel()
 		label.layer.borderColor = UIColor.white.cgColor
-		label.layer.cornerRadius = 20
+		label.layer.cornerRadius = Sizes.buttonWidth / 2
 		label.font = UIFont(name: "Thonburi", size: 30)
 		label.textAlignment = .center
 		return label
@@ -54,42 +60,27 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		view.backgroundColor = .white
 		view.layer.borderColor = UIColor.black.cgColor
 		view.layer.borderWidth = 2
-		view.layer.cornerRadius = 20
+		view.layer.cornerRadius = Sizes.buttonWidth / 2
 		return view
 	}()
 
 	private var answerWordField: UITextField = {
 		let textField = UITextField()
 		textField.autocapitalizationType = .none
-		textField.layer.cornerRadius = 20
+		textField.layer.cornerRadius = Sizes.buttonWidth / 2
 		textField.font = UIFont(name: "Thonburi", size: 25)?.bold()
+		textField.textColor = .black
 		textField.autocorrectionType = .no
 		return textField
 	}()
 
-	private var directionSwitch: UISwitch = {
-		let directionSwitch = UISwitch()
-		directionSwitch.thumbTintColor = .gray
-		directionSwitch.onTintColor = .white
-		return directionSwitch
-	}()
-    
-    private var  selectWordsForStudyButton: UIButton = {
-        let button = UIButton()
-        button.setImage(SemanticImages.dotCircleAndHandPointUpLeftFill, for: .normal)
-        button.layer.borderColor = UIColor.white.cgColor
-        button.backgroundColor = .clear
-        button.layer.borderWidth = 1.5
-        button.layer.cornerRadius = 10
-        return button
-    }()
-
-	private var menuButton: UIButton = {
+	private var capabilitiesMenuButton: UIButton = {
 		let button = UIButton()
 		button.setImage(SemanticImages.squareGrid, for: .normal)
 		button.layer.borderColor = UIColor.white.cgColor
+		button.backgroundColor = .clear
 		button.layer.borderWidth = 1.5
-		button.layer.cornerRadius = 10
+		button.layer.cornerRadius = Sizes.buttonWidth / 2
 		return button
 	}()
 
@@ -98,7 +89,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		button.setImage(SemanticImages.sliderHorizontal3, for: .normal)
 		button.layer.borderColor = UIColor.white.cgColor
 		button.layer.borderWidth = 1.5
-		button.layer.cornerRadius = 10
+		button.layer.cornerRadius = Sizes.buttonWidth / 2
 		return button
 	}()
 
@@ -108,7 +99,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		button.layer.borderColor = UIColor.white.cgColor
 		button.backgroundColor = .blue
 		button.layer.borderWidth = 1.5
-		button.layer.cornerRadius = 10
+		button.layer.cornerRadius = Sizes.buttonWidth / 2
 		return button
 	}()
 
@@ -118,7 +109,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		button.backgroundColor = .clear
 		button.layer.borderColor = UIColor.white.cgColor
 		button.layer.borderWidth = 1.5
-		button.layer.cornerRadius = 10
+		button.layer.cornerRadius = Sizes.buttonWidth / 2
 		return button
 	}()
 
@@ -128,9 +119,15 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		button.backgroundColor = .clear
 		button.layer.borderColor = UIColor.white.cgColor
 		button.layer.borderWidth = 1.5
-		button.layer.cornerRadius = 10
+		button.layer.cornerRadius = Sizes.buttonWidth / 2
 		return button
 	}()
+
+	private enum Sizes {
+		static let buttonWidth: CGFloat = 40
+		static let smallIndent: CGFloat = 15
+		static let bigIndent: CGFloat = 30
+	}
 
 	// MARK: Object lifecycle
 
@@ -167,46 +164,91 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		answerWordField.text = ""
 	}
     
-    func showThatStudySelectedWords(isGoingOn: Bool) {
-        selectWordsForStudyButton.backgroundColor = isGoingOn ? .blue : .clear
+	func showWordsListName(listName: String?) {
+		let resultText: String
+		if let listName = listName {
+			resultText = "Слова из списка: \(listName)"
+		} else {
+			resultText = String()
+		}
+		listNameLabel.text = resultText
     }
+
+	func showCapabilitiesMenu() {
+		capabilitiesMenuButton.isUserInteractionEnabled = false
+		if capabilitiesMenuView == nil {
+			let viewWidth: CGFloat = view.frame.maxX * 0.6
+			let viewHeight: CGFloat = 124
+			let originX = view.frame.maxX - viewWidth - 45
+			let originY = capabilitiesMenuButton.frame.maxY + 30
+			capabilitiesMenuView = ExtraCapabilitiesView(frame: CGRect(x: originX, y: originY, width: viewWidth, height: viewHeight))
+			(capabilitiesMenuView as? ExtraCapabilitiesView)?.output = interactor
+
+			capabilitiesMenuView?.alpha = 0
+			capabilitiesMenuView?.layer.cornerRadius = 10
+			view.addSubview(capabilitiesMenuView ?? UIView())
+
+			UIView.animate(withDuration: 0.5,
+						   delay: 0,
+						   usingSpringWithDamping: 0.6,
+						   initialSpringVelocity: 0.5,
+						   animations: {
+				self.capabilitiesMenuView?.alpha = 1
+				self.capabilitiesMenuView?.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+			}) { _ in
+				self.capabilitiesMenuButton.isUserInteractionEnabled = true
+				self.сapabilitiesMenuIsShown = !self.сapabilitiesMenuIsShown
+	//			вопрос для собеседования, нужно ли в этом замыкании вик-селф, нужно ли в замыкание диспатч-кью вик-селф?
+			}
+		} else {
+			UIView.animate(withDuration: 0.5,
+						   delay: 0,
+						   usingSpringWithDamping: 0.6,
+						   initialSpringVelocity: 0.5,
+						   animations: { self.capabilitiesMenuView?.alpha = 0 }) { _ in
+				self.capabilitiesMenuView?.removeFromSuperview()
+				self.capabilitiesMenuButton.isUserInteractionEnabled = true
+				self.capabilitiesMenuView = nil
+			}
+		}
+	}
 
 	// MARK: Private
 
 	private func seutpView() {
-		view.overrideUserInterfaceStyle = .light
+		view.overrideUserInterfaceStyle = .dark
+		answerWordField.keyboardAppearance = .dark
 		answerWordField.backgroundColor = .white
 		answerWordField.delegate = self
-        view.backgroundColor = Design.Colors.background1
-		
-        selectWordsForStudyButton.addTarget(self, action: #selector(selectWordsTapped), for: .touchUpInside)
-        directionSwitch.addTarget(self, action: #selector(directionSwitchTapped(_:)), for: .allTouchEvents)
+		setupBackgroundGradient()
+
         markStudiedButton.addTarget(self, action: #selector(markStudiedTapped), for: .touchUpInside)
         shuffleButton.addTarget(self, action: #selector(shuffleButtonTapped), for: .touchUpInside)
         repeatButton.addTarget(self, action: #selector(repeatButtonTapped), for: .touchUpInside)
-        menuButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
         editButton.addTarget(self, action: #selector(editWordTapped), for: .touchUpInside)
-        view.addSubview(selectWordsForStudyButton)
+		capabilitiesMenuButton.addTarget(self, action: #selector(extraCapabilitiesButtonTapped), for: .touchUpInside)
+		view.addSubview(capabilitiesMenuButton)
 		view.addSubview(questionWordLabel)
 		view.addSubview(studyPercentLabel)
 		view.addSubview(markStudiedButton)
-		view.addSubview(directionSwitch)
 		view.addSubview(wordRemarkLabel)
 		view.addSubview(answerWordView)
+		view.addSubview(listNameLabel)
 		view.addSubview(shuffleButton)
 		view.addSubview(repeatButton)
-		view.addSubview(menuButton)
 		view.addSubview(editButton)
 		view.addSubview(answerWordField)
 	}
 
-	@objc private func directionSwitchTapped(_ switcher: UISwitch) {
-		switcher.thumbTintColor = switcher.isOn ? .orange : .gray
-		interactor.contrverseTranslationSwitcherChanged(to: switcher.isOn)
-	}
-
-	@objc private func menuButtonTapped() {
-		interactor.menuButtonTapped()
+	private func setupBackgroundGradient() {
+		let topColor = Design.Colors.gradientBackground0Top.cgColor
+		let bottomColor = Design.Colors.gradientBackground0Bottom.cgColor
+		let gradientLayer = CAGradientLayer()
+		gradientLayer.frame = view.bounds
+		gradientLayer.colors = [topColor, bottomColor]
+		gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+		gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+		view.layer.insertSublayer(gradientLayer, at: 0)
 	}
 
 	@objc private func editWordTapped() {
@@ -226,76 +268,69 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
 		shuffleButton.backgroundColor = shuffleButton.backgroundColor == .clear ? .gray : .clear
 		interactor.shuffleButtonTapped()
 	}
-    
-    @objc private func selectWordsTapped() {
-        interactor.selectWordsButtonTapped()
-    }
+
+	@objc private func extraCapabilitiesButtonTapped() {
+	 interactor.extraCapabilitiesButtonTapped()
+ }
 
 	private func setupLayout() {
 		view.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
-		NSLayoutConstraint.activate([
-			directionSwitch.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
-			directionSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+		capabilitiesMenuButton.top(to: view.safeAreaLayoutGuide)
+		capabilitiesMenuButton.trailingToSuperview().constant = -20
+		capabilitiesMenuButton.height(Sizes.buttonWidth)
+		capabilitiesMenuButton.width(Sizes.buttonWidth)
 
-			menuButton.centerYAnchor.constraint(equalTo: directionSwitch.centerYAnchor),
-			menuButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-			menuButton.heightAnchor.constraint(equalToConstant: 40),
-			menuButton.widthAnchor.constraint(equalToConstant: 40),
+		questionWordLabel.topToSuperview().constant = 100
+		questionWordLabel.leadingToSuperview().constant = 50
+		questionWordLabel.trailingToSuperview().constant = -50
+		questionWordLabel.height(50)
 
-			questionWordLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-			questionWordLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-			questionWordLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-			questionWordLabel.heightAnchor.constraint(equalToConstant: 50),
+		wordRemarkLabel.topToBottom(of: questionWordLabel).constant = 5
+		wordRemarkLabel.centerX(to: questionWordLabel)
 
-			wordRemarkLabel.topAnchor.constraint(equalTo: questionWordLabel.bottomAnchor, constant: 5),
-			wordRemarkLabel.centerXAnchor.constraint(equalTo: questionWordLabel.centerXAnchor),
+		answerWordView.topToBottom(of: questionWordLabel).constant = 100
+		answerWordView.leadingToSuperview().constant = 50
+		answerWordView.trailingToSuperview().constant = -50
+		answerWordView.height(50)
 
-			answerWordView.topAnchor.constraint(equalTo: questionWordLabel.bottomAnchor, constant: 100),
-			answerWordView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-			answerWordView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-			answerWordView.heightAnchor.constraint(equalToConstant: 50),
+		studyPercentLabel.bottomToTop(of: answerWordView).constant = -10
+		studyPercentLabel.centerXToSuperview()
 
-			studyPercentLabel.bottomAnchor.constraint(equalTo: answerWordView.topAnchor, constant: -10),
-			studyPercentLabel.centerXAnchor.constraint(equalTo: answerWordView.centerXAnchor),
+		answerWordField.top(to: answerWordView).constant = 2
+		answerWordField.bottom(to: answerWordView).constant = -2
+		answerWordField.leading(to: answerWordView).constant = Sizes.smallIndent
+		answerWordField.trailing(to: answerWordView).constant = -Sizes.smallIndent
 
-			answerWordField.topAnchor.constraint(equalTo: answerWordView.topAnchor, constant: 2),
-			answerWordField.bottomAnchor.constraint(equalTo: answerWordView.bottomAnchor, constant: -2),
-			answerWordField.leadingAnchor.constraint(equalTo: answerWordView.leadingAnchor, constant: 15),
-			answerWordField.trailingAnchor.constraint(equalTo: answerWordView.trailingAnchor, constant: -15),
+		markStudiedButton.topToBottom(of: answerWordView).constant = Sizes.bigIndent
+		markStudiedButton.leading(to: answerWordView).constant = Sizes.bigIndent
+		markStudiedButton.height(Sizes.buttonWidth)
+		markStudiedButton.width(Sizes.buttonWidth)
 
-			markStudiedButton.centerYAnchor.constraint(equalTo: repeatButton.centerYAnchor),
-			markStudiedButton.trailingAnchor.constraint(equalTo: editButton.leadingAnchor, constant: -15),
-			markStudiedButton.heightAnchor.constraint(equalTo: editButton.heightAnchor),
-			markStudiedButton.widthAnchor.constraint(equalTo: editButton.heightAnchor),
+		editButton.topToBottom(of: answerWordView).constant = Sizes.bigIndent
+		editButton.leadingToTrailing(of: markStudiedButton).constant = Sizes.smallIndent
+		editButton.height(Sizes.buttonWidth)
+		editButton.width(Sizes.buttonWidth)
 
-			editButton.centerYAnchor.constraint(equalTo: repeatButton.centerYAnchor),
-			editButton.trailingAnchor.constraint(equalTo: answerWordView.centerXAnchor, constant: -15),
-			editButton.heightAnchor.constraint(equalToConstant: 40),
-			editButton.widthAnchor.constraint(equalToConstant: 40),
+		repeatButton.topToBottom(of: answerWordView).constant = Sizes.bigIndent
+		repeatButton.trailing(to: answerWordView).constant = -Sizes.bigIndent
+		repeatButton.height(Sizes.buttonWidth)
+		repeatButton.width(Sizes.buttonWidth)
 
-			shuffleButton.centerYAnchor.constraint(equalTo: repeatButton.centerYAnchor),
-			shuffleButton.leadingAnchor.constraint(equalTo: answerWordView.centerXAnchor, constant: 15),
-			shuffleButton.heightAnchor.constraint(equalTo: editButton.heightAnchor),
-			shuffleButton.widthAnchor.constraint(equalTo: editButton.heightAnchor),
+		shuffleButton.topToBottom(of: answerWordView).constant = Sizes.bigIndent
+		shuffleButton.trailingToLeading(of: repeatButton).constant = -Sizes.smallIndent
+		shuffleButton.height(Sizes.buttonWidth)
+		shuffleButton.width(Sizes.buttonWidth)
 
-			repeatButton.topAnchor.constraint(equalTo: answerWordField.bottomAnchor, constant: 30),
-			repeatButton.leadingAnchor.constraint(equalTo: shuffleButton.trailingAnchor, constant: 15),
-			repeatButton.heightAnchor.constraint(equalToConstant: 40),
-			repeatButton.widthAnchor.constraint(equalToConstant: 40),
-            
-            selectWordsForStudyButton.topAnchor.constraint(equalTo: shuffleButton.bottomAnchor, constant: 15),
-            selectWordsForStudyButton.centerXAnchor.constraint(equalTo: shuffleButton.trailingAnchor, constant: 7.5),
-            selectWordsForStudyButton.heightAnchor.constraint(equalToConstant: 40),
-            selectWordsForStudyButton.widthAnchor.constraint(equalToConstant: 40),
-		])
+		listNameLabel.topToBottom(of: repeatButton).constant = 100
+		listNameLabel.centerXToSuperview()
 	}
 }
 
 extension MainViewController: UITextFieldDelegate {
 
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-		interactor.answerReceived(textField.text ?? "")
+		interactor.answerReceived(textField.text ?? String())
 		return false
 	}
 }

@@ -34,8 +34,11 @@ protocol MainPresenterProtocol {
 	func showSuccess(for word: Word, completion: @escaping () -> Void)
     
     /// Отобразить был ли выбран некоторый набор слов для изучения, или изучаются все слова
-    /// - Parameter isGoingOn: флаг набор\все слова
-    func showThatStudySelectedWords(isGoingOn: Bool)
+    /// - Parameter listName: название списка слов
+    func presentListName(_ listName: String?)
+
+	/// Показать\Скрыть меню дополнительных функций в зависимости от того показано ли оно
+	func showOrHideCapabilitiesMenu()
 }
 
 /// Презентер сцены
@@ -89,9 +92,13 @@ final class MainPresenter: MainPresenterProtocol {
 								   buttonsSettings: [buttonSettings])
 	}
     
-    func showThatStudySelectedWords(isGoingOn: Bool) {
-        viewController?.showThatStudySelectedWords(isGoingOn: isGoingOn)
+    func presentListName(_ listName: String?) {
+        viewController?.showWordsListName(listName: listName)
     }
+
+	func showOrHideCapabilitiesMenu() {
+		viewController?.showCapabilitiesMenu()
+	}
 
 	// MARK: Private
 
